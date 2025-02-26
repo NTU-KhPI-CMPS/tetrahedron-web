@@ -1,3 +1,4 @@
+import { generateColorArray } from '@/lib/colorUtils'
 import { Face } from '@/types/Face'
 import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
 import { Vertex } from '@/types/Vertex'
@@ -19,6 +20,7 @@ export interface ModelState {
   otherFileName: string | null
   otherLoaded: boolean
   otherCharacteristic: ModelPhysicalQuantity | null
+  colors: number[] | null
 }
 
 export const initialState: ModelState = {
@@ -35,7 +37,8 @@ export const initialState: ModelState = {
   stressFileName: null,
   otherFileName: null,
   otherLoaded: false,
-  otherCharacteristic: null
+  otherCharacteristic: null,
+  colors: []
 }
 
 export const modelSlice = createSlice({
@@ -59,6 +62,7 @@ export const modelSlice = createSlice({
       state.stress = stress
       state.stressFileName = fileName
       state.stressLoaded = true
+      state.colors = Array.from(generateColorArray(stress.values, stress.min, stress.max))
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -75,6 +79,9 @@ export const modelSlice = createSlice({
       state.otherCharacteristic = otherCharacteristic
       state.otherFileName = fileName
       state.otherLoaded = true
+      state.colors = Array.from(
+        generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
+      )
     }
   }
 })

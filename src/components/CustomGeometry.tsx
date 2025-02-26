@@ -5,13 +5,12 @@ import * as THREE from 'three'
 
 import NodeDisplay from '@/components/NodeDisplay'
 
-import useGenerateColor from '@/hooks/useGenerateColor'
-
 import { generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
 
 const CustomGeometry: FC = () => {
   const vertices = useAppSelector((store) => store.model.vertices)
   const faces = useAppSelector((store) => store.model.faces)
+  const colors = useAppSelector((store) => store.model.colors)
 
   const { displayNodeIndices } = useAppSelector((store) => store.model)
 
@@ -24,7 +23,9 @@ const CustomGeometry: FC = () => {
   const position = generateVertexPositions(vertices)
   const indexArray = generateFaceIndexArray(faces)
 
-  const { color, stressLoaded, otherLoaded } = useGenerateColor()
+  const colorArray = colors ? new Float32Array(colors) : new Float32Array([])
+
+  const colorsCheck = !!colors && colors.length > 0
 
   return (
     <>
@@ -32,10 +33,10 @@ const CustomGeometry: FC = () => {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" array={position} itemSize={3} count={position.length / 3} />
           <bufferAttribute attach="index" array={indexArray} itemSize={1} count={indexArray.length} />
-          <bufferAttribute attach="attributes-color" args={[color, 3]} />
+          <bufferAttribute attach="attributes-color" args={[colorArray, 3]} />
         </bufferGeometry>
 
-        <meshBasicMaterial vertexColors={stressLoaded || otherLoaded} />
+        <meshBasicMaterial vertexColors={colorsCheck} />
 
         <Wireframe thickness={0.01} stroke={'black'} />
       </mesh>
