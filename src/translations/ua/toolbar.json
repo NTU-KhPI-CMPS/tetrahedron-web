@@ -15,7 +15,8 @@
       "fileUpload": "Завантажити файл",
       "nodeDisplacement": "Переміщення у вузлах",
       "nodeForces": "Прикладені сили",
-      "nodeFixes": "Закріплені вузли"
+      "nodeFixes": "Закріплені вузли",
+      "randomCharacteristics": "Довільна характеристика"
     }
   }
 }

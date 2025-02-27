@@ -1,3 +1,4 @@
+import { generateColorArray } from '@/lib/colorUtils'
 import { Face } from '@/types/Face'
 import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
 import { Vertex } from '@/types/Vertex'
@@ -14,8 +15,10 @@ export interface ModelState {
   verticesLoaded: boolean
   displayNodeIndices: boolean
   stress: ModelPhysicalQuantity | null
-  stressLoaded: boolean
   stressFileName: string | null
+  otherFileName: string | null
+  otherCharacteristic: ModelPhysicalQuantity | null
+  colors: number[] | null
 }
 
 export const initialState: ModelState = {
@@ -28,8 +31,10 @@ export const initialState: ModelState = {
   verticesLoaded: false,
   displayNodeIndices: false,
   stress: null,
-  stressLoaded: false,
-  stressFileName: null
+  stressFileName: null,
+  otherFileName: null,
+  otherCharacteristic: null,
+  colors: []
 }
 
 export const modelSlice = createSlice({
@@ -52,7 +57,7 @@ export const modelSlice = createSlice({
       const { stress, fileName } = action.payload
       state.stress = stress
       state.stressFileName = fileName
-      state.stressLoaded = true
+      state.colors = generateColorArray(stress.values, stress.min, stress.max)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -60,10 +65,20 @@ export const modelSlice = createSlice({
     },
     setDisplayNodeIndices: (state, action: PayloadAction<boolean>) => {
       state.displayNodeIndices = action.payload
+    },
+    setCharacteristic: (
+      state,
+      action: PayloadAction<{ otherCharacteristic: ModelPhysicalQuantity; fileName: string }>
+    ) => {
+      const { otherCharacteristic, fileName } = action.payload
+      state.otherCharacteristic = otherCharacteristic
+      state.otherFileName = fileName
+      state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
     }
   }
 })
 
-export const { setFaces, setVertices, resetModel, setReady, setDisplayNodeIndices, setStress } = modelSlice.actions
+export const { setFaces, setVertices, resetModel, setReady, setDisplayNodeIndices, setStress, setCharacteristic } =
+  modelSlice.actions
 
 export default modelSlice.reducer

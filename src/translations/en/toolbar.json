@@ -15,7 +15,8 @@
       "fileUpload": "Upload file",
       "nodeDisplacement": "Displacement in nodes",
       "nodeForces": "Applied forces",
-      "nodeFixes": "Fixed nodes"
+      "nodeFixes": "Fixed nodes",
+      "otherCharacteristic": "Other characteristic"
     }
   }
 }
