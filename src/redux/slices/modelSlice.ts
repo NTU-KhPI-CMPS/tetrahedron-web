@@ -15,10 +15,8 @@ export interface ModelState {
   verticesLoaded: boolean
   displayNodeIndices: boolean
   stress: ModelPhysicalQuantity | null
-  stressLoaded: boolean
   stressFileName: string | null
   otherFileName: string | null
-  otherLoaded: boolean
   otherCharacteristic: ModelPhysicalQuantity | null
   colors: number[] | null
 }
@@ -33,10 +31,8 @@ export const initialState: ModelState = {
   verticesLoaded: false,
   displayNodeIndices: false,
   stress: null,
-  stressLoaded: false,
   stressFileName: null,
   otherFileName: null,
-  otherLoaded: false,
   otherCharacteristic: null,
   colors: []
 }
@@ -61,8 +57,7 @@ export const modelSlice = createSlice({
       const { stress, fileName } = action.payload
       state.stress = stress
       state.stressFileName = fileName
-      state.stressLoaded = true
-      state.colors = Array.from(generateColorArray(stress.values, stress.min, stress.max))
+      state.colors = generateColorArray(stress.values, stress.min, stress.max)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -78,10 +73,7 @@ export const modelSlice = createSlice({
       const { otherCharacteristic, fileName } = action.payload
       state.otherCharacteristic = otherCharacteristic
       state.otherFileName = fileName
-      state.otherLoaded = true
-      state.colors = Array.from(
-        generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
-      )
+      state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
     }
   }
 })

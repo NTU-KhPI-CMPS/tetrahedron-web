@@ -21,7 +21,7 @@ export function generateLegend(minValue: number, maxValue: number): LegendType[]
   return legend
 }
 
-export function generateColorArray(values: number[], minValue: number, maxValue: number): Float32Array {
+export function generateColorArray(values: number[], minValue: number, maxValue: number): number[] {
   const legend: LegendType[] = generateLegend(minValue, maxValue)
   const colors: number[] = []
 
@@ -33,7 +33,7 @@ export function generateColorArray(values: number[], minValue: number, maxValue:
     }
   }
 
-  return Float32Array.from(colors)
+  return colors
 }
 
 function getColorFromLegend(value: number, legend: LegendType[]): number[] {
