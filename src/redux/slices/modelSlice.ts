@@ -14,8 +14,10 @@ export interface ModelState {
   facesLoaded: boolean
   verticesLoaded: boolean
   displayNodeIndices: boolean
-  stress: ModelPhysicalQuantity | null
-  stressFileName: string | null
+
+  misesStress: ModelPhysicalQuantity | null
+  misesStressFileName: string | null
+
   otherFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
   colors: number[] | null
@@ -30,8 +32,10 @@ export const initialState: ModelState = {
   facesLoaded: false,
   verticesLoaded: false,
   displayNodeIndices: false,
-  stress: null,
-  stressFileName: null,
+
+  misesStress: null,
+  misesStressFileName: null,
+
   otherFileName: null,
   otherCharacteristic: null,
   colors: []
@@ -53,11 +57,11 @@ export const modelSlice = createSlice({
       state.verticesFileName = fileName
       state.verticesLoaded = true
     },
-    setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
-      const { stress, fileName } = action.payload
-      state.stress = stress
-      state.stressFileName = fileName
-      state.colors = generateColorArray(stress.values, stress.min, stress.max)
+    setMisesStress: (state, action: PayloadAction<{ misesStress: ModelPhysicalQuantity; fileName: string }>) => {
+      const { misesStress, fileName } = action.payload
+      state.misesStress = misesStress
+      state.misesStressFileName = fileName
+      state.colors = generateColorArray(misesStress.values, misesStress.min, misesStress.max)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -78,7 +82,7 @@ export const modelSlice = createSlice({
   }
 })
 
-export const { setFaces, setVertices, resetModel, setReady, setDisplayNodeIndices, setStress, setCharacteristic } =
+export const { setFaces, setVertices, resetModel, setReady, setDisplayNodeIndices, setMisesStress, setCharacteristic } =
   modelSlice.actions
 
 export default modelSlice.reducer

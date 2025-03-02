@@ -1,4 +1,5 @@
 import { Face } from '@/types/Face'
+import { Mises } from '@/types/Mises'
 import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
 import { Vertex } from '@/types/Vertex'
 
@@ -70,6 +71,38 @@ export function parseFacesWithNoIndex(input: string): Face[] {
   }))
 }
 
+// Mises
+export function parseDefaultMises(input: string): Mises[] {
+  return filterByLength(parseLines(input), 7).map(([index, qx, txy, tzx, qy, tyz, qz]) => ({
+    index: Number(index),
+    qx: Number(qx),
+    txy: Number(txy),
+    tzx: Number(tzx),
+    qy: Number(qy),
+    tyz: Number(tyz),
+    qz: Number(qz)
+  }))
+}
+
+export function parseMisesWithNoIndex(input: string): Mises[] {
+  return filterByLength(parseLines(input), 6).map(([qx, txy, tzx, qy, tyz, qz], index) => ({
+    index: index + 1,
+    qx: Number(qx),
+    txy: Number(txy),
+    tzx: Number(tzx),
+    qy: Number(qy),
+    tyz: Number(tyz),
+    qz: Number(qz)
+  }))
+}
+
+export function parseMises(input: string): Mises[] {
+  if (isDefaultMises(input)) return parseDefaultMises(input)
+  if (isMisesWithNoIndex(input)) return parseMisesWithNoIndex(input)
+  return []
+}
+
+//Ansys
 export function parseAnsysFaces(input: string): Face[] {
   const ansysFacesFields = { index: 0, vertex1: 6, vertex2: 7, vertex3: 8, vertex4: 10 }
   return filterByLength(parseLines(input), 14).map((line) => {
@@ -104,6 +137,16 @@ export function isAnsysFaces(input: string): boolean {
   return hasValidLineFormat(input, 14)
 }
 
+//Mises check
+export function isDefaultMises(input: string): boolean {
+  return hasValidLineFormat(input, 7)
+}
+
+export function isMisesWithNoIndex(input: string): boolean {
+  return hasValidLineFormat(input, 6)
+}
+
+//DefaultPhysicalQuantity
 export function parseDefaultPhysicalQuantity(input: string): ModelPhysicalQuantity {
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
