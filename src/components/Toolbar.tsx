@@ -1,9 +1,9 @@
 import FileUploadButton from '@/components/FileUploadButton.tsx'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux.ts'
-import { calculateMises, MisesPhysicalQuantity } from '@/lib/misesUtils'
-import { parseDefaultPhysicalQuantity, parseMises } from '@/lib/parser.ts'
-import { setCharacteristic, setDisplayNodeIndices, setMisesStress } from '@/redux/slices/modelSlice.ts'
+import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser.ts'
+import { calculateMises, PhysicalQuantity } from '@/lib/stressUtils'
+import { setCharacteristic, setDisplayNodeIndices, setStress } from '@/redux/slices/modelSlice.ts'
 import { useTranslation } from 'react-i18next'
 
 const Toolbar = () => {
@@ -11,15 +11,15 @@ const Toolbar = () => {
   const { t } = useTranslation()
   const { displayNodeIndices } = useAppSelector((store) => store.model)
 
-  const loadMises = async (file: File) => {
+  const loadStress = async (file: File) => {
     const input = await file.text()
-    const mises = parseMises(input)
+    const parsedStress = parseStress(input)
 
-    const calculatedMises = calculateMises(mises)
+    const calculatedMises = calculateMises(parsedStress)
 
-    const misesStress = MisesPhysicalQuantity(calculatedMises)
+    const stress = PhysicalQuantity(calculatedMises)
 
-    dispatch(setMisesStress({ misesStress, fileName: file.name }))
+    dispatch(setStress({ stress, fileName: file.name }))
   }
 
   const loadCharacteristic = async (file: File) => {
@@ -38,7 +38,7 @@ const Toolbar = () => {
       <FileUploadButton
         title={t('toolbar.toolbarSections.buttonsSection.nodeStress')}
         buttonText={t('toolbar.toolbarSections.buttonsSection.fileUpload')}
-        onFileSelect={loadMises}
+        onFileSelect={loadStress}
       />
       <FileUploadButton
         title={t('toolbar.toolbarSections.buttonsSection.otherCharacteristic')}

@@ -1,4 +1,4 @@
-export type Mises = {
+export type Stress = {
   index: number
   qx: number
   txy: number

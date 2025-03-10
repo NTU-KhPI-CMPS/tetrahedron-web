@@ -1,6 +1,6 @@
 import { Face } from '@/types/Face'
-import { Mises } from '@/types/Mises'
 import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
+import { Stress } from '@/types/Stress'
 import { Vertex } from '@/types/Vertex'
 
 type ParsedLine = string[]
@@ -72,7 +72,7 @@ export function parseFacesWithNoIndex(input: string): Face[] {
 }
 
 // Mises
-export function parseDefaultMises(input: string): Mises[] {
+export function parseDefaultStress(input: string): Stress[] {
   return filterByLength(parseLines(input), 7).map(([index, qx, txy, tzx, qy, tyz, qz]) => ({
     index: Number(index),
     qx: Number(qx),
@@ -84,7 +84,7 @@ export function parseDefaultMises(input: string): Mises[] {
   }))
 }
 
-export function parseMisesWithNoIndex(input: string): Mises[] {
+export function parseStressWithNoIndex(input: string): Stress[] {
   return filterByLength(parseLines(input), 6).map(([qx, txy, tzx, qy, tyz, qz], index) => ({
     index: index + 1,
     qx: Number(qx),
@@ -96,9 +96,9 @@ export function parseMisesWithNoIndex(input: string): Mises[] {
   }))
 }
 
-export function parseMises(input: string): Mises[] {
-  if (isDefaultMises(input)) return parseDefaultMises(input)
-  if (isMisesWithNoIndex(input)) return parseMisesWithNoIndex(input)
+export function parseStress(input: string): Stress[] {
+  if (isDefaultMises(input)) return parseDefaultStress(input)
+  if (isMisesWithNoIndex(input)) return parseStressWithNoIndex(input)
   return []
 }
 
