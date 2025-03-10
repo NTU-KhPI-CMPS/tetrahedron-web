@@ -15,7 +15,6 @@ export interface ModelState {
   verticesLoaded: boolean
   displayNodeIndices: boolean
 
-  misesStress: ModelPhysicalQuantity | null
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
 
