@@ -1,32 +1,19 @@
 import FileUploadButton from '@/components/FileUploadButton.tsx'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux.ts'
-import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser.ts'
-import { calculateMises, PhysicalQuantity } from '@/lib/stressUtils'
-import { setCharacteristic, setDisplayNodeIndices, setStress } from '@/redux/slices/modelSlice.ts'
+import { setDisplayNodeIndices } from '@/redux/slices/modelSlice.ts'
+import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const Toolbar = () => {
+interface ToolbarProps {
+  loadStress: (file: File) => Promise<void>
+  loadCharacteristic: (file: File) => Promise<void>
+}
+
+const Toolbar: FC<ToolbarProps> = ({ loadStress, loadCharacteristic }) => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { displayNodeIndices } = useAppSelector((store) => store.model)
-
-  const loadStress = async (file: File) => {
-    const input = await file.text()
-    const parsedStress = parseStress(input)
-
-    const calculatedMises = calculateMises(parsedStress)
-
-    const stress = PhysicalQuantity(calculatedMises)
-
-    dispatch(setStress({ stress, fileName: file.name }))
-  }
-
-  const loadCharacteristic = async (file: File) => {
-    const input = await file.text()
-    const otherCharacteristic = parseDefaultPhysicalQuantity(input)
-    dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
-  }
 
   return (
     <div className="absolute right-14 z-10 flex max-h-full w-52 select-none flex-col gap-3 overflow-y-auto rounded-3xl p-3 py-10 shadow-md backdrop-blur-sm">

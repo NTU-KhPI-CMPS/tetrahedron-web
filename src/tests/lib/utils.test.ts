@@ -1,7 +1,15 @@
+import { parseStress } from '@/lib/parser'
+import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
+import { setStress } from '@/redux/slices/modelSlice'
+import { store } from '@/redux/store'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
 import { describe, expect, it } from 'vitest'
+
+vi.mock('@/hooks/use-redux', () => ({
+  useAppDispatch: () => vi.fn()
+}))
 
 describe('generateFaceIndexArray', () => {
   it('generates correct index array for valid input', () => {
@@ -79,5 +87,51 @@ describe('generateVertexPositions', () => {
     const expected = new Float32Array([10, 20, 30])
 
     expect(generateVertexPositions(data)).toEqual(expected)
+  })
+})
+
+describe('loadStress', () => {
+  it('should call parseStress', async () => {
+    const input = '1 2 3 4 5 6 7\n 2 3 1 4 5 6 7\n 3 1 4 5 2 7 1'
+    const expected = [
+      { index: 1, qx: 2, txy: 3, tzx: 4, qy: 5, tyz: 6, qz: 7 },
+      { index: 2, qx: 3, txy: 1, tzx: 4, qy: 5, tyz: 6, qz: 7 },
+      { index: 3, qx: 1, txy: 4, tzx: 5, qy: 2, tyz: 7, qz: 1 }
+    ]
+
+    expect(parseStress(input)).toEqual(expected)
+  })
+
+  it('should call calculateMisesStress', () => {
+    const input = [
+      { index: 1, qx: 2, txy: 3, tzx: 4, qy: 5, tyz: 6, qz: 7 },
+      { index: 2, qx: 3, txy: 1, tzx: 4, qy: 5, tyz: 6, qz: 7 },
+      { index: 3, qx: 1, txy: 4, tzx: 5, qy: 2, tyz: 7, qz: 1 }
+    ]
+    const expected = [14.212670403551893, 13.07669683062202, 16.462077633154326]
+
+    expect(calculateMisesStress(input)).toEqual(expected)
+  })
+
+  it('should call buildPhysicalQuantity', () => {
+    const input = [14.212670403551893, 13.07669683062202, 16.462077633154326]
+    const expected = {
+      values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+      min: 13.07669683062202,
+      max: 16.462077633154326
+    }
+
+    expect(buildPhysicalQuantity(input)).toEqual(expected)
+  })
+
+  it(' should dispatch setStress with correct data', async () => {
+    const stress = {
+      values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+      min: 13.07669683062202,
+      max: 16.462077633154326
+    }
+    const fileName = 'test.txt'
+
+    store.dispatch(setStress({ stress, fileName }))
   })
 })

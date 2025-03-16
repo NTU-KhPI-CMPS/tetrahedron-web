@@ -4,6 +4,7 @@ import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
@@ -68,7 +69,7 @@ const ModelViewPage = () => {
           </div>
         )}
 
-        <Toolbar />
+        <Toolbar loadStress={loadStress} loadCharacteristic={loadCharacteristic} />
       </div>
 
       {filesUploaderOpen && (

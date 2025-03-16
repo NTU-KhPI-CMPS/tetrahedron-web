@@ -1,3 +1,7 @@
+import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser'
+import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
+import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
+import { store } from '@/redux/store'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
 import { clsx, type ClassValue } from 'clsx'
@@ -32,4 +36,21 @@ export function generateFaceIndexArray(data: Face[]) {
 export function generateVertexPositions(data: Vertex[]) {
   const positions = new Float32Array(data.flatMap((vertex) => [vertex.x, vertex.y, vertex.z]))
   return positions
+}
+
+export const loadStress = async (file: File) => {
+  const input = await file.text()
+  const parsedStress = parseStress(input)
+
+  const calculatedMises = calculateMisesStress(parsedStress)
+
+  const stress = buildPhysicalQuantity(calculatedMises)
+
+  store.dispatch(setStress({ stress, fileName: file.name }))
+}
+
+export const loadCharacteristic = async (file: File) => {
+  const input = await file.text()
+  const otherCharacteristic = parseDefaultPhysicalQuantity(input)
+  store.dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
 }

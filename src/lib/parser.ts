@@ -71,7 +71,7 @@ export function parseFacesWithNoIndex(input: string): Face[] {
   }))
 }
 
-// Mises
+// Stress values
 export function parseDefaultStress(input: string): Stress[] {
   return filterByLength(parseLines(input), 7).map(([index, qx, txy, tzx, qy, tyz, qz]) => ({
     index: Number(index),
@@ -97,8 +97,8 @@ export function parseStressWithNoIndex(input: string): Stress[] {
 }
 
 export function parseStress(input: string): Stress[] {
-  if (isDefaultMises(input)) return parseDefaultStress(input)
-  if (isMisesWithNoIndex(input)) return parseStressWithNoIndex(input)
+  if (isDefaultStress(input)) return parseDefaultStress(input)
+  if (isStressWithoutIndices(input)) return parseStressWithNoIndex(input)
   return []
 }
 
@@ -138,11 +138,11 @@ export function isAnsysFaces(input: string): boolean {
 }
 
 //Mises check
-export function isDefaultMises(input: string): boolean {
+export function isDefaultStress(input: string): boolean {
   return hasValidLineFormat(input, 7)
 }
 
-export function isMisesWithNoIndex(input: string): boolean {
+export function isStressWithoutIndices(input: string): boolean {
   return hasValidLineFormat(input, 6)
 }
 
