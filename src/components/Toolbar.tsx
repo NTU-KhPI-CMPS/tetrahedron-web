@@ -1,14 +1,23 @@
 import FileUploadButton from '@/components/FileUploadButton.tsx'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux.ts'
-import { parseDefaultPhysicalQuantity } from '@/lib/parser.ts'
-import { setCharacteristic, setDisplayNodeIndices, setStress } from '@/redux/slices/modelSlice.ts'
+import { parseDefaultPhysicalQuantity, parseVertices } from '@/lib/parser.ts'
+import {
+  setCharacteristic,
+  setDisplacement,
+  setDisplayNodeIndices,
+  setStress,
+  setUseDisplacement
+} from '@/redux/slices/modelSlice.ts'
 import { useTranslation } from 'react-i18next'
 
 const Toolbar = () => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const { displayNodeIndices } = useAppSelector((store) => store.model)
+  const { displayNodeIndices, useDisplacement, displacement, displacementFileName, vertices } = useAppSelector(
+    (store) => store.model
+  )
+  const displacementLoaded = displacement.length > 0
 
   const loadStress = async (file: File) => {
     const input = await file.text()
@@ -22,9 +31,31 @@ const Toolbar = () => {
     dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
   }
 
+  const loadDisplacement = async (file: File) => {
+    const input = await file.text()
+    const displacement = parseVertices(input)
+    const isDisplacementValid = displacement.length === vertices.length
+
+    if (!isDisplacementValid) {
+      console.error('Invalid displacement values')
+      return
+    }
+    dispatch(setDisplacement({ displacement, displacementFileName: file.name }))
+    dispatch(setUseDisplacement(true))
+  }
+
   return (
     <div className="absolute right-14 z-10 flex max-h-full w-52 select-none flex-col gap-3 overflow-y-auto rounded-3xl p-3 py-10 shadow-md backdrop-blur-sm">
       <SwitchWithTitle
+        disabled={!displacementLoaded}
+        checked={useDisplacement}
+        labelStyles={!displacementLoaded ? 'cursor-not-allowed' : ''}
+        label={t('toolbar.toolbarSections.switchSection.displacement')}
+        id="displacement"
+        onClick={() => dispatch(setUseDisplacement(!useDisplacement))}
+      />
+      <SwitchWithTitle
+        checked={displayNodeIndices}
         label={t('toolbar.toolbarSections.switchSection.nodes')}
         id="face-numbers"
         onClick={() => dispatch(setDisplayNodeIndices(!displayNodeIndices))}
@@ -38,6 +69,14 @@ const Toolbar = () => {
         title={t('toolbar.toolbarSections.buttonsSection.otherCharacteristic')}
         buttonText={t('toolbar.toolbarSections.buttonsSection.fileUpload')}
         onFileSelect={loadCharacteristic}
+      />
+      <FileUploadButton
+        variant={displacementLoaded ? 'ghost' : 'default'}
+        title={t('toolbar.toolbarSections.buttonsSection.nodeDisplacement')}
+        buttonText={
+          displacementLoaded ? (displacementFileName ?? '') : t('toolbar.toolbarSections.buttonsSection.fileUpload')
+        }
+        onFileSelect={loadDisplacement}
       />
     </div>
   )

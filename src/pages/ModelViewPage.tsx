@@ -71,19 +71,18 @@ const ModelViewPage = () => {
         <Toolbar />
       </div>
 
-      {filesUploaderOpen && (
-        <FilesUploader
-          verticesValid={!verticesLoaded || vertices.length > 1}
-          verticesFileName={verticesFileName}
-          facesFileName={facesFileName}
-          facesValid={!facesLoaded || faces.length > 1}
-          disableCreateModelButton={!vertices.length || !faces.length}
-          closeModal={closeModal}
-          onFacesLoad={onFacesLoad}
-          onVerticesLoad={onVerticesLoad}
-          onCreateModelClick={closeModal}
-        />
-      )}
+      <FilesUploader
+        showFilesUploader={filesUploaderOpen}
+        verticesValid={!verticesLoaded || vertices.length > 1}
+        verticesFileName={verticesFileName}
+        facesFileName={facesFileName}
+        facesValid={!facesLoaded || faces.length > 1}
+        disableCreateModelButton={!vertices.length || !faces.length}
+        closeModal={closeModal}
+        onFacesLoad={onFacesLoad}
+        onVerticesLoad={onVerticesLoad}
+        onCreateModelClick={closeModal}
+      />
     </>
   )
 }

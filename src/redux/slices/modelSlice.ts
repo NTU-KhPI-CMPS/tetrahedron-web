@@ -8,9 +8,12 @@ import { createSlice } from '@reduxjs/toolkit'
 export interface ModelState {
   faces: Face[]
   vertices: Vertex[]
+  displacement: Vertex[]
   isReady: boolean
   facesFileName: string
   verticesFileName: string
+  displacementFileName: string | null
+  useDisplacement: boolean
   facesLoaded: boolean
   verticesLoaded: boolean
   displayNodeIndices: boolean
@@ -24,9 +27,12 @@ export interface ModelState {
 export const initialState: ModelState = {
   faces: [],
   vertices: [],
+  displacement: [],
   isReady: false,
   facesFileName: '',
   verticesFileName: '',
+  displacementFileName: null,
+  useDisplacement: false,
   facesLoaded: false,
   verticesLoaded: false,
   displayNodeIndices: false,
@@ -74,11 +80,28 @@ export const modelSlice = createSlice({
       state.otherCharacteristic = otherCharacteristic
       state.otherFileName = fileName
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
+    },
+    setDisplacement: (state, action: PayloadAction<{ displacement: Vertex[]; displacementFileName: string }>) => {
+      const { displacement, displacementFileName } = action.payload
+      state.displacement = displacement
+      state.displacementFileName = displacementFileName
+    },
+    setUseDisplacement: (state, action: PayloadAction<boolean>) => {
+      state.useDisplacement = action.payload
     }
   }
 })
 
-export const { setFaces, setVertices, resetModel, setReady, setDisplayNodeIndices, setStress, setCharacteristic } =
-  modelSlice.actions
+export const {
+  setFaces,
+  setVertices,
+  resetModel,
+  setReady,
+  setDisplayNodeIndices,
+  setStress,
+  setCharacteristic,
+  setDisplacement,
+  setUseDisplacement
+} = modelSlice.actions
 
 export default modelSlice.reducer
