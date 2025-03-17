@@ -3,10 +3,12 @@ import reducer, {
   initialState,
   resetModel,
   setCharacteristic,
+  setDisplacement,
   setDisplayNodeIndices,
   setFaces,
   setReady,
   setStress,
+  setUseDisplacement,
   setVertices
 } from '@/redux/slices/modelSlice'
 import { describe, expect, it } from 'vitest'
@@ -19,6 +21,7 @@ const facesFileNameMock = 'faces.txt'
 const verticesFileNameMock = 'vertices.txt'
 const stressFileMock = 'stress.txt'
 const otherCharacteristicFileMock = 'other.txt'
+const displacementFileNameMock = 'displacement.txt'
 
 const facesMock = [
   { index: 1, vertex1: 1, vertex2: 2, vertex3: 3, vertex4: 4 },
@@ -41,6 +44,11 @@ const otherCharacteristicMock = {
   min: 2,
   max: 8
 }
+
+const displacementMock = [
+  { index: 1, x: 1.5, y: 2.5, z: 3.5 },
+  { index: 2, x: 5.5, y: 6.5, z: 7.5 }
+]
 
 describe('modelSlice', () => {
   it('should set faces correctly with setFaces', () => {
@@ -103,5 +111,20 @@ describe('modelSlice', () => {
       otherCharacteristicMock.min,
       otherCharacteristicMock.max
     )
+  })
+
+  it('should set displacement correctly with setDisplacement', () => {
+    const action = setDisplacement({ displacement: displacementMock, displacementFileName: displacementFileNameMock })
+    const state = reducer(initialState, action)
+
+    expect(state.displacement).toMatchObject(displacementMock)
+    expect(state.displacementFileName).toEqual(displacementFileNameMock)
+  })
+
+  it('should set useDisplacement correctly with setUseDisplacement', () => {
+    const action = setUseDisplacement(true)
+    const state = reducer(initialState, action)
+
+    expect(state.useDisplacement).toEqual(true)
   })
 })

@@ -7,15 +7,23 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface ModelState {
   faces: Face[]
-  vertices: Vertex[]
-  isReady: boolean
-  facesFileName: string
-  verticesFileName: string
   facesLoaded: boolean
+  facesFileName: string
+  vertices: Vertex[]
   verticesLoaded: boolean
+  verticesFileName: string
+  isReady: boolean
+
+  displacement: Vertex[]
+  displacementLoaded: boolean
+  displacementFileName: string | null
+  useDisplacement: boolean
+
   displayNodeIndices: boolean
+
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
+
   otherFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
   colors: number[] | null
@@ -23,15 +31,23 @@ export interface ModelState {
 
 export const initialState: ModelState = {
   faces: [],
-  vertices: [],
-  isReady: false,
-  facesFileName: '',
-  verticesFileName: '',
   facesLoaded: false,
+  facesFileName: '',
+  vertices: [],
   verticesLoaded: false,
+  verticesFileName: '',
+  isReady: false,
+
+  displacement: [],
+  displacementLoaded: false,
+  displacementFileName: null,
+  useDisplacement: false,
+
   displayNodeIndices: false,
+
   stress: null,
   stressFileName: null,
+
   otherFileName: null,
   otherCharacteristic: null,
   colors: []
@@ -74,11 +90,29 @@ export const modelSlice = createSlice({
       state.otherCharacteristic = otherCharacteristic
       state.otherFileName = fileName
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
+    },
+    setDisplacement: (state, action: PayloadAction<{ displacement: Vertex[]; displacementFileName: string }>) => {
+      const { displacement, displacementFileName } = action.payload
+      state.displacement = displacement
+      state.displacementLoaded = true
+      state.displacementFileName = displacementFileName
+    },
+    setUseDisplacement: (state, action: PayloadAction<boolean>) => {
+      state.useDisplacement = action.payload
     }
   }
 })
 
-export const { setFaces, setVertices, resetModel, setReady, setDisplayNodeIndices, setStress, setCharacteristic } =
-  modelSlice.actions
+export const {
+  setFaces,
+  setVertices,
+  resetModel,
+  setReady,
+  setDisplayNodeIndices,
+  setStress,
+  setCharacteristic,
+  setDisplacement,
+  setUseDisplacement
+} = modelSlice.actions
 
 export default modelSlice.reducer

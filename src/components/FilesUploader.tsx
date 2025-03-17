@@ -14,6 +14,7 @@ interface FilesUploaderProps {
   facesFileName: string
   facesValid: boolean
   disableCreateModelButton: boolean
+  showFilesUploader?: boolean
   closeModal: () => void
   onFacesLoad: (faces: Face[], fileName: string) => void
   onVerticesLoad: (vertices: Vertex[], fileName: string) => void
@@ -26,6 +27,7 @@ const FilesUploader = ({
   facesFileName,
   facesValid,
   disableCreateModelButton,
+  showFilesUploader = true,
   closeModal,
   onFacesLoad,
   onVerticesLoad,
@@ -56,6 +58,8 @@ const FilesUploader = ({
     const vertices = await parseText(file, parseVertices)
     onVerticesLoad(vertices, file.name)
   }
+
+  if (!showFilesUploader) return null
 
   return (
     <div

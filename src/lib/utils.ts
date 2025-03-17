@@ -33,3 +33,14 @@ export function generateVertexPositions(data: Vertex[]) {
   const positions = new Float32Array(data.flatMap((vertex) => [vertex.x, vertex.y, vertex.z]))
   return positions
 }
+
+export function calculateVerticesDisplacement(vertices: Vertex[], displacement: Vertex[], scale: number) {
+  return vertices.map((vertex, index) => {
+    return {
+      index: vertex.index,
+      x: vertex.x + displacement[index].x * scale,
+      y: vertex.y + displacement[index].y * scale,
+      z: vertex.z + displacement[index].z * scale
+    }
+  })
+}
