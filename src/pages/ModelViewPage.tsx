@@ -4,9 +4,10 @@ import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { parseDefaultPhysicalQuantity, parseVertices } from '@/lib/parser.ts'
+import { parseVertices } from '@/lib/parser.ts'
+import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { setDisplayNodeIndices, setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
-import { setCharacteristic, setDisplacement, setStress, setUseDisplacement } from '@/redux/slices/modelSlice.ts'
+import { setDisplacement, setUseDisplacement } from '@/redux/slices/modelSlice.ts'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
 import { Canvas } from '@react-three/fiber'
@@ -71,24 +72,6 @@ const ModelViewPage = () => {
     dispatch(setReady(faces.length > 0 && vertices.length > 0))
     setFilesUploaderOpen(false)
   }, [dispatch, faces, vertices])
-
-  const loadStress = useCallback(
-    async (file: File) => {
-      const input = await file.text()
-      const stress = parseDefaultPhysicalQuantity(input)
-      dispatch(setStress({ stress, fileName: file.name }))
-    },
-    [dispatch]
-  )
-
-  const loadCharacteristic = useCallback(
-    async (file: File) => {
-      const input = await file.text()
-      const otherCharacteristic = parseDefaultPhysicalQuantity(input)
-      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
-    },
-    [dispatch]
-  )
 
   const loadDisplacement = useCallback(
     async (file: File) => {
