@@ -21,7 +21,7 @@ describe('FileUploadButton', () => {
   it('should render button, title and input', () => {
     const button = screen.getByRole('button')
     const title = screen.getByText('Test')
-    const input = screen.getByTestId('file-input')
+    const input = screen.getByTestId('file-input-Test text')
 
     expect(button).toBeInTheDocument()
     expect(title).toBeInTheDocument()
@@ -30,7 +30,7 @@ describe('FileUploadButton', () => {
 
   it('triggers file input on browse button click', () => {
     const button = screen.getByRole('button')
-    const fileInput = screen.getByTestId('file-input')
+    const fileInput = screen.getByTestId('file-input-Test text')
 
     const clickSpy = vi.spyOn(fileInput, 'click')
 
@@ -39,7 +39,7 @@ describe('FileUploadButton', () => {
   })
 
   it('should accept a text file when selected', () => {
-    const fileInput = screen.getByTestId('file-input')
+    const fileInput = screen.getByTestId('file-input-Test text')
 
     fireEvent.change(fileInput, {
       target: { files: [mockTextFile] }
@@ -49,7 +49,7 @@ describe('FileUploadButton', () => {
   })
 
   it('should return if no files are selected', () => {
-    const fileInput = screen.getByTestId('file-input')
+    const fileInput = screen.getByTestId('file-input-Test text')
 
     fireEvent.change(fileInput, {
       target: { files: [] }

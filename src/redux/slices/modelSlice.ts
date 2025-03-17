@@ -7,18 +7,23 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface ModelState {
   faces: Face[]
-  vertices: Vertex[]
-  displacement: Vertex[]
-  isReady: boolean
+  facesLoaded: boolean
   facesFileName: string
+  vertices: Vertex[]
+  verticesLoaded: boolean
   verticesFileName: string
+  isReady: boolean
+
+  displacement: Vertex[]
+  displacementLoaded: boolean
   displacementFileName: string | null
   useDisplacement: boolean
-  facesLoaded: boolean
-  verticesLoaded: boolean
+
   displayNodeIndices: boolean
+
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
+
   otherFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
   colors: number[] | null
@@ -26,18 +31,23 @@ export interface ModelState {
 
 export const initialState: ModelState = {
   faces: [],
-  vertices: [],
-  displacement: [],
-  isReady: false,
+  facesLoaded: false,
   facesFileName: '',
+  vertices: [],
+  verticesLoaded: false,
   verticesFileName: '',
+  isReady: false,
+
+  displacement: [],
+  displacementLoaded: false,
   displacementFileName: null,
   useDisplacement: false,
-  facesLoaded: false,
-  verticesLoaded: false,
+
   displayNodeIndices: false,
+
   stress: null,
   stressFileName: null,
+
   otherFileName: null,
   otherCharacteristic: null,
   colors: []
@@ -84,6 +94,7 @@ export const modelSlice = createSlice({
     setDisplacement: (state, action: PayloadAction<{ displacement: Vertex[]; displacementFileName: string }>) => {
       const { displacement, displacementFileName } = action.payload
       state.displacement = displacement
+      state.displacementLoaded = true
       state.displacementFileName = displacementFileName
     },
     setUseDisplacement: (state, action: PayloadAction<boolean>) => {
