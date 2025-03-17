@@ -6,6 +6,11 @@ import en from './en/index'
 import nl from './nl/index'
 import ua from './ua/index'
 
+const getInitialLanguage = () => {
+  const lang = localStorage.getItem('currentLanguage')
+  return lang ? JSON.parse(lang) : 'en'
+}
+
 const resources = {
   en,
   ua,
@@ -15,10 +20,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en',
-  interpolation: {
-    escapeValue: false
-  }
+  lng: getInitialLanguage()
 })
 
 export default i18n
