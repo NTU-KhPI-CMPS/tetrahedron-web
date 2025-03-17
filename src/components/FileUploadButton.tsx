@@ -26,7 +26,13 @@ const FileUploadButton = ({ title, buttonText, onFileSelect, variant = 'default'
 
   return (
     <div className="space-y-1">
-      <input className="hidden" data-testid="file-input" ref={inputFile} onChange={handleFileUpload} type="file" />
+      <input
+        className="hidden"
+        data-testid={`file-input-${buttonText}`}
+        ref={inputFile}
+        onChange={handleFileUpload}
+        type="file"
+      />
       {title && <p className="font-semibold">{title}</p>}
       <Button variant={variant} onClick={onButtonClick} size="sm" className="w-full">
         {buttonText}

@@ -8,7 +8,8 @@
     "switchSection": {
       "nodes": "Nodes",
       "nodeNumbers": "Node numbers",
-      "legend": "Legend"
+      "legend": "Legend",
+      "displacement": "Displacement"
     },
     "buttonsSection": {
       "nodeStress": "Node Stress",

@@ -1,6 +1,6 @@
 import { parseStress } from '@/lib/parser'
 import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
-import { generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
+import { calculateVerticesDisplacement, generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
 import { Face } from '@/types/Face'
@@ -133,5 +133,39 @@ describe('loadStress', () => {
     const fileName = 'test.txt'
 
     store.dispatch(setStress({ stress, fileName }))
+  })
+})
+
+describe('calculateVerticesDisplacement', () => {
+  it('should correctly calculate vertex displacement', () => {
+    const vertices = [
+      { index: 0, x: 1, y: 2, z: 3 },
+      { index: 1, x: 4, y: 5, z: 6 }
+    ]
+
+    const displacement = [
+      { index: 1, x: 0.5, y: -0.5, z: 1 },
+      { index: 2, x: -1, y: 2, z: -2 }
+    ]
+
+    const scale = 2
+
+    const result = calculateVerticesDisplacement(vertices, displacement, scale)
+
+    expect(result).toEqual([
+      { index: 0, x: 2, y: 1, z: 5 },
+      { index: 1, x: 2, y: 9, z: 2 }
+    ])
+  })
+
+  it('should return an empty array if input arrays are empty', () => {
+    expect(calculateVerticesDisplacement([], [], 1)).toEqual([])
+  })
+
+  it('should correctly work when scale = 0', () => {
+    const vertices = [{ index: 0, x: 1, y: 1, z: 1 }]
+    const displacement = [{ index: 0, x: 10, y: 10, z: 10 }]
+    const result = calculateVerticesDisplacement(vertices, displacement, 0)
+    expect(result).toEqual([{ index: 0, x: 1, y: 1, z: 1 }])
   })
 })

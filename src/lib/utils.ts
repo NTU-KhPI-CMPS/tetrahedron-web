@@ -54,3 +54,14 @@ export const loadCharacteristic = async (file: File) => {
   const otherCharacteristic = parseDefaultPhysicalQuantity(input)
   store.dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
 }
+
+export function calculateVerticesDisplacement(vertices: Vertex[], displacement: Vertex[], scale: number) {
+  return vertices.map((vertex, index) => {
+    return {
+      index: vertex.index,
+      x: vertex.x + displacement[index].x * scale,
+      y: vertex.y + displacement[index].y * scale,
+      z: vertex.z + displacement[index].z * scale
+    }
+  })
+}
