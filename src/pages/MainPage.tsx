@@ -5,6 +5,7 @@ import Images from '@/components/main-page/Images'
 import ProgramFeatures from '@/components/main-page/ProgramFeatures'
 import { Button } from '@/components/ui/button'
 import { useAppDispatch } from '@/hooks/use-redux'
+import { resetLegend } from '@/redux/slices/legendSlice'
 import { resetModel } from '@/redux/slices/modelSlice'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,6 +16,7 @@ const MainPage = () => {
 
   const onCreateModelButtonClick = () => {
     dispatch(resetModel())
+    dispatch(resetLegend())
     navigate('/model')
   }
 
