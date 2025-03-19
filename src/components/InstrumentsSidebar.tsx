@@ -5,6 +5,7 @@ import { ReactNode, useState } from 'react'
 type ButtonData = {
   tooltip: string
   icon: ReactNode
+  action?: () => void
 }
 
 interface InstrumentsSidebarProps {
@@ -14,8 +15,9 @@ interface InstrumentsSidebarProps {
 const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(0)
 
-  const buttonClickHandler = (_: ButtonData, buttonIndex: number) => {
+  const buttonClickHandler = (item: ButtonData, buttonIndex: number) => {
     setActiveButtonIndex(buttonIndex)
+    item.action?.()
   }
 
   const circlePosition = {
