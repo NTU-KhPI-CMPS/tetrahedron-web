@@ -6,7 +6,8 @@ import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { parseVertices } from '@/lib/parser.ts'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
-import { setDisplayNodeIndices, setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
+import { resetLegend } from '@/redux/slices/legendSlice'
+import { resetModel, setDisplayNodeIndices, setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
 import { setDisplacement, setUseDisplacement } from '@/redux/slices/modelSlice.ts'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
@@ -42,6 +43,12 @@ const ModelViewPage = () => {
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
 
+  const onModelDelete = useCallback(() => {
+    dispatch(resetModel())
+    dispatch(resetLegend())
+    setFilesUploaderOpen(true)
+  }, [dispatch])
+
   const buttonsData = useMemo(
     () => [
       { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorFill /> },
@@ -49,7 +56,7 @@ const ModelViewPage = () => {
       { tooltip: t('instrumentsSidebar.sidebarHints.rotate'), icon: <GrPowerReset /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.scale'), icon: <PiResize /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.copy'), icon: <PiCopySimpleLight /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete /> }
+      { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete />, action: () => onModelDelete() }
     ],
     [t]
   )
