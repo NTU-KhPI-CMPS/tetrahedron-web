@@ -6,6 +6,8 @@ import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { describe, it } from 'vitest'
 
+vi.mock('@/hooks/use-redux')
+
 describe('Legend', () => {
   const mockLegend: LegendType[] = [
     {

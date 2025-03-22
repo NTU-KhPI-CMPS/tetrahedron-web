@@ -3,8 +3,10 @@ import { useAppSelector } from '@/hooks/use-redux'
 
 const Legend = () => {
   const legendColors = useAppSelector((store) => store.legend?.legend)
+  const display = useAppSelector((store) => store.model.display)
+  const canDisplayLegend = display === 'otherCharacteristic' || display === 'stress'
 
-  if (!legendColors) {
+  if (!legendColors || !canDisplayLegend) {
     return
   }
 

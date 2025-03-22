@@ -8,7 +8,7 @@ import { parseVertices } from '@/lib/parser.ts'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import { resetModel, setDisplayNodeIndices, setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
-import { setDisplacement, setUseDisplacement } from '@/redux/slices/modelSlice.ts'
+import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
 import { Canvas } from '@react-three/fiber'
@@ -31,12 +31,12 @@ const ModelViewPage = () => {
     facesLoaded,
     displayNodeIndices,
     displacementLoaded,
-    useDisplacement,
     displacementFileName,
     stress,
     stressFileName,
-    otherFileName,
-    otherCharacteristic
+    otherCharacteristicFileName,
+    otherCharacteristic,
+    display
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -92,14 +92,14 @@ const ModelViewPage = () => {
       }
 
       dispatch(setDisplacement({ displacement, displacementFileName: file.name }))
-      dispatch(setUseDisplacement(true))
+      dispatch(setDisplay('displacement'))
     },
     [dispatch, vertices]
   )
 
   const onDisplacementSwitchClick = useCallback(() => {
-    dispatch(setUseDisplacement(!useDisplacement))
-  }, [dispatch, useDisplacement])
+    dispatch(setDisplay(display === 'displacement' ? 'none' : 'displacement'))
+  }, [dispatch, display])
 
   const onNodeIndicesSwitchClick = useCallback(() => {
     dispatch(setDisplayNodeIndices(!displayNodeIndices))
@@ -127,11 +127,11 @@ const ModelViewPage = () => {
         <Toolbar
           displayNodeIndices={displayNodeIndices}
           displacementLoaded={displacementLoaded}
-          useDisplacement={useDisplacement}
+          useDisplacement={display === 'displacement'}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
           stressLoaded={stress !== null}
-          otherCharacteristicFileName={otherFileName ?? ''}
+          otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
           onNodeIndicesSwitchClick={onNodeIndicesSwitchClick}
           onDisplacementSwitchClick={onDisplacementSwitchClick}
