@@ -1,26 +1,27 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import useLocalStorage from '@/hooks/useLocalStorage'
 import { useTranslation } from 'react-i18next'
+
+const LANGUAGES = [
+  { code: 'en', name: 'English' },
+  { code: 'ua', name: 'Українська' },
+  { code: 'de', name: 'Deutsche' },
+  { code: 'nl', name: 'Nederlands' }
+] as const
+
+const languageItems = LANGUAGES.map(({ code }) => (
+  <SelectItem key={code} value={code}>
+    {code}
+  </SelectItem>
+))
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
-
-  const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'ua', name: 'Українська' },
-    { code: 'de', name: 'Deutsche' },
-    { code: 'nl', name: 'Nederlands' }
-  ]
-
-  const currentLanguage = languages.find(({ code }) => code === i18n.language)?.code ?? 'en'
-
-  const languageItems = languages.map(({ code }) => (
-    <SelectItem key={code} value={code}>
-      {code}
-    </SelectItem>
-  ))
+  const [currentLanguage, setCurrentLanguage] = useLocalStorage<string>('currentLanguage', 'en')
 
   const changeLanguage = (language: string) => {
     i18n.changeLanguage(language)
+    setCurrentLanguage(language)
   }
 
   return (
