@@ -16,7 +16,27 @@ describe('Toolbar', () => {
 
     render(
       <Provider store={store}>
-        <Toolbar loadStress={mockLoadStress} loadCharacteristic={mockLoadCharacteristic} />
+        <Toolbar
+          displayNodeIndices={false}
+          displacementLoaded={false}
+          displacementFileName={''}
+          stressLoaded={false}
+          stressFileName={''}
+          otherCharacteristicLoaded={false}
+          otherCharacteristicFileName={''}
+          loadStress={mockLoadStress}
+          loadCharacteristic={mockLoadCharacteristic}
+          useDisplacement={false}
+          onDisplacementSwitchClick={() => {
+            return
+          }}
+          onNodeIndicesSwitchClick={() => {
+            return
+          }}
+          loadDisplacement={() => {
+            return
+          }}
+        />
       </Provider>
     )
   })
