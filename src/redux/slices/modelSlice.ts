@@ -5,6 +5,8 @@ import { Vertex } from '@/types/Vertex'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
+type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
+
 export interface ModelState {
   faces: Face[]
   facesLoaded: boolean
@@ -14,17 +16,18 @@ export interface ModelState {
   verticesFileName: string
   isReady: boolean
 
+  display: ModelDisplayVariants
+
   displacement: Vertex[]
   displacementLoaded: boolean
   displacementFileName: string | null
-  useDisplacement: boolean
 
   displayNodeIndices: boolean
 
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
 
-  otherFileName: string | null
+  otherCharacteristicFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
   colors: number[] | null
 }
@@ -38,17 +41,18 @@ export const initialState: ModelState = {
   verticesFileName: '',
   isReady: false,
 
+  display: 'none',
+
   displacement: [],
   displacementLoaded: false,
   displacementFileName: null,
-  useDisplacement: false,
 
   displayNodeIndices: false,
 
   stress: null,
   stressFileName: null,
 
-  otherFileName: null,
+  otherCharacteristicFileName: null,
   otherCharacteristic: null,
   colors: []
 }
@@ -74,6 +78,7 @@ export const modelSlice = createSlice({
       state.stress = stress
       state.stressFileName = fileName
       state.colors = generateColorArray(stress.values, stress.min, stress.max)
+      state.display = 'stress'
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -88,17 +93,19 @@ export const modelSlice = createSlice({
     ) => {
       const { otherCharacteristic, fileName } = action.payload
       state.otherCharacteristic = otherCharacteristic
-      state.otherFileName = fileName
+      state.otherCharacteristicFileName = fileName
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
+      state.display = 'otherCharacteristic'
     },
     setDisplacement: (state, action: PayloadAction<{ displacement: Vertex[]; displacementFileName: string }>) => {
       const { displacement, displacementFileName } = action.payload
       state.displacement = displacement
       state.displacementLoaded = true
       state.displacementFileName = displacementFileName
+      state.display = 'displacement'
     },
-    setUseDisplacement: (state, action: PayloadAction<boolean>) => {
-      state.useDisplacement = action.payload
+    setDisplay: (state, action: PayloadAction<ModelDisplayVariants>) => {
+      state.display = action.payload
     }
   }
 })
@@ -112,7 +119,7 @@ export const {
   setStress,
   setCharacteristic,
   setDisplacement,
-  setUseDisplacement
+  setDisplay
 } = modelSlice.actions
 
 export default modelSlice.reducer

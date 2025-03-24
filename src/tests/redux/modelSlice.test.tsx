@@ -4,11 +4,11 @@ import reducer, {
   resetModel,
   setCharacteristic,
   setDisplacement,
+  setDisplay,
   setDisplayNodeIndices,
   setFaces,
   setReady,
   setStress,
-  setUseDisplacement,
   setVertices
 } from '@/redux/slices/modelSlice'
 import { describe, expect, it } from 'vitest'
@@ -105,7 +105,7 @@ describe('modelSlice', () => {
     const state = reducer(initialState, action)
 
     expect(state.otherCharacteristic).toMatchObject(otherCharacteristicMock)
-    expect(state.otherFileName).toEqual('other.txt')
+    expect(state.otherCharacteristicFileName).toEqual('other.txt')
     expect(generateColorArray).toHaveBeenCalledWith(
       otherCharacteristicMock.values,
       otherCharacteristicMock.min,
@@ -121,10 +121,10 @@ describe('modelSlice', () => {
     expect(state.displacementFileName).toEqual(displacementFileNameMock)
   })
 
-  it('should set useDisplacement correctly with setUseDisplacement', () => {
-    const action = setUseDisplacement(true)
+  it('should set display correctly to displacement', () => {
+    const action = setDisplay('displacement')
     const state = reducer(initialState, action)
 
-    expect(state.useDisplacement).toEqual(true)
+    expect(state.display).toEqual('displacement')
   })
 })
