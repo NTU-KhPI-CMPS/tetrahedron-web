@@ -1,4 +1,5 @@
 import ModelViewPage from '@/pages/ModelViewPage'
+import { ModalProvider } from '@/providers/ModalProvider'
 import { initialState, default as model, setFaces, setVertices } from '@/redux/slices/modelSlice'
 import { Face } from '@/types/Face'
 import { Vertex } from '@/types/Vertex'
@@ -36,7 +37,9 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
@@ -51,7 +54,9 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
@@ -72,7 +77,9 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
@@ -106,7 +113,9 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
@@ -134,7 +143,9 @@ describe('ModelViewPage', () => {
     store.dispatch = vi.fn()
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 

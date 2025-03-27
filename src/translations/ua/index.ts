@@ -1,3 +1,4 @@
+import errorModal from './error-modal.json'
 import filesUploader from './files-uploader.json'
 import instrumentsSidebar from './instruments-sidebar.json'
 import mainPage from './main-page.json'
@@ -10,7 +11,8 @@ const ua = {
     navbar,
     filesUploader,
     toolbar,
-    instrumentsSidebar
+    instrumentsSidebar,
+    errorModal
   }
 }
 

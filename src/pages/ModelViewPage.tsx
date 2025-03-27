@@ -1,9 +1,11 @@
+import ErrorModal from '@/components/ErrorModal'
 import FilesUploader from '@/components/FilesUploader'
 import InstrumentsSidebar from '@/components/InstrumentsSidebar'
 import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import { useModal } from '@/hooks/useModal'
 import { parseVertices } from '@/lib/parser.ts'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
@@ -40,6 +42,7 @@ const ModelViewPage = () => {
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const { openModal } = useModal()
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
 
@@ -58,7 +61,7 @@ const ModelViewPage = () => {
       { tooltip: t('instrumentsSidebar.sidebarHints.copy'), icon: <PiCopySimpleLight /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete />, action: () => onModelDelete() }
     ],
-    [t]
+    [t, onModelDelete]
   )
 
   const onFacesLoad = useCallback(
@@ -87,14 +90,21 @@ const ModelViewPage = () => {
       const isDisplacementValid = displacement.length === vertices.length
 
       if (!isDisplacementValid) {
-        console.error('Invalid displacement values')
+        openModal({
+          buttons: 'ok',
+          title: t('errorModal.errorExclamationMark'),
+          message: t('errorModal.invalidDisplacementValuesMessage'),
+          onOkClick: () => {
+            console.log('ok')
+          }
+        })
         return
       }
 
       dispatch(setDisplacement({ displacement, displacementFileName: file.name }))
       dispatch(setDisplay('displacement'))
     },
-    [dispatch, vertices]
+    [vertices, t, dispatch, openModal]
   )
 
   const onDisplacementSwitchClick = useCallback(() => {
@@ -152,6 +162,7 @@ const ModelViewPage = () => {
         onVerticesLoad={onVerticesLoad}
         onCreateModelClick={closeModal}
       />
+      <ErrorModal />
     </>
   )
 }
