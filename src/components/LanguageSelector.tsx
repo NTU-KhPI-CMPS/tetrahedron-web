@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 const LANGUAGES = [
   { code: 'en', name: 'English' },
-  { code: 'ua', name: 'Українська' },
-  { code: 'de', name: 'Deutsche' },
-  { code: 'nl', name: 'Nederlands' }
+  { code: 'ua', name: 'Українська' }
 ] as const
 
 const languageItems = LANGUAGES.map(({ code }) => (

@@ -35,8 +35,10 @@ const FilesUploader = ({
 }: FilesUploaderProps) => {
   const { t } = useTranslation()
 
-  const verticesHint = verticesFileName === '' ? t('filesUploader.hint') : verticesFileName
-  const facesHint = facesFileName === '' ? t('filesUploader.hint') : facesFileName
+  const verticesHint =
+    verticesFileName === '' ? t('filesUploader.hintCoordinates') : t('filesUploader.selectedFile') + verticesFileName
+  const facesHint =
+    facesFileName === '' ? t('filesUploader.hintIndices') : t('filesUploader.selectedFile') + facesFileName
 
   const outsideClickHandler = () => {
     closeModal()

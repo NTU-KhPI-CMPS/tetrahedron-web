@@ -35,9 +35,11 @@ describe('FilesUploader', () => {
     const props = { ...propsMock, verticesFileName: '', facesFileName: '' }
     render(<FilesUploader {...props} />)
 
-    const defaulHints = screen.getAllByText('filesUploader.hint')
+    const hintCoordinates = screen.getAllByText('filesUploader.hintCoordinates')
+    const hintIndices = screen.getAllByText('filesUploader.hintIndices')
 
-    expect(defaulHints.length).toEqual(2)
+    expect(hintCoordinates.length).toEqual(1)
+    expect(hintIndices.length).toEqual(1)
   })
 
   it('should call onVerticesLoad when vertices file is loaded', async () => {

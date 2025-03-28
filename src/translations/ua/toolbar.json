@@ -1,22 +1,18 @@
 {
   "toolbarSections": {
-    "coordinates": "Координати",
-    "rotation": "Обертання",
-    "background": "Колір фону",
-    "modelColor": "Колір моделі",
-    "nodesColor": "Колір вузлів",
     "switchSection": {
       "nodes": "Вузли",
       "nodeNumbers": "Номери вузлів",
-      "legend": "Легенда"
+      "legend": "Легенда",
+      "displacement": "Переміщення"
     },
     "buttonsSection": {
-      "nodeStress": "Напруження у вузлах",
+      "nodeStress": "Напруження в елементах",
+      "misesStress": "Mises stress",
       "fileUpload": "Завантажити файл",
       "nodeDisplacement": "Переміщення у вузлах",
-      "nodeForces": "Прикладені сили",
-      "nodeFixes": "Закріплені вузли",
-      "randomCharacteristics": "Довільна характеристика"
+      "totalDisplacement": "Загальні",
+      "otherCharacteristic": "Довільна характеристика"
     }
   }
 }
