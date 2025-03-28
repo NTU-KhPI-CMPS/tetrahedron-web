@@ -1,23 +1,23 @@
 {
   "headerPart1": "Dive into the world of 3D:",
   "headerPart2": "Interactive real-time data analysis",
-  "subHeader": "Get quick access to 3D model visualizations with dynamic data overlays for instant and convenient analysis",
-  "createModelButton": "Create Model",
-  "programFeaturesHeader": "Program Features",
+  "subHeader": "Get quick access to 3D model vizualizations with dynamic data overlays for instant and convenient analysis",
+  "createModelButton": "Create model",
+  "programFeaturesHeader": "Program features",
   "programFeaturesSubHeader": "The program allows you to upload files to build models and analyze data. Users can visualize the model and use interactive tools for detailed viewing.",
   "section1": {
     "number": "1",
-    "header": "File Upload and Processing:",
-    "body": "The program allows you to upload files with node coordinates and element faces to build the model. Additionally, files with displacements, stresses, forces, and constraints can be uploaded. If additional data is required for the selected mode, the program will notify you."
+    "header": "Files uploading",
+    "body": "The program allows you to upload files with node coordinates and element faces to build the model. Additionally, files with displacements, stress and other characteristic may be uploaded."
   },
   "section2": {
     "number": "2",
-    "header": "Model Construction and Visualization:",
-    "body": "Based on the uploaded data, the program automatically creates the model. Users can visualize stresses, displacements, forces, and constraints. Switching modes allows analyzing the model at different levels of detail."
+    "header": "Model visualization",
+    "body": "Based on the uploaded data, the program automatically creates the model. Users can visualize stresses, displacements, etc. Switching modes allows analyzing the model at different levels of detail."
   },
   "section3": {
     "number": "3",
-    "header": "Analysis and Customization:",
-    "body": "Users can toggle the visibility of node and element faces, view model cross-sections, and select individual nodes for detailed analysis. Hovering over a node displays information about it for easier interaction."
+    "header": "Analysis and customization",
+    "body": "Users can toggle the visibility of nodes and select an individual node. When user hovers over a node, an info window with all available information about the node appears for more convenient data analysis."
   }
 }
