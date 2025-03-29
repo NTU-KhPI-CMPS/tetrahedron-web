@@ -35,9 +35,11 @@ describe('FilesUploader', () => {
     const props = { ...propsMock, coorinatesMatrixFileName: '', indicesMatrixFileName: '' }
     render(<FilesUploader {...props} />)
 
-    const defaulHints = screen.getAllByText('filesUploader.hint')
+    const hintCoordinates = screen.getAllByText('filesUploader.hintCoordinates')
+    const hintIndices = screen.getAllByText('filesUploader.hintIndices')
 
-    expect(defaulHints.length).toEqual(2)
+    expect(hintCoordinates.length).toEqual(1)
+    expect(hintIndices.length).toEqual(1)
   })
 
   it('should call onCoorinatesMatrixLoad when coorinatesMatrix file is loaded', async () => {

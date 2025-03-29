@@ -1,7 +1,8 @@
 {
-  "loadFilesButton": "Load files",
-  "createModelButton": "Create Model",
-  "coorinatesMatrixFile": "Coorinates Matrix file",
-  "indicesMatrixFile": "Indices Matrix file",
-  "hint": "Browse and chose the files you want to upload from your computer"
+  "createModelButton": "Create model",
+  "coorinatesMatrixFile": "Coordinates matrix",
+  "indicesMatrixFile": "Indices matrix",
+  "hintCoordinates": "Select file with coordinate matrix",
+  "hintIndices": "Select file with indices matrix",
+  "selectedFile": "Selected file: "
 }

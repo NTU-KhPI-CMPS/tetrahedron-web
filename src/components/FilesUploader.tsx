@@ -34,8 +34,14 @@ const FilesUploader = ({
 }: FilesUploaderProps) => {
   const { t } = useTranslation()
 
-  const coorinatesMatrixHint = coorinatesMatrixFileName === '' ? t('filesUploader.hint') : coorinatesMatrixFileName
-  const indicesMatrixHint = indicesMatrixFileName === '' ? t('filesUploader.hint') : indicesMatrixFileName
+  const coorinatesMatrixHint =
+    coorinatesMatrixFileName === ''
+      ? t('filesUploader.hintCoordinates')
+      : t('filesUploader.selectedFile') + coorinatesMatrixFileName
+  const indicesMatrixHint =
+    indicesMatrixFileName === ''
+      ? t('filesUploader.hintIndices')
+      : t('filesUploader.selectedFile') + indicesMatrixFileName
 
   const outsideClickHandler = () => {
     closeModal()
