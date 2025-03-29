@@ -1,4 +1,4 @@
-import { ModelPhysicalQuantity, Stress, Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { ModelPhysicalQuantity, Stress, VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 
 type ParsedLine = string[]
 
@@ -24,13 +24,13 @@ export function parseIndicesMatrix(input: string): VertexIndices[] {
   return []
 }
 
-export function parseVertices(input: string): Vertex[] {
-  if (isDefaultVertices(input)) return parseDefaultVertices(input)
-  if (isVerticesWithNoIndex(input)) return parseVerticesWithNoIndex(input)
+export function parseCoorinatesMatrix(input: string): VertexCoordinate[] {
+  if (isDefaultCoorinatesMatrix(input)) return parseDefaultCoorinatesMatrix(input)
+  if (isCoorinatesMatrixWithNoIndex(input)) return parseCoorinatesMatrixWithNoIndex(input)
   return []
 }
 
-export function parseDefaultVertices(input: string): Vertex[] {
+export function parseDefaultCoorinatesMatrix(input: string): VertexCoordinate[] {
   return filterByLength(parseLines(input), 4).map(([index, x, y, z]) => ({
     index: Number(index),
     x: Number(x),
@@ -39,7 +39,7 @@ export function parseDefaultVertices(input: string): Vertex[] {
   }))
 }
 
-export function parseVerticesWithNoIndex(input: string): Vertex[] {
+export function parseCoorinatesMatrixWithNoIndex(input: string): VertexCoordinate[] {
   return filterByLength(parseLines(input), 3).map(([x, y, z], index) => ({
     index: index + 1,
     x: Number(x),
@@ -112,11 +112,11 @@ export function parseAnsysIndicesMatrix(input: string): VertexIndices[] {
   })
 }
 
-export function isDefaultVertices(input: string): boolean {
+export function isDefaultCoorinatesMatrix(input: string): boolean {
   return hasValidLineFormat(input, 4)
 }
 
-export function isVerticesWithNoIndex(input: string): boolean {
+export function isCoorinatesMatrixWithNoIndex(input: string): boolean {
   return hasValidLineFormat(input, 3)
 }
 

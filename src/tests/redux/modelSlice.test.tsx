@@ -3,13 +3,13 @@ import reducer, {
   initialState,
   resetModel,
   setCharacteristic,
+  setCoorinatesMatrix,
   setDisplacement,
   setDisplay,
   setDisplayNodeIndices,
   setIndicesMatrix,
   setReady,
-  setStress,
-  setVertices
+  setStress
 } from '@/redux/slices/modelSlice'
 import { describe, expect, it } from 'vitest'
 
@@ -18,7 +18,7 @@ vi.mock('@/lib/colorUtils', () => ({
 }))
 
 const indicesMatrixFileNameMock = 'indicesMatrix.txt'
-const verticesFileNameMock = 'vertices.txt'
+const coorinatesMatrixFileNameMock = 'coorinatesMatrix.txt'
 const stressFileMock = 'stress.txt'
 const otherCharacteristicFileMock = 'other.txt'
 const displacementFileNameMock = 'displacement.txt'
@@ -28,7 +28,7 @@ const indicesMatrixMock = [
   { index: 2, vertex1: 5, vertex2: 6, vertex3: 7, vertex4: 8 }
 ]
 
-const verticesMock = [
+const coorinatesMatrixMock = [
   { index: 1, x: 1, y: 2, z: 3 },
   { index: 2, x: 5, y: 6, z: 7 }
 ]
@@ -59,12 +59,15 @@ describe('modelSlice', () => {
     expect(state.indicesMatrixFileName).toEqual(indicesMatrixFileNameMock)
   })
 
-  it('should set vertices correctly with setVertices', () => {
-    const action = setVertices({ vertices: verticesMock, fileName: verticesFileNameMock })
+  it('should set coorinatesMatrix correctly with setCoorinatesMatrix', () => {
+    const action = setCoorinatesMatrix({
+      coorinatesMatrix: coorinatesMatrixMock,
+      fileName: coorinatesMatrixFileNameMock
+    })
     const state = reducer(initialState, action)
 
-    expect(state.vertices).toMatchObject(verticesMock)
-    expect(state.verticesFileName).toEqual(verticesFileNameMock)
+    expect(state.coorinatesMatrix).toMatchObject(coorinatesMatrixMock)
+    expect(state.coorinatesMatrixFileName).toEqual(coorinatesMatrixFileNameMock)
   })
 
   it('should reset model to the initial state with resetModel', () => {

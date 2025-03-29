@@ -1,17 +1,17 @@
 import {
   parseAnsysIndicesMatrix,
+  parseCoorinatesMatrix,
+  parseDefaultCoorinatesMatrix,
   parseDefaultIndicesMatrix,
   parseDefaultPhysicalQuantity,
   parseDefaultStress,
-  parseDefaultVertices,
   parseIndicesMatrix,
-  parseStress,
-  parseVertices
+  parseStress
 } from '@/lib/parser'
-import { Stress, Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { Stress, VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
-describe('parseDefaultVertices', () => {
+describe('parseDefaultCoorinatesMatrix', () => {
   it('parses valid input correctly', () => {
     const input = '1 1 1 1\n2 2 2 2\n3 3 3 3'
     const expected = [
@@ -19,17 +19,17 @@ describe('parseDefaultVertices', () => {
       { index: 2, x: 2, y: 2, z: 2 },
       { index: 3, x: 3, y: 3, z: 3 }
     ]
-    expect(parseDefaultVertices(input)).toEqual(expected)
+    expect(parseDefaultCoorinatesMatrix(input)).toEqual(expected)
   })
 
   it('should ignore lines with less than 4 elements', () => {
     const input = '1 10 20\n22 22 22 22\n3 70 80'
     const expected = [{ index: 22, x: 22, y: 22, z: 22 }]
-    expect(parseDefaultVertices(input)).toEqual(expected)
+    expect(parseDefaultCoorinatesMatrix(input)).toEqual(expected)
   })
 
   it('handles empty input', () => {
-    expect(parseDefaultVertices('')).toEqual([])
+    expect(parseDefaultCoorinatesMatrix('')).toEqual([])
   })
 
   it('trims spaces and parses correctly', () => {
@@ -39,7 +39,7 @@ describe('parseDefaultVertices', () => {
       { index: 22, x: 22, y: 22, z: 22 },
       { index: 33, x: 33, y: 33, z: 33 }
     ]
-    expect(parseDefaultVertices(input)).toEqual(expected)
+    expect(parseDefaultCoorinatesMatrix(input)).toEqual(expected)
   })
 
   it('parses negative numbers correctly', () => {
@@ -48,12 +48,12 @@ describe('parseDefaultVertices', () => {
       { index: 1, x: -10, y: 20, z: -30 },
       { index: 2, x: -40, y: -50, z: 60 }
     ]
-    expect(parseDefaultVertices(input)).toEqual(expected)
+    expect(parseDefaultCoorinatesMatrix(input)).toEqual(expected)
   })
 
   it('returns empty array if no lines have exactly 4 elements', () => {
     const input = '4 4 4\n5 5 5\n6 6 6'
-    expect(parseDefaultVertices(input)).toEqual([])
+    expect(parseDefaultCoorinatesMatrix(input)).toEqual([])
   })
 })
 
@@ -180,27 +180,27 @@ describe('parseAnsysIndicesMatrix', () => {
   })
 })
 
-describe('parseVertices', () => {
-  it('parses default vertices', () => {
+describe('parseCoorinatesMatrix', () => {
+  it('parses default coorinatesMatrix', () => {
     const input = '1 1 1 1'
     const expected = [{ index: 1, x: 1, y: 1, z: 1 }]
-    expect(parseVertices(input)).toEqual(expected)
+    expect(parseCoorinatesMatrix(input)).toEqual(expected)
   })
 
-  it('parses vertices with no index', () => {
+  it('parses coorinatesMatrix with no index', () => {
     const input = '1 1 0\n2 5 0\n5 3 0\n'
     const expected = [
       { index: 1, x: 1, y: 1, z: 0 },
       { index: 2, x: 2, y: 5, z: 0 },
       { index: 3, x: 5, y: 3, z: 0 }
     ]
-    expect(parseVertices(input)).toEqual(expected)
+    expect(parseCoorinatesMatrix(input)).toEqual(expected)
   })
 
   it('return [] if no parser is matching', () => {
     const input = '123456789'
-    const expected = [] as Vertex[]
-    expect(parseVertices(input)).toEqual(expected)
+    const expected = [] as VertexCoordinate[]
+    expect(parseCoorinatesMatrix(input)).toEqual(expected)
   })
 })
 

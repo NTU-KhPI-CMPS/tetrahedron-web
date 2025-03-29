@@ -2,7 +2,7 @@ import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -32,7 +32,7 @@ export function generateIndicesMatrix(data: VertexIndices[]) {
   )
 }
 
-export function generateVertexPositions(data: Vertex[]) {
+export function generateCoorinatesMatrix(data: VertexCoordinate[]) {
   const positions = new Float32Array(data.flatMap((vertex) => [vertex.x, vertex.y, vertex.z]))
   return positions
 }
@@ -54,8 +54,12 @@ export const loadCharacteristic = async (file: File) => {
   store.dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
 }
 
-export function calculateVerticesDisplacement(vertices: Vertex[], displacement: Vertex[], scale: number) {
-  return vertices.map((vertex, index) => {
+export function calculateCoorinatesMatrixDisplacement(
+  coorinatesMatrix: VertexCoordinate[],
+  displacement: VertexCoordinate[],
+  scale: number
+) {
+  return coorinatesMatrix.map((vertex, index) => {
     return {
       index: vertex.index,
       x: vertex.x + displacement[index].x * scale,

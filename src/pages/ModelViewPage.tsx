@@ -6,12 +6,18 @@ import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
-import { parseVertices } from '@/lib/parser.ts'
+import { parseCoorinatesMatrix } from '@/lib/parser.ts'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
-import { resetModel, setDisplayNodeIndices, setIndicesMatrix, setReady, setVertices } from '@/redux/slices/modelSlice'
+import {
+  resetModel,
+  setCoorinatesMatrix,
+  setDisplayNodeIndices,
+  setIndicesMatrix,
+  setReady
+} from '@/redux/slices/modelSlice'
 import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
-import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -25,10 +31,10 @@ const ModelViewPage = () => {
   const {
     isReady,
     indicesMatrixFileName,
-    verticesFileName,
+    coorinatesMatrixFileName,
     indicesMatrix,
-    vertices,
-    verticesLoaded,
+    coorinatesMatrix,
+    coorinatesMatrixLoaded,
     indicesMatrixLoaded,
     displayNodeIndices,
     displacementLoaded,
@@ -70,23 +76,23 @@ const ModelViewPage = () => {
     [dispatch]
   )
 
-  const onVerticesLoad = useCallback(
-    (vertices: Vertex[], fileName: string) => {
-      dispatch(setVertices({ vertices, fileName }))
+  const onCoorinatesMatrixLoad = useCallback(
+    (coorinatesMatrix: VertexCoordinate[], fileName: string) => {
+      dispatch(setCoorinatesMatrix({ coorinatesMatrix, fileName }))
     },
     [dispatch]
   )
 
   const closeModal = useCallback(() => {
-    dispatch(setReady(indicesMatrix.length > 0 && vertices.length > 0))
+    dispatch(setReady(indicesMatrix.length > 0 && coorinatesMatrix.length > 0))
     setFilesUploaderOpen(false)
-  }, [dispatch, indicesMatrix, vertices])
+  }, [dispatch, indicesMatrix, coorinatesMatrix])
 
   const loadDisplacement = useCallback(
     async (file: File) => {
       const input = await file.text()
-      const displacement = parseVertices(input)
-      const isDisplacementValid = displacement.length === vertices.length
+      const displacement = parseCoorinatesMatrix(input)
+      const isDisplacementValid = displacement.length === coorinatesMatrix.length
 
       if (!isDisplacementValid) {
         openModal({
@@ -103,7 +109,7 @@ const ModelViewPage = () => {
       dispatch(setDisplacement({ displacement, displacementFileName: file.name }))
       dispatch(setDisplay('displacement'))
     },
-    [vertices, t, dispatch, openModal]
+    [coorinatesMatrix, t, dispatch, openModal]
   )
 
   const onDisplacementSwitchClick = useCallback(() => {
@@ -151,14 +157,14 @@ const ModelViewPage = () => {
       </div>
       <FilesUploader
         showFilesUploader={filesUploaderOpen}
-        verticesValid={!verticesLoaded || vertices.length > 1}
-        verticesFileName={verticesFileName}
+        coorinatesMatrixValid={!coorinatesMatrixLoaded || coorinatesMatrix.length > 1}
+        coorinatesMatrixFileName={coorinatesMatrixFileName}
         indicesMatrixFileName={indicesMatrixFileName}
         indicesMatrixValid={!indicesMatrixLoaded || indicesMatrix.length > 1}
-        disableCreateModelButton={!vertices.length || !indicesMatrix.length}
+        disableCreateModelButton={!coorinatesMatrix.length || !indicesMatrix.length}
         closeModal={closeModal}
         onIndicesMatrixLoad={onIndicesMatrixLoad}
-        onVerticesLoad={onVerticesLoad}
+        onCoorinatesMatrixLoad={onCoorinatesMatrixLoad}
         onCreateModelClick={closeModal}
       />
       <ErrorModal />

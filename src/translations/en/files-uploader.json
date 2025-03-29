@@ -1,7 +1,7 @@
 {
   "loadFilesButton": "Load files",
   "createModelButton": "Create Model",
-  "verticesFile": "Vertices file",
+  "coorinatesMatrixFile": "Coorinates Matrix file",
   "indicesMatrixFile": "Indices Matrix file",
   "hint": "Browse and chose the files you want to upload from your computer"
 }

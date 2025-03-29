@@ -3,38 +3,38 @@ import { useTranslation } from 'react-i18next'
 import DragAndDrop from '@/components/DragAndDrop'
 import OutsideClickHandler from '@/components/OutsideClickHandler'
 import { Button } from '@/components/ui/button'
-import { parseIndicesMatrix, parseVertices } from '@/lib/parser'
+import { parseCoorinatesMatrix, parseIndicesMatrix } from '@/lib/parser'
 import { cn } from '@/lib/utils'
-import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 
 interface FilesUploaderProps {
-  verticesFileName: string
-  verticesValid: boolean
+  coorinatesMatrixFileName: string
+  coorinatesMatrixValid: boolean
   indicesMatrixFileName: string
   indicesMatrixValid: boolean
   disableCreateModelButton: boolean
   showFilesUploader?: boolean
   closeModal: () => void
   onIndicesMatrixLoad: (indicesMatrix: VertexIndices[], fileName: string) => void
-  onVerticesLoad: (vertices: Vertex[], fileName: string) => void
+  onCoorinatesMatrixLoad: (coorinatesMatrix: VertexCoordinate[], fileName: string) => void
   onCreateModelClick: () => void
 }
 
 const FilesUploader = ({
-  verticesFileName,
-  verticesValid,
+  coorinatesMatrixFileName,
+  coorinatesMatrixValid,
   indicesMatrixFileName,
   indicesMatrixValid,
   disableCreateModelButton,
   showFilesUploader = true,
   closeModal,
   onIndicesMatrixLoad,
-  onVerticesLoad,
+  onCoorinatesMatrixLoad,
   onCreateModelClick
 }: FilesUploaderProps) => {
   const { t } = useTranslation()
 
-  const verticesHint = verticesFileName === '' ? t('filesUploader.hint') : verticesFileName
+  const coorinatesMatrixHint = coorinatesMatrixFileName === '' ? t('filesUploader.hint') : coorinatesMatrixFileName
   const indicesMatrixHint = indicesMatrixFileName === '' ? t('filesUploader.hint') : indicesMatrixFileName
 
   const outsideClickHandler = () => {
@@ -52,10 +52,10 @@ const FilesUploader = ({
     onIndicesMatrixLoad(indicesMatrix, file.name)
   }
 
-  const onVerticesLoadHandler = async (files: File[]) => {
+  const onCoorinatesMatrixLoadHandler = async (files: File[]) => {
     const file = files[0]
-    const vertices = await parseText(file, parseVertices)
-    onVerticesLoad(vertices, file.name)
+    const coorinatesMatrix = await parseText(file, parseCoorinatesMatrix)
+    onCoorinatesMatrixLoad(coorinatesMatrix, file.name)
   }
 
   if (!showFilesUploader) return null
@@ -69,13 +69,13 @@ const FilesUploader = ({
         <div className="grid aspect-video max-w-7xl grid-rows-[1fr,auto] gap-5 rounded-3xl bg-white p-5 md:gap-10 md:p-10">
           <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:gap-10">
             <DragAndDrop
-              hint={verticesValid ? verticesHint : 'Неможливо зчитати таблицю координат'}
-              onFilesLoad={onVerticesLoadHandler}
-              title={t('filesUploader.verticesFile')}
+              hint={coorinatesMatrixValid ? coorinatesMatrixHint : 'Неможливо зчитати таблицю координат'}
+              onFilesLoad={onCoorinatesMatrixLoadHandler}
+              title={t('filesUploader.coorinatesMatrixFile')}
               className={cn('aspect-square w-64 border border-transparent p-5', {
-                'border-red-500 bg-red-200': !verticesValid
+                'border-red-500 bg-red-200': !coorinatesMatrixValid
               })}
-              buttonClassName={cn({ 'bg-black text-white': !verticesValid })}
+              buttonClassName={cn({ 'bg-black text-white': !coorinatesMatrixValid })}
             />
             <DragAndDrop
               hint={indicesMatrixValid ? indicesMatrixHint : 'Неможливо зчитати матрицю індексів'}

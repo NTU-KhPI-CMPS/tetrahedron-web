@@ -1,5 +1,5 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { ModelPhysicalQuantity, Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { ModelPhysicalQuantity, VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -9,14 +9,14 @@ export interface ModelState {
   indicesMatrix: VertexIndices[]
   indicesMatrixLoaded: boolean
   indicesMatrixFileName: string
-  vertices: Vertex[]
-  verticesLoaded: boolean
-  verticesFileName: string
+  coorinatesMatrix: VertexCoordinate[]
+  coorinatesMatrixLoaded: boolean
+  coorinatesMatrixFileName: string
   isReady: boolean
 
   display: ModelDisplayVariants
 
-  displacement: Vertex[]
+  displacement: VertexCoordinate[]
   displacementLoaded: boolean
   displacementFileName: string | null
 
@@ -34,9 +34,9 @@ export const initialState: ModelState = {
   indicesMatrix: [],
   indicesMatrixLoaded: false,
   indicesMatrixFileName: '',
-  vertices: [],
-  verticesLoaded: false,
-  verticesFileName: '',
+  coorinatesMatrix: [],
+  coorinatesMatrixLoaded: false,
+  coorinatesMatrixFileName: '',
   isReady: false,
 
   display: 'none',
@@ -65,11 +65,11 @@ export const modelSlice = createSlice({
       state.indicesMatrixFileName = fileName
       state.indicesMatrixLoaded = true
     },
-    setVertices: (state, action: PayloadAction<{ vertices: Vertex[]; fileName: string }>) => {
-      const { vertices, fileName } = action.payload
-      state.vertices = vertices
-      state.verticesFileName = fileName
-      state.verticesLoaded = true
+    setCoorinatesMatrix: (state, action: PayloadAction<{ coorinatesMatrix: VertexCoordinate[]; fileName: string }>) => {
+      const { coorinatesMatrix, fileName } = action.payload
+      state.coorinatesMatrix = coorinatesMatrix
+      state.coorinatesMatrixFileName = fileName
+      state.coorinatesMatrixLoaded = true
     },
     setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
       const { stress, fileName } = action.payload
@@ -95,7 +95,10 @@ export const modelSlice = createSlice({
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
     },
-    setDisplacement: (state, action: PayloadAction<{ displacement: Vertex[]; displacementFileName: string }>) => {
+    setDisplacement: (
+      state,
+      action: PayloadAction<{ displacement: VertexCoordinate[]; displacementFileName: string }>
+    ) => {
       const { displacement, displacementFileName } = action.payload
       state.displacement = displacement
       state.displacementLoaded = true
@@ -110,7 +113,7 @@ export const modelSlice = createSlice({
 
 export const {
   setIndicesMatrix,
-  setVertices,
+  setCoorinatesMatrix,
   resetModel,
   setReady,
   setDisplayNodeIndices,

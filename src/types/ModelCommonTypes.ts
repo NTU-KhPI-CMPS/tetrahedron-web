@@ -1,4 +1,4 @@
-export type Vertex = {
+export type VertexCoordinate = {
   index: number
   x: number
   y: number

@@ -1,7 +1,7 @@
 {
   "loadFilesButton": "Bestanden laden",
   "createModelButton": "Model creëren",
-  "verticesFile": "Vertex-bestand",
+  "coorinatesMatrixFile": "Vertex-bestand",
   "indicesMatrixFile": "Index-bestand",
   "hint": "Blader door en kies de bestanden die je vanaf je computer wilt uploaden"
 }

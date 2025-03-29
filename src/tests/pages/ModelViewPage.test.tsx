@@ -1,7 +1,7 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
-import { initialState, default as model, setIndicesMatrix, setVertices } from '@/redux/slices/modelSlice'
-import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
+import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
+import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -19,13 +19,13 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
 })
 
 const indicesMatrix = [{ index: 1, vertex1: 12, vertex2: 14, vertex3: 10, vertex4: 15 }]
-const vertices = [{ index: 1, x: 0, y: 1, z: 0 }]
+const coorinatesMatrix = [{ index: 1, x: 0, y: 1, z: 0 }]
 
 const indicesMatrixFileName = 'indicesMatrix.txt'
-const verticesFileName = 'vertices.txt'
+const coorinatesMatrixFileName = 'coorinatesMatrix.txt'
 
 const indicesMatrixFile = new File(['1 12 14 10 15'], 'indicesMatrix.txt', { type: 'text/plain' })
-const verticesFile = new File(['1 0 1 0'], 'vertices.txt', { type: 'text/plain' })
+const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { type: 'text/plain' })
 
 describe('ModelViewPage', () => {
   it('renders Experience component when isReady is true', () => {
@@ -98,7 +98,7 @@ describe('ModelViewPage', () => {
     expect(store.dispatch).toHaveBeenCalledWith(setIndicesMatrix({ indicesMatrix, fileName: indicesMatrixFileName }))
   })
 
-  it('should dispatch setVertices when vertices are loaded', () => {
+  it('should dispatch setCoorinatesMatrix when coorinatesMatrix are loaded', () => {
     Object.defineProperty(File.prototype, 'text', {
       value: vi.fn(() => '1 12 14 10 15'),
       writable: true
@@ -118,20 +118,22 @@ describe('ModelViewPage', () => {
       </Provider>
     )
 
-    const verticesDropZone = screen.getByText('filesUploader.verticesFile')
-    fireEvent.drop(verticesDropZone, {
+    const coorinatesMatrixDropZone = screen.getByText('filesUploader.coorinatesMatrixFile')
+    fireEvent.drop(coorinatesMatrixDropZone, {
       dataTransfer: {
-        files: [verticesFile]
+        files: [coorinatesMatrixFile]
       }
     })
 
-    const onVerticesLoad = (vertices: Vertex[], fileName: string) => {
-      store.dispatch(setVertices({ vertices, fileName }))
+    const onCoorinatesMatrixLoad = (coorinatesMatrix: VertexCoordinate[], fileName: string) => {
+      store.dispatch(setCoorinatesMatrix({ coorinatesMatrix, fileName }))
     }
 
-    onVerticesLoad(vertices, verticesFileName)
+    onCoorinatesMatrixLoad(coorinatesMatrix, coorinatesMatrixFileName)
 
-    expect(store.dispatch).toHaveBeenCalledWith(setVertices({ vertices, fileName: verticesFileName }))
+    expect(store.dispatch).toHaveBeenCalledWith(
+      setCoorinatesMatrix({ coorinatesMatrix, fileName: coorinatesMatrixFileName })
+    )
   })
 
   it.skip('should dispatch setReady and close FileUploader when clicking on create model button', () => {
