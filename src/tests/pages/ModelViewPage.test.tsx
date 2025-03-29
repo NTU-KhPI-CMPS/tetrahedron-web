@@ -1,7 +1,7 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
 import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
-import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -89,7 +89,7 @@ describe('ModelViewPage', () => {
       }
     })
 
-    const onIndicesMatrixLoad = (indicesMatrix: VertexIndices[], fileName: string) => {
+    const onIndicesMatrixLoad = (indicesMatrix: ElementIndices[], fileName: string) => {
       store.dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
     }
 

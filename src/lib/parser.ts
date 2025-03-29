@@ -1,4 +1,4 @@
-import { ModelPhysicalQuantity, Stress, VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
 
 type ParsedLine = string[]
 
@@ -17,7 +17,7 @@ function hasValidLineFormat(input: string, expectedLength: number): boolean {
   return filterByLength(parseLines(input), expectedLength).length > 0
 }
 
-export function parseIndicesMatrix(input: string): VertexIndices[] {
+export function parseIndicesMatrix(input: string): ElementIndices[] {
   if (isDefaultIndicesMatrix(input)) return parseDefaultIndicesMatrix(input)
   if (isAnsysIndicesMatrix(input)) return parseAnsysIndicesMatrix(input)
   if (isIndicesMatrixWithNoIndex(input)) return parseIndicesMatrixWithNoIndex(input)
@@ -48,7 +48,7 @@ export function parseCoorinatesMatrixWithNoIndex(input: string): VertexCoordinat
   }))
 }
 
-export function parseDefaultIndicesMatrix(input: string): VertexIndices[] {
+export function parseDefaultIndicesMatrix(input: string): ElementIndices[] {
   return filterByLength(parseLines(input), 5).map(([index, vertex1, vertex2, vertex3, vertex4]) => ({
     index: Number(index),
     vertex1: Number(vertex1),
@@ -58,7 +58,7 @@ export function parseDefaultIndicesMatrix(input: string): VertexIndices[] {
   }))
 }
 
-export function parseIndicesMatrixWithNoIndex(input: string): VertexIndices[] {
+export function parseIndicesMatrixWithNoIndex(input: string): ElementIndices[] {
   return filterByLength(parseLines(input), 4).map(([vertex1, vertex2, vertex3, vertex4], index) => ({
     index: index + 1,
     vertex1: Number(vertex1),
@@ -98,7 +98,7 @@ export function parseStress(input: string): Stress[] {
   return []
 }
 
-export function parseAnsysIndicesMatrix(input: string): VertexIndices[] {
+export function parseAnsysIndicesMatrix(input: string): ElementIndices[] {
   const ansysIndicesMatrixFields = { index: 0, vertex1: 6, vertex2: 7, vertex3: 8, vertex4: 10 }
   return filterByLength(parseLines(input), 14).map((line) => {
     const { index, vertex1, vertex2, vertex3, vertex4 } = ansysIndicesMatrixFields

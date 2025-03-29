@@ -5,7 +5,7 @@ import OutsideClickHandler from '@/components/OutsideClickHandler'
 import { Button } from '@/components/ui/button'
 import { parseCoorinatesMatrix, parseIndicesMatrix } from '@/lib/parser'
 import { cn } from '@/lib/utils'
-import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 
 interface FilesUploaderProps {
   coorinatesMatrixFileName: string
@@ -15,7 +15,7 @@ interface FilesUploaderProps {
   disableCreateModelButton: boolean
   showFilesUploader?: boolean
   closeModal: () => void
-  onIndicesMatrixLoad: (indicesMatrix: VertexIndices[], fileName: string) => void
+  onIndicesMatrixLoad: (indicesMatrix: ElementIndices[], fileName: string) => void
   onCoorinatesMatrixLoad: (coorinatesMatrix: VertexCoordinate[], fileName: string) => void
   onCreateModelClick: () => void
 }

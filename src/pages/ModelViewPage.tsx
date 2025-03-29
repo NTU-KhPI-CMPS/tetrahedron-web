@@ -17,7 +17,7 @@ import {
   setReady
 } from '@/redux/slices/modelSlice'
 import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
-import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -70,7 +70,7 @@ const ModelViewPage = () => {
   )
 
   const onIndicesMatrixLoad = useCallback(
-    (indicesMatrix: VertexIndices[], fileName: string) => {
+    (indicesMatrix: ElementIndices[], fileName: string) => {
       dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
     },
     [dispatch]

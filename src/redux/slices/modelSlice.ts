@@ -1,12 +1,12 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { ModelPhysicalQuantity, VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
 
 export interface ModelState {
-  indicesMatrix: VertexIndices[]
+  indicesMatrix: ElementIndices[]
   indicesMatrixLoaded: boolean
   indicesMatrixFileName: string
   coorinatesMatrix: VertexCoordinate[]
@@ -59,7 +59,7 @@ export const modelSlice = createSlice({
   name: 'model',
   initialState,
   reducers: {
-    setIndicesMatrix: (state, action: PayloadAction<{ indicesMatrix: VertexIndices[]; fileName: string }>) => {
+    setIndicesMatrix: (state, action: PayloadAction<{ indicesMatrix: ElementIndices[]; fileName: string }>) => {
       const { indicesMatrix, fileName } = action.payload
       state.indicesMatrix = indicesMatrix
       state.indicesMatrixFileName = fileName

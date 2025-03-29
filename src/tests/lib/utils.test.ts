@@ -3,7 +3,7 @@ import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUt
 import { calculateCoorinatesMatrixDisplacement, generateCoorinatesMatrix, generateIndicesMatrix } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
 vi.mock('@/hooks/use-redux', () => ({
@@ -25,7 +25,7 @@ describe('generateIndicesMatrix', () => {
   })
 
   it('handles empty input gracefully', () => {
-    const input: VertexIndices[] = []
+    const input: ElementIndices[] = []
     const expected = new Uint16Array([])
     expect(generateIndicesMatrix(input)).toEqual(expected)
   })

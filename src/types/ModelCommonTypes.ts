@@ -5,7 +5,7 @@ export type VertexCoordinate = {
   z: number
 }
 
-export type VertexIndices = {
+export type ElementIndices = {
   index: number
   vertex1: number
   vertex2: number

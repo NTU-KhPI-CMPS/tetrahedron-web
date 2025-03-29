@@ -8,7 +8,7 @@ import {
   parseIndicesMatrix,
   parseStress
 } from '@/lib/parser'
-import { Stress, VertexCoordinate, VertexIndices } from '@/types/ModelCommonTypes'
+import { ElementIndices, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
 describe('parseDefaultCoorinatesMatrix', () => {
@@ -228,7 +228,7 @@ describe('parseIndicesMatrix', () => {
 
   it('return [] if no parser is matching', () => {
     const input = '98746554321'
-    const expected = [] as VertexIndices[]
+    const expected = [] as ElementIndices[]
     expect(parseIndicesMatrix(input)).toEqual(expected)
   })
 })
