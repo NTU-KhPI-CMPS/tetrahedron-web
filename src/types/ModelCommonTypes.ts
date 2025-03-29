@@ -5,7 +5,7 @@ export type Vertex = {
   z: number
 }
 
-export type Face = {
+export type VertexIndices = {
   index: number
   vertex1: number
   vertex2: number

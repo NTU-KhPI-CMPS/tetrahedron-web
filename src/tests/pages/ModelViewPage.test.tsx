@@ -1,7 +1,7 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
 import { initialState, default as model, setFaces, setVertices } from '@/redux/slices/modelSlice'
-import { Face, Vertex } from '@/types/ModelCommonTypes'
+import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -89,7 +89,7 @@ describe('ModelViewPage', () => {
       }
     })
 
-    const onFacesLoad = (faces: Face[], fileName: string) => {
+    const onFacesLoad = (faces: VertexIndices[], fileName: string) => {
       store.dispatch(setFaces({ faces, fileName }))
     }
 

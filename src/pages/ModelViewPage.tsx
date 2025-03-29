@@ -11,7 +11,7 @@ import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import { resetModel, setDisplayNodeIndices, setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
 import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
-import { Face, Vertex } from '@/types/ModelCommonTypes'
+import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -64,7 +64,7 @@ const ModelViewPage = () => {
   )
 
   const onFacesLoad = useCallback(
-    (faces: Face[], fileName: string) => {
+    (faces: VertexIndices[], fileName: string) => {
       dispatch(setFaces({ faces, fileName }))
     },
     [dispatch]

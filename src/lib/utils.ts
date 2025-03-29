@@ -2,7 +2,7 @@ import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser'
 import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { Face, Vertex } from '@/types/ModelCommonTypes'
+import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function generateFaceIndexArray(data: Face[]) {
+export function generateFaceIndexArray(data: VertexIndices[]) {
   return new Uint16Array(
     data.flatMap((face) => [
       face.vertex2 - 1,

@@ -3,7 +3,7 @@ import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { calculateVerticesDisplacement, generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { Face, Vertex } from '@/types/ModelCommonTypes'
+import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
 vi.mock('@/hooks/use-redux', () => ({
@@ -47,7 +47,7 @@ describe('generateFaceIndexArray', () => {
   })
 
   it('handles empty input gracefully', () => {
-    const input: Face[] = []
+    const input: VertexIndices[] = []
     const expected = new Uint16Array([])
     expect(generateFaceIndexArray(input)).toEqual(expected)
   })

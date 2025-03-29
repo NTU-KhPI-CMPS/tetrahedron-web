@@ -8,7 +8,7 @@ import {
   parseStress,
   parseVertices
 } from '@/lib/parser'
-import { Face, Stress, Vertex } from '@/types/ModelCommonTypes'
+import { Stress, Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
 describe('parseDefaultVertices', () => {
@@ -232,7 +232,7 @@ describe('parseFaces', () => {
 
   it('return [] if no parser is matching', () => {
     const input = '98746554321'
-    const expected = [] as Face[]
+    const expected = [] as VertexIndices[]
     expect(parseFaces(input)).toEqual(expected)
   })
 })

@@ -5,7 +5,7 @@ import OutsideClickHandler from '@/components/OutsideClickHandler'
 import { Button } from '@/components/ui/button'
 import { parseFaces, parseVertices } from '@/lib/parser'
 import { cn } from '@/lib/utils'
-import { Face, Vertex } from '@/types/ModelCommonTypes'
+import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 
 interface FilesUploaderProps {
   verticesFileName: string
@@ -15,7 +15,7 @@ interface FilesUploaderProps {
   disableCreateModelButton: boolean
   showFilesUploader?: boolean
   closeModal: () => void
-  onFacesLoad: (faces: Face[], fileName: string) => void
+  onFacesLoad: (faces: VertexIndices[], fileName: string) => void
   onVerticesLoad: (vertices: Vertex[], fileName: string) => void
   onCreateModelClick: () => void
 }
