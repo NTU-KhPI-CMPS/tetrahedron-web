@@ -6,9 +6,9 @@ import { createSlice } from '@reduxjs/toolkit'
 type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
 
 export interface ModelState {
-  faces: VertexIndices[]
-  facesLoaded: boolean
-  facesFileName: string
+  indicesMatrix: VertexIndices[]
+  indicesMatrixLoaded: boolean
+  indicesMatrixFileName: string
   vertices: Vertex[]
   verticesLoaded: boolean
   verticesFileName: string
@@ -31,9 +31,9 @@ export interface ModelState {
 }
 
 export const initialState: ModelState = {
-  faces: [],
-  facesLoaded: false,
-  facesFileName: '',
+  indicesMatrix: [],
+  indicesMatrixLoaded: false,
+  indicesMatrixFileName: '',
   vertices: [],
   verticesLoaded: false,
   verticesFileName: '',
@@ -59,11 +59,11 @@ export const modelSlice = createSlice({
   name: 'model',
   initialState,
   reducers: {
-    setFaces: (state, action: PayloadAction<{ faces: VertexIndices[]; fileName: string }>) => {
-      const { faces, fileName } = action.payload
-      state.faces = faces
-      state.facesFileName = fileName
-      state.facesLoaded = true
+    setIndicesMatrix: (state, action: PayloadAction<{ indicesMatrix: VertexIndices[]; fileName: string }>) => {
+      const { indicesMatrix, fileName } = action.payload
+      state.indicesMatrix = indicesMatrix
+      state.indicesMatrixFileName = fileName
+      state.indicesMatrixLoaded = true
     },
     setVertices: (state, action: PayloadAction<{ vertices: Vertex[]; fileName: string }>) => {
       const { vertices, fileName } = action.payload
@@ -109,7 +109,7 @@ export const modelSlice = createSlice({
 })
 
 export const {
-  setFaces,
+  setIndicesMatrix,
   setVertices,
   resetModel,
   setReady,

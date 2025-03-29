@@ -8,7 +8,7 @@
   "section1": {
     "number": "1",
     "header": "File Upload and Processing:",
-    "body": "The program allows you to upload files with node coordinates and element faces to build the model. Additionally, files with displacements, stresses, forces, and constraints can be uploaded. If additional data is required for the selected mode, the program will notify you."
+    "body": "The program allows you to upload files with node coordinates and indices matrix to build the model. Additionally, files with displacements, stresses, forces, and constraints can be uploaded. If additional data is required for the selected mode, the program will notify you."
   },
   "section2": {
     "number": "2",
@@ -18,6 +18,6 @@
   "section3": {
     "number": "3",
     "header": "Analysis and Customization:",
-    "body": "Users can toggle the visibility of node and element faces, view model cross-sections, and select individual nodes for detailed analysis. Hovering over a node displays information about it for easier interaction."
+    "body": "Users can toggle the visibility of nodes, view model cross-sections, and select individual nodes for detailed analysis. Hovering over a node displays information about it for easier interaction."
   }
 }

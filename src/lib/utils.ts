@@ -10,24 +10,24 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function generateFaceIndexArray(data: VertexIndices[]) {
+export function generateIndicesMatrix(data: VertexIndices[]) {
   return new Uint16Array(
-    data.flatMap((face) => [
-      face.vertex2 - 1,
-      face.vertex1 - 1,
-      face.vertex3 - 1,
+    data.flatMap((indicesMatrix) => [
+      indicesMatrix.vertex2 - 1,
+      indicesMatrix.vertex1 - 1,
+      indicesMatrix.vertex3 - 1,
 
-      face.vertex1 - 1,
-      face.vertex2 - 1,
-      face.vertex4 - 1,
+      indicesMatrix.vertex1 - 1,
+      indicesMatrix.vertex2 - 1,
+      indicesMatrix.vertex4 - 1,
 
-      face.vertex2 - 1,
-      face.vertex3 - 1,
-      face.vertex4 - 1,
+      indicesMatrix.vertex2 - 1,
+      indicesMatrix.vertex3 - 1,
+      indicesMatrix.vertex4 - 1,
 
-      face.vertex3 - 1,
-      face.vertex1 - 1,
-      face.vertex4 - 1
+      indicesMatrix.vertex3 - 1,
+      indicesMatrix.vertex1 - 1,
+      indicesMatrix.vertex4 - 1
     ])
   )
 }

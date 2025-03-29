@@ -1,13 +1,13 @@
 import NodeDisplay from '@/components/NodeDisplay'
 import { useAppSelector } from '@/hooks/use-redux'
-import { calculateVerticesDisplacement, generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
+import { calculateVerticesDisplacement, generateIndicesMatrix, generateVertexPositions } from '@/lib/utils'
 import { Wireframe } from '@react-three/drei'
 import { FC, useRef } from 'react'
 import { shallowEqual } from 'react-redux'
 import * as THREE from 'three'
 
 const CustomGeometry: FC = () => {
-  const { vertices, faces, colors, displacement, displayNodeIndices, display } = useAppSelector(
+  const { vertices, indicesMatrix, colors, displacement, displayNodeIndices, display } = useAppSelector(
     (store) => store.model,
     shallowEqual
   )
@@ -20,7 +20,7 @@ const CustomGeometry: FC = () => {
 
   const verticesToUse = display === 'displacement' ? calculateVerticesDisplacement(vertices, displacement, 1) : vertices
   const position = generateVertexPositions(verticesToUse)
-  const indexArray = generateFaceIndexArray(faces)
+  const indexArray = generateIndicesMatrix(indicesMatrix)
 
   const colorArray = colors ? new Float32Array(colors) : new Float32Array([])
   const canUseColors = display === 'otherCharacteristic' || display === 'stress'

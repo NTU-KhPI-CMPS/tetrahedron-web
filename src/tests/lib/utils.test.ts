@@ -1,6 +1,6 @@
 import { parseStress } from '@/lib/parser'
 import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
-import { calculateVerticesDisplacement, generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
+import { calculateVerticesDisplacement, generateIndicesMatrix, generateVertexPositions } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
 import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
@@ -10,58 +10,36 @@ vi.mock('@/hooks/use-redux', () => ({
   useAppDispatch: () => vi.fn()
 }))
 
-describe('generateFaceIndexArray', () => {
+describe('generateIndicesMatrix', () => {
   it('generates correct index array for valid input', () => {
     const input = [
       { index: 1, vertex1: 1, vertex2: 2, vertex3: 3, vertex4: 4 },
       { index: 2, vertex1: 5, vertex2: 6, vertex3: 7, vertex4: 8 }
     ]
-    const expected = new Uint16Array([
-      1,
-      0,
-      2, // face 1
-      0,
-      1,
-      3,
-      1,
-      2,
-      3,
-      2,
-      0,
-      3,
 
-      5,
-      4,
-      6, // face 2
-      4,
-      5,
-      7,
-      5,
-      6,
-      7,
-      6,
-      4,
-      7
-    ])
-    expect(generateFaceIndexArray(input)).toEqual(expected)
+    const vertexIndices1 = [1, 0, 2, 0, 1, 3, 1, 2, 3, 2, 0, 3]
+    const vertexIndices2 = [5, 4, 6, 4, 5, 7, 5, 6, 7, 6, 4, 7]
+
+    const expected = new Uint16Array([...vertexIndices1, ...vertexIndices2])
+    expect(generateIndicesMatrix(input)).toEqual(expected)
   })
 
   it('handles empty input gracefully', () => {
     const input: VertexIndices[] = []
     const expected = new Uint16Array([])
-    expect(generateFaceIndexArray(input)).toEqual(expected)
+    expect(generateIndicesMatrix(input)).toEqual(expected)
   })
 
-  it('handles faces with vertex indices of 1', () => {
+  it('handles indicesMatrix with vertex indices of 1', () => {
     const input = [{ index: 1, vertex1: 1, vertex2: 1, vertex3: 1, vertex4: 1 }]
     const expected = new Uint16Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    expect(generateFaceIndexArray(input)).toEqual(expected)
+    expect(generateIndicesMatrix(input)).toEqual(expected)
   })
 
-  it('generates correct index array for a single face', () => {
+  it('generates correct index array for a single entry of vertexIndices', () => {
     const input = [{ index: 1, vertex1: 1, vertex2: 2, vertex3: 3, vertex4: 4 }]
     const expected = new Uint16Array([1, 0, 2, 0, 1, 3, 1, 2, 3, 2, 0, 3])
-    expect(generateFaceIndexArray(input)).toEqual(expected)
+    expect(generateIndicesMatrix(input)).toEqual(expected)
   })
 })
 
@@ -123,7 +101,7 @@ describe('loadStress', () => {
     expect(buildPhysicalQuantity(input)).toEqual(expected)
   })
 
-  it(' should dispatch setStress with correct data', async () => {
+  it('should dispatch setStress with correct data', async () => {
     const stress = {
       values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
       min: 13.07669683062202,

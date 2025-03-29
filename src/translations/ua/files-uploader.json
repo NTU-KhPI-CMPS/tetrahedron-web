@@ -2,6 +2,6 @@
   "loadFilesButton": "Завантажити файли",
   "createModelButton": "Створити модель",
   "verticesFile": "Файл вершин",
-  "facesFile": "Файл індексів",
+  "indicesMatrixFile": "Файл індексів",
   "hint": "Оберіть файли, які ви хочете завантажити зі свого комп'ютера"
 }

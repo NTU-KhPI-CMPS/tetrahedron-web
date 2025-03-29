@@ -17,10 +17,10 @@ function hasValidLineFormat(input: string, expectedLength: number): boolean {
   return filterByLength(parseLines(input), expectedLength).length > 0
 }
 
-export function parseFaces(input: string): VertexIndices[] {
-  if (isDefaultFaces(input)) return parseDefaultFaces(input)
-  if (isAnsysFaces(input)) return parseAnsysFaces(input)
-  if (isFacesWithNoIndex(input)) return parseFacesWithNoIndex(input)
+export function parseIndicesMatrix(input: string): VertexIndices[] {
+  if (isDefaultIndicesMatrix(input)) return parseDefaultIndicesMatrix(input)
+  if (isAnsysIndicesMatrix(input)) return parseAnsysIndicesMatrix(input)
+  if (isIndicesMatrixWithNoIndex(input)) return parseIndicesMatrixWithNoIndex(input)
   return []
 }
 
@@ -48,7 +48,7 @@ export function parseVerticesWithNoIndex(input: string): Vertex[] {
   }))
 }
 
-export function parseDefaultFaces(input: string): VertexIndices[] {
+export function parseDefaultIndicesMatrix(input: string): VertexIndices[] {
   return filterByLength(parseLines(input), 5).map(([index, vertex1, vertex2, vertex3, vertex4]) => ({
     index: Number(index),
     vertex1: Number(vertex1),
@@ -58,7 +58,7 @@ export function parseDefaultFaces(input: string): VertexIndices[] {
   }))
 }
 
-export function parseFacesWithNoIndex(input: string): VertexIndices[] {
+export function parseIndicesMatrixWithNoIndex(input: string): VertexIndices[] {
   return filterByLength(parseLines(input), 4).map(([vertex1, vertex2, vertex3, vertex4], index) => ({
     index: index + 1,
     vertex1: Number(vertex1),
@@ -100,10 +100,10 @@ export function parseStress(input: string): Stress[] {
 }
 
 //Ansys
-export function parseAnsysFaces(input: string): VertexIndices[] {
-  const ansysFacesFields = { index: 0, vertex1: 6, vertex2: 7, vertex3: 8, vertex4: 10 }
+export function parseAnsysIndicesMatrix(input: string): VertexIndices[] {
+  const ansysIndicesMatrixFields = { index: 0, vertex1: 6, vertex2: 7, vertex3: 8, vertex4: 10 }
   return filterByLength(parseLines(input), 14).map((line) => {
-    const { index, vertex1, vertex2, vertex3, vertex4 } = ansysFacesFields
+    const { index, vertex1, vertex2, vertex3, vertex4 } = ansysIndicesMatrixFields
     return {
       index: Number(line[index]),
       vertex1: Number(line[vertex1]),
@@ -122,15 +122,15 @@ export function isVerticesWithNoIndex(input: string): boolean {
   return hasValidLineFormat(input, 3)
 }
 
-export function isDefaultFaces(input: string): boolean {
+export function isDefaultIndicesMatrix(input: string): boolean {
   return hasValidLineFormat(input, 5)
 }
 
-export function isFacesWithNoIndex(input: string): boolean {
+export function isIndicesMatrixWithNoIndex(input: string): boolean {
   return hasValidLineFormat(input, 4)
 }
 
-export function isAnsysFaces(input: string): boolean {
+export function isAnsysIndicesMatrix(input: string): boolean {
   return hasValidLineFormat(input, 14)
 }
 

@@ -9,7 +9,7 @@ import { useModal } from '@/hooks/useModal'
 import { parseVertices } from '@/lib/parser.ts'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
-import { resetModel, setDisplayNodeIndices, setFaces, setReady, setVertices } from '@/redux/slices/modelSlice'
+import { resetModel, setDisplayNodeIndices, setIndicesMatrix, setReady, setVertices } from '@/redux/slices/modelSlice'
 import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
 import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
@@ -24,12 +24,12 @@ import { shallowEqual } from 'react-redux'
 const ModelViewPage = () => {
   const {
     isReady,
-    facesFileName,
+    indicesMatrixFileName,
     verticesFileName,
-    faces,
+    indicesMatrix,
     vertices,
     verticesLoaded,
-    facesLoaded,
+    indicesMatrixLoaded,
     displayNodeIndices,
     displacementLoaded,
     displacementFileName,
@@ -63,9 +63,9 @@ const ModelViewPage = () => {
     [t, onModelDelete]
   )
 
-  const onFacesLoad = useCallback(
-    (faces: VertexIndices[], fileName: string) => {
-      dispatch(setFaces({ faces, fileName }))
+  const onIndicesMatrixLoad = useCallback(
+    (indicesMatrix: VertexIndices[], fileName: string) => {
+      dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
     },
     [dispatch]
   )
@@ -78,9 +78,9 @@ const ModelViewPage = () => {
   )
 
   const closeModal = useCallback(() => {
-    dispatch(setReady(faces.length > 0 && vertices.length > 0))
+    dispatch(setReady(indicesMatrix.length > 0 && vertices.length > 0))
     setFilesUploaderOpen(false)
-  }, [dispatch, faces, vertices])
+  }, [dispatch, indicesMatrix, vertices])
 
   const loadDisplacement = useCallback(
     async (file: File) => {
@@ -153,11 +153,11 @@ const ModelViewPage = () => {
         showFilesUploader={filesUploaderOpen}
         verticesValid={!verticesLoaded || vertices.length > 1}
         verticesFileName={verticesFileName}
-        facesFileName={facesFileName}
-        facesValid={!facesLoaded || faces.length > 1}
-        disableCreateModelButton={!vertices.length || !faces.length}
+        indicesMatrixFileName={indicesMatrixFileName}
+        indicesMatrixValid={!indicesMatrixLoaded || indicesMatrix.length > 1}
+        disableCreateModelButton={!vertices.length || !indicesMatrix.length}
         closeModal={closeModal}
-        onFacesLoad={onFacesLoad}
+        onIndicesMatrixLoad={onIndicesMatrixLoad}
         onVerticesLoad={onVerticesLoad}
         onCreateModelClick={closeModal}
       />

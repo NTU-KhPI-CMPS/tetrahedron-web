@@ -3,18 +3,18 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 const propsMock = {
   verticesValid: true,
-  facesValid: true,
+  indicesMatrixValid: true,
   verticesFileName: 'vertices.txt',
-  facesFileName: 'faces.txt',
+  indicesMatrixFileName: 'indicesMatrix.txt',
   disableCreateModelButton: true,
   closeModal: vi.fn(),
-  onFacesLoad: vi.fn(() => '1 12 14 10 15'),
+  onIndicesMatrixLoad: vi.fn(() => '1 12 14 10 15'),
   onVerticesLoad: vi.fn(() => '1 2 3'),
   onCreateModelClick: vi.fn()
 }
 
 const verticesFile = new File(['1 0 1 0'], 'vertices.txt', { type: 'text/plain' })
-const facesFile = new File(['1 12 14 10 15'], 'faces.txt', { type: 'text/plain' })
+const indicesMatrixFile = new File(['1 12 14 10 15'], 'indicesMatrix.txt', { type: 'text/plain' })
 
 describe('FilesUploader', () => {
   it('should call closeModal callback when clicked outside', () => {
@@ -31,8 +31,8 @@ describe('FilesUploader', () => {
     expect(propsMock.closeModal).toHaveBeenCalled()
   })
 
-  it('should render default hints if the fileName is not provided for vertices or faces', () => {
-    const props = { ...propsMock, verticesFileName: '', facesFileName: '' }
+  it('should render default hints if the fileName is not provided for vertices or indicesMatrix', () => {
+    const props = { ...propsMock, verticesFileName: '', indicesMatrixFileName: '' }
     render(<FilesUploader {...props} />)
 
     const defaulHints = screen.getAllByText('filesUploader.hint')
@@ -58,21 +58,21 @@ describe('FilesUploader', () => {
     expect(propsMock.onVerticesLoad).toHaveBeenCalled()
   })
 
-  it('should call onFacesLoad when faces file is loaded', () => {
+  it('should call onIndicesMatrixLoad when indicesMatrix file is loaded', () => {
     Object.defineProperty(File.prototype, 'text', {
-      value: propsMock.onFacesLoad,
+      value: propsMock.onIndicesMatrixLoad,
       writable: true
     })
 
     render(<FilesUploader {...propsMock} />)
-    const facesDropZone = screen.getByText('filesUploader.facesFile')
+    const indicesMatrixDropZone = screen.getByText('filesUploader.indicesMatrixFile')
 
-    fireEvent.drop(facesDropZone, {
+    fireEvent.drop(indicesMatrixDropZone, {
       dataTransfer: {
-        files: [facesFile]
+        files: [indicesMatrixFile]
       }
     })
 
-    expect(propsMock.onFacesLoad).toHaveBeenCalled()
+    expect(propsMock.onIndicesMatrixLoad).toHaveBeenCalled()
   })
 })

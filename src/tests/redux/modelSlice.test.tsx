@@ -6,7 +6,7 @@ import reducer, {
   setDisplacement,
   setDisplay,
   setDisplayNodeIndices,
-  setFaces,
+  setIndicesMatrix,
   setReady,
   setStress,
   setVertices
@@ -17,13 +17,13 @@ vi.mock('@/lib/colorUtils', () => ({
   generateColorArray: vi.fn()
 }))
 
-const facesFileNameMock = 'faces.txt'
+const indicesMatrixFileNameMock = 'indicesMatrix.txt'
 const verticesFileNameMock = 'vertices.txt'
 const stressFileMock = 'stress.txt'
 const otherCharacteristicFileMock = 'other.txt'
 const displacementFileNameMock = 'displacement.txt'
 
-const facesMock = [
+const indicesMatrixMock = [
   { index: 1, vertex1: 1, vertex2: 2, vertex3: 3, vertex4: 4 },
   { index: 2, vertex1: 5, vertex2: 6, vertex3: 7, vertex4: 8 }
 ]
@@ -51,12 +51,12 @@ const displacementMock = [
 ]
 
 describe('modelSlice', () => {
-  it('should set faces correctly with setFaces', () => {
-    const action = setFaces({ faces: facesMock, fileName: facesFileNameMock })
+  it('should set indicesMatrix correctly with setIndicesMatrix', () => {
+    const action = setIndicesMatrix({ indicesMatrix: indicesMatrixMock, fileName: indicesMatrixFileNameMock })
     const state = reducer(initialState, action)
 
-    expect(state.faces).toMatchObject(facesMock)
-    expect(state.facesFileName).toEqual(facesFileNameMock)
+    expect(state.indicesMatrix).toMatchObject(indicesMatrixMock)
+    expect(state.indicesMatrixFileName).toEqual(indicesMatrixFileNameMock)
   })
 
   it('should set vertices correctly with setVertices', () => {

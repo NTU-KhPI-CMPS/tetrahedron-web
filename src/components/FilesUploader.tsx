@@ -3,19 +3,19 @@ import { useTranslation } from 'react-i18next'
 import DragAndDrop from '@/components/DragAndDrop'
 import OutsideClickHandler from '@/components/OutsideClickHandler'
 import { Button } from '@/components/ui/button'
-import { parseFaces, parseVertices } from '@/lib/parser'
+import { parseIndicesMatrix, parseVertices } from '@/lib/parser'
 import { cn } from '@/lib/utils'
 import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 
 interface FilesUploaderProps {
   verticesFileName: string
   verticesValid: boolean
-  facesFileName: string
-  facesValid: boolean
+  indicesMatrixFileName: string
+  indicesMatrixValid: boolean
   disableCreateModelButton: boolean
   showFilesUploader?: boolean
   closeModal: () => void
-  onFacesLoad: (faces: VertexIndices[], fileName: string) => void
+  onIndicesMatrixLoad: (indicesMatrix: VertexIndices[], fileName: string) => void
   onVerticesLoad: (vertices: Vertex[], fileName: string) => void
   onCreateModelClick: () => void
 }
@@ -23,19 +23,19 @@ interface FilesUploaderProps {
 const FilesUploader = ({
   verticesFileName,
   verticesValid,
-  facesFileName,
-  facesValid,
+  indicesMatrixFileName,
+  indicesMatrixValid,
   disableCreateModelButton,
   showFilesUploader = true,
   closeModal,
-  onFacesLoad,
+  onIndicesMatrixLoad,
   onVerticesLoad,
   onCreateModelClick
 }: FilesUploaderProps) => {
   const { t } = useTranslation()
 
   const verticesHint = verticesFileName === '' ? t('filesUploader.hint') : verticesFileName
-  const facesHint = facesFileName === '' ? t('filesUploader.hint') : facesFileName
+  const indicesMatrixHint = indicesMatrixFileName === '' ? t('filesUploader.hint') : indicesMatrixFileName
 
   const outsideClickHandler = () => {
     closeModal()
@@ -46,10 +46,10 @@ const FilesUploader = ({
     return parser(input)
   }
 
-  const onFacesLoadHandler = async (files: File[]) => {
+  const onIndicesMatrixLoadHandler = async (files: File[]) => {
     const file = files[0]
-    const faces = await parseText(files[0], parseFaces)
-    onFacesLoad(faces, file.name)
+    const indicesMatrix = await parseText(files[0], parseIndicesMatrix)
+    onIndicesMatrixLoad(indicesMatrix, file.name)
   }
 
   const onVerticesLoadHandler = async (files: File[]) => {
@@ -78,13 +78,13 @@ const FilesUploader = ({
               buttonClassName={cn({ 'bg-black text-white': !verticesValid })}
             />
             <DragAndDrop
-              hint={facesValid ? facesHint : 'Неможливо зчитати матрицю індексів'}
-              onFilesLoad={onFacesLoadHandler}
-              title={t('filesUploader.facesFile')}
+              hint={indicesMatrixValid ? indicesMatrixHint : 'Неможливо зчитати матрицю індексів'}
+              onFilesLoad={onIndicesMatrixLoadHandler}
+              title={t('filesUploader.indicesMatrixFile')}
               className={cn('aspect-square w-64 border border-transparent p-5', {
-                'border-red-500 bg-red-200': !facesValid
+                'border-red-500 bg-red-200': !indicesMatrixValid
               })}
-              buttonClassName={cn({ 'bg-black text-white': !facesValid })}
+              buttonClassName={cn({ 'bg-black text-white': !indicesMatrixValid })}
             />
           </div>
           <div className="flex items-center justify-end">

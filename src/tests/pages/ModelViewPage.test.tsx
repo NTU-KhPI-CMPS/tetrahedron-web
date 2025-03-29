@@ -1,6 +1,6 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
-import { initialState, default as model, setFaces, setVertices } from '@/redux/slices/modelSlice'
+import { initialState, default as model, setIndicesMatrix, setVertices } from '@/redux/slices/modelSlice'
 import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -18,13 +18,13 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
   writable: true
 })
 
-const faces = [{ index: 1, vertex1: 12, vertex2: 14, vertex3: 10, vertex4: 15 }]
+const indicesMatrix = [{ index: 1, vertex1: 12, vertex2: 14, vertex3: 10, vertex4: 15 }]
 const vertices = [{ index: 1, x: 0, y: 1, z: 0 }]
 
-const facesFileName = 'faces.txt'
+const indicesMatrixFileName = 'indicesMatrix.txt'
 const verticesFileName = 'vertices.txt'
 
-const facesFile = new File(['1 12 14 10 15'], 'faces.txt', { type: 'text/plain' })
+const indicesMatrixFile = new File(['1 12 14 10 15'], 'indicesMatrix.txt', { type: 'text/plain' })
 const verticesFile = new File(['1 0 1 0'], 'vertices.txt', { type: 'text/plain' })
 
 describe('ModelViewPage', () => {
@@ -62,7 +62,7 @@ describe('ModelViewPage', () => {
     expect(screen.queryByTestId('experience')).not.toBeInTheDocument()
   })
 
-  it('should dispatch setFaces when faces are loaded', () => {
+  it('should dispatch setIndicesMatrix when indicesMatrix in not loaded', () => {
     Object.defineProperty(File.prototype, 'text', {
       value: vi.fn(() => '1 12 14 10 15'),
       writable: true
@@ -82,20 +82,20 @@ describe('ModelViewPage', () => {
       </Provider>
     )
 
-    const facesDropZone = screen.getByText('filesUploader.facesFile')
-    fireEvent.drop(facesDropZone, {
+    const indicesMatrixDropZone = screen.getByText('filesUploader.indicesMatrixFile')
+    fireEvent.drop(indicesMatrixDropZone, {
       dataTransfer: {
-        files: [facesFile]
+        files: [indicesMatrixFile]
       }
     })
 
-    const onFacesLoad = (faces: VertexIndices[], fileName: string) => {
-      store.dispatch(setFaces({ faces, fileName }))
+    const onIndicesMatrixLoad = (indicesMatrix: VertexIndices[], fileName: string) => {
+      store.dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
     }
 
-    onFacesLoad(faces, facesFileName)
+    onIndicesMatrixLoad(indicesMatrix, indicesMatrixFileName)
 
-    expect(store.dispatch).toHaveBeenCalledWith(setFaces({ faces, fileName: facesFileName }))
+    expect(store.dispatch).toHaveBeenCalledWith(setIndicesMatrix({ indicesMatrix, fileName: indicesMatrixFileName }))
   })
 
   it('should dispatch setVertices when vertices are loaded', () => {

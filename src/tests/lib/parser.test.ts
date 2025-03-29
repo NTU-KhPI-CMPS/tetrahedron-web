@@ -1,10 +1,10 @@
 import {
-  parseAnsysFaces,
-  parseDefaultFaces,
+  parseAnsysIndicesMatrix,
+  parseDefaultIndicesMatrix,
   parseDefaultPhysicalQuantity,
   parseDefaultStress,
   parseDefaultVertices,
-  parseFaces,
+  parseIndicesMatrix,
   parseStress,
   parseVertices
 } from '@/lib/parser'
@@ -57,7 +57,7 @@ describe('parseDefaultVertices', () => {
   })
 })
 
-describe('parseDefaultFaces', () => {
+describe('parseDefaultIndicesMatrix', () => {
   it('parses valid input correctly', () => {
     const input = '1 24 25 43 26\n2 42 46 41 32\n3 16 43 46 42'
     const expected = [
@@ -65,17 +65,17 @@ describe('parseDefaultFaces', () => {
       { index: 2, vertex1: 42, vertex2: 46, vertex3: 41, vertex4: 32 },
       { index: 3, vertex1: 16, vertex2: 43, vertex3: 46, vertex4: 42 }
     ]
-    expect(parseDefaultFaces(input)).toEqual(expected)
+    expect(parseDefaultIndicesMatrix(input)).toEqual(expected)
   })
 
   it('ignores lines with less than 5 elements', () => {
     const input = '24 25 43 26\n42 46 41 32\n3 16 43 46 42'
     const expected = [{ index: 3, vertex1: 16, vertex2: 43, vertex3: 46, vertex4: 42 }]
-    expect(parseDefaultFaces(input)).toEqual(expected)
+    expect(parseDefaultIndicesMatrix(input)).toEqual(expected)
   })
 
   it('handles empty input', () => {
-    expect(parseDefaultFaces('')).toEqual([])
+    expect(parseDefaultIndicesMatrix('')).toEqual([])
   })
 
   it('trims spaces and parses correctly', () => {
@@ -85,7 +85,7 @@ describe('parseDefaultFaces', () => {
       { index: 11, vertex1: 8, vertex2: 44, vertex3: 6, vertex4: 7 },
       { index: 12, vertex1: 41, vertex2: 45, vertex3: 44, vertex4: 39 }
     ]
-    expect(parseDefaultFaces(input)).toEqual(expected)
+    expect(parseDefaultIndicesMatrix(input)).toEqual(expected)
   })
 
   it('parses negative numbers correctly', () => {
@@ -94,16 +94,15 @@ describe('parseDefaultFaces', () => {
       { index: 16, vertex1: 41, vertex2: 39, vertex3: -30, vertex4: 38 },
       { index: 17, vertex1: -45, vertex2: -14, vertex3: -4, vertex4: -18 }
     ]
-    expect(parseDefaultFaces(input)).toEqual(expected)
+    expect(parseDefaultIndicesMatrix(input)).toEqual(expected)
   })
 
   it('returns empty array if no lines have exactly 5 elements', () => {
     const input = '41 46 15 38\n24 28 36 46 37 37 37\n17 36 12 46'
-    expect(parseDefaultFaces(input)).toEqual([])
+    expect(parseDefaultIndicesMatrix(input)).toEqual([])
   })
 })
 
-//ParseDefaultStress
 describe('parseDefaultStress', () => {
   it('parses valid input correctly', () => {
     const input = '1 5 3 3 -2 6 -3\n2 1 -7 3 1 8 -4\n3 6 4 3 1 8 -4'
@@ -141,8 +140,7 @@ describe('parseDefaultStress', () => {
   })
 })
 
-//Ansys
-describe('parseAnsysFaces', () => {
+describe('parseAnsysIndicesMatrix', () => {
   it('parses valid input correctly', () => {
     const input = `1 1 1 1 0 1 224 225 226 226 227 227 227 227\n
     2 1 1 1 0 1 224 225 227 227 53 53 53 53\n
@@ -152,17 +150,17 @@ describe('parseAnsysFaces', () => {
       { index: 2, vertex1: 224, vertex2: 225, vertex3: 227, vertex4: 53 },
       { index: 3, vertex1: 195, vertex2: 16, vertex3: 54, vertex4: 224 }
     ]
-    expect(parseAnsysFaces(input)).toEqual(expected)
+    expect(parseAnsysIndicesMatrix(input)).toEqual(expected)
   })
 
   it('ignores lines with less than 5 elements', () => {
     const input = '1 1 1 1 0\n2 1 1 1 0 1 224 225 227 227 53 53 53 53'
     const expected = [{ index: 2, vertex1: 224, vertex2: 225, vertex3: 227, vertex4: 53 }]
-    expect(parseAnsysFaces(input)).toEqual(expected)
+    expect(parseAnsysIndicesMatrix(input)).toEqual(expected)
   })
 
   it('handles empty input', () => {
-    expect(parseAnsysFaces('')).toEqual([])
+    expect(parseAnsysIndicesMatrix('')).toEqual([])
   })
 
   it('trims spaces and parses correctly', () => {
@@ -172,17 +170,16 @@ describe('parseAnsysFaces', () => {
       { index: 1, vertex1: 224, vertex2: 225, vertex3: 226, vertex4: 227 },
       { index: 2, vertex1: 224, vertex2: 225, vertex3: 227, vertex4: 53 }
     ]
-    expect(parseAnsysFaces(input)).toEqual(expected)
+    expect(parseAnsysIndicesMatrix(input)).toEqual(expected)
   })
 
   it('returns empty array if no lines have exactly 5 elements', () => {
     const input = `  1 1  1 1   226   226 227 227 227 227\n
     2 1 1 1 0 1 224 225   227  53 53  `
-    expect(parseAnsysFaces(input)).toEqual([])
+    expect(parseAnsysIndicesMatrix(input)).toEqual([])
   })
 })
 
-// parseVertices
 describe('parseVertices', () => {
   it('parses default vertices', () => {
     const input = '1 1 1 1'
@@ -207,37 +204,35 @@ describe('parseVertices', () => {
   })
 })
 
-//parseFaces
-describe('parseFaces', () => {
-  it('parses default faces', () => {
+describe('parseIndicesMatrix', () => {
+  it('parses default indicesMatrix', () => {
     const input = '2 42 46 41 32'
     const expected = [{ index: 2, vertex1: 42, vertex2: 46, vertex3: 41, vertex4: 32 }]
-    expect(parseFaces(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input)).toEqual(expected)
   })
 
-  it('parses ansys faces', () => {
+  it('parses ansys indicesMatrix', () => {
     const input = '1 1 1 1 0 1 224 225 226 226 227 227 227 227'
     const expected = [{ index: 1, vertex1: 224, vertex2: 225, vertex3: 226, vertex4: 227 }]
-    expect(parseFaces(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input)).toEqual(expected)
   })
 
-  it('parses faces with no index', () => {
+  it('parses indicesMatrix with no index', () => {
     const input = '1 2 3 4\n5 2 1 4'
     const expected = [
       { index: 1, vertex1: 1, vertex2: 2, vertex3: 3, vertex4: 4 },
       { index: 2, vertex1: 5, vertex2: 2, vertex3: 1, vertex4: 4 }
     ]
-    expect(parseFaces(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input)).toEqual(expected)
   })
 
   it('return [] if no parser is matching', () => {
     const input = '98746554321'
     const expected = [] as VertexIndices[]
-    expect(parseFaces(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input)).toEqual(expected)
   })
 })
 
-//parseStress
 describe('parseStress', () => {
   it('parses default stress', () => {
     const input = '1 2 4 -5 6 4 -1'
