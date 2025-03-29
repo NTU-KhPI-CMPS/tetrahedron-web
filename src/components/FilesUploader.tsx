@@ -5,8 +5,7 @@ import OutsideClickHandler from '@/components/OutsideClickHandler'
 import { Button } from '@/components/ui/button'
 import { parseFaces, parseVertices } from '@/lib/parser'
 import { cn } from '@/lib/utils'
-import { Face } from '@/types/Face'
-import { Vertex } from '@/types/Vertex'
+import { Face, Vertex } from '@/types/ModelCommonTypes'
 
 interface FilesUploaderProps {
   verticesFileName: string

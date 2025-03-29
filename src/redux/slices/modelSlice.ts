@@ -1,7 +1,5 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { Face } from '@/types/Face'
-import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
-import { Vertex } from '@/types/Vertex'
+import { Face, ModelPhysicalQuantity, Vertex } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 

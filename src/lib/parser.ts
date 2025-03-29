@@ -1,7 +1,4 @@
-import { Face } from '@/types/Face'
-import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
-import { Stress } from '@/types/Stress'
-import { Vertex } from '@/types/Vertex'
+import { Face, ModelPhysicalQuantity, Stress, Vertex } from '@/types/ModelCommonTypes'
 
 type ParsedLine = string[]
 

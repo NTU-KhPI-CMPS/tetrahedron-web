@@ -8,9 +8,7 @@ import {
   parseStress,
   parseVertices
 } from '@/lib/parser'
-import { Face } from '@/types/Face'
-import { Stress } from '@/types/Stress'
-import { Vertex } from '@/types/Vertex'
+import { Face, Stress, Vertex } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
 describe('parseDefaultVertices', () => {

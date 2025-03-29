@@ -3,8 +3,7 @@ import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { calculateVerticesDisplacement, generateFaceIndexArray, generateVertexPositions } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { Face } from '@/types/Face'
-import { Vertex } from '@/types/Vertex'
+import { Face, Vertex } from '@/types/ModelCommonTypes'
 import { describe, expect, it } from 'vitest'
 
 vi.mock('@/hooks/use-redux', () => ({

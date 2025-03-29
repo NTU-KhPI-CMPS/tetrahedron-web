@@ -1,5 +1,4 @@
-import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity'
-import { Stress } from '@/types/Stress'
+import { ModelPhysicalQuantity, Stress } from '@/types/ModelCommonTypes'
 
 //Average value per row
 export function calculateMisesStress(data: Stress[]) {

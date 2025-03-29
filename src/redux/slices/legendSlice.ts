@@ -1,7 +1,6 @@
 import { generateLegend } from '@/lib/colorUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
-import { LegendType } from '@/types/Legend'
-import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity'
+import { LegendType, ModelPhysicalQuantity } from '@/types/ModelCommonTypes'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface LegendState {

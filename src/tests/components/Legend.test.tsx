@@ -1,6 +1,6 @@
 import Legend from '@/components/Legend'
 import legendReducer from '@/redux/slices/legendSlice'
-import { LegendType } from '@/types/Legend'
+import { LegendType } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
