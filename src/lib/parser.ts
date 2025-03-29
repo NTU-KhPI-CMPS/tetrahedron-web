@@ -68,7 +68,6 @@ export function parseIndicesMatrixWithNoIndex(input: string): VertexIndices[] {
   }))
 }
 
-// Stress values
 export function parseDefaultStress(input: string): Stress[] {
   return filterByLength(parseLines(input), 7).map(([index, qx, txy, tzx, qy, tyz, qz]) => ({
     index: Number(index),
@@ -94,12 +93,11 @@ export function parseStressWithNoIndex(input: string): Stress[] {
 }
 
 export function parseStress(input: string): Stress[] {
-  if (isDefaultStress(input)) return parseDefaultStress(input)
+  if (isMisesStress(input)) return parseDefaultStress(input)
   if (isStressWithoutIndices(input)) return parseStressWithNoIndex(input)
   return []
 }
 
-//Ansys
 export function parseAnsysIndicesMatrix(input: string): VertexIndices[] {
   const ansysIndicesMatrixFields = { index: 0, vertex1: 6, vertex2: 7, vertex3: 8, vertex4: 10 }
   return filterByLength(parseLines(input), 14).map((line) => {
@@ -134,8 +132,7 @@ export function isAnsysIndicesMatrix(input: string): boolean {
   return hasValidLineFormat(input, 14)
 }
 
-//Mises check
-export function isDefaultStress(input: string): boolean {
+export function isMisesStress(input: string): boolean {
   return hasValidLineFormat(input, 7)
 }
 
@@ -143,7 +140,6 @@ export function isStressWithoutIndices(input: string): boolean {
   return hasValidLineFormat(input, 6)
 }
 
-//DefaultPhysicalQuantity
 export function parseDefaultPhysicalQuantity(input: string): ModelPhysicalQuantity {
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE

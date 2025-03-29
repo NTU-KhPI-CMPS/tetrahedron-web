@@ -1,5 +1,5 @@
 import { parseStress } from '@/lib/parser'
-import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
+import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { calculateVerticesDisplacement, generateIndicesMatrix, generateVertexPositions } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
@@ -98,7 +98,7 @@ describe('loadStress', () => {
       max: 16.462077633154326
     }
 
-    expect(buildPhysicalQuantity(input)).toEqual(expected)
+    expect(buildMisesPhysicalQuantity(input)).toEqual(expected)
   })
 
   it('should dispatch setStress with correct data', async () => {

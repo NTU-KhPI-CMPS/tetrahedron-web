@@ -1,5 +1,5 @@
 import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser'
-import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
+import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
 import { Vertex, VertexIndices } from '@/types/ModelCommonTypes'
@@ -43,7 +43,7 @@ export const loadStress = async (file: File) => {
 
   const calculatedMises = calculateMisesStress(parsedStress)
 
-  const stress = buildPhysicalQuantity(calculatedMises)
+  const stress = buildMisesPhysicalQuantity(calculatedMises)
 
   store.dispatch(setStress({ stress, fileName: file.name }))
 }

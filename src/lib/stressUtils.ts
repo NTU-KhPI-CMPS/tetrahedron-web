@@ -1,9 +1,8 @@
 import { ModelPhysicalQuantity, Stress } from '@/types/ModelCommonTypes'
 
-//Average value per row
 export function calculateMisesStress(data: Stress[]) {
-  return data.map(
-    (component) =>
+  return data.map((component) => {
+    const averageValue =
       (1 / Math.sqrt(2)) *
       Math.sqrt(
         Math.pow(component.qx - component.qy, 2) +
@@ -11,11 +10,11 @@ export function calculateMisesStress(data: Stress[]) {
           Math.pow(component.qz - component.qx, 2) +
           6 * (Math.pow(component.txy, 2) + Math.pow(component.tyz, 2) + Math.pow(component.tzx, 2))
       )
-  )
+    return averageValue
+  })
 }
 
-//MisesPhysicalQuantity
-export function buildPhysicalQuantity(averageValue: number[]): ModelPhysicalQuantity {
+export function buildMisesPhysicalQuantity(averageValue: number[]): ModelPhysicalQuantity {
   let minValue = Number.MAX_VALUE
   let maxValue = Number.MIN_VALUE
 
