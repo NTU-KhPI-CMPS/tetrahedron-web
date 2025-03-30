@@ -72,6 +72,7 @@ const ModelViewPage = () => {
   const onIndicesMatrixLoad = useCallback(
     (indicesMatrix: ElementIndices[], fileName: string) => {
       dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
+      setIndicesMatrixError(undefined)
     },
     [dispatch]
   )
@@ -79,6 +80,7 @@ const ModelViewPage = () => {
   const onCoorinatesMatrixLoad = useCallback(
     (coorinatesMatrix: VertexCoordinate[], fileName: string) => {
       dispatch(setCoorinatesMatrix({ coorinatesMatrix, fileName }))
+      setCoorinatesMatrixError(undefined)
     },
     [dispatch]
   )
@@ -91,7 +93,7 @@ const ModelViewPage = () => {
   const loadDisplacement = useCallback(
     async (file: File) => {
       const input = await file.text()
-      const { data: displacement, error } = parseCoorinatesMatrix(input)
+      const { data: displacement, error } = parseCoorinatesMatrix(input, 'validation.displacementInvalidNumbersCount')
 
       if (error) {
         openModal({
