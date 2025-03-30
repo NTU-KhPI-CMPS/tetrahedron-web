@@ -14,10 +14,12 @@ const buttonVariants = cva(
         outline: 'border border-input bg-button-default text-soft disabled:bg-button-disable hover:bg-button-hover',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'border border-coal-black bg-peach',
-        link: 'text-primary underline-offset-4 hover:underline'
+        link: 'text-primary underline-offset-4 hover:underline',
+        black: 'bg-coal-black text-soft rounded-full'
       },
       size: {
         default: 'h-10 px-4 py-2',
+        wide: 'h-10 px-6 py-2',
         sm: 'h-9 rounded-md px-3',
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10'

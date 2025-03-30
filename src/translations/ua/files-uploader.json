@@ -1,7 +1,7 @@
 {
   "createModelButton": "Створити модель",
-  "verticesFile": "Матриця координат",
-  "facesFile": "Матриця індексів",
+  "coorinatesMatrixFile": "Матриця координат",
+  "indicesMatrixFile": "Матриця індексів",
   "hintCoordinates": "Оберіть файл з матрицею координат",
   "hintIndices": "Оберіть файл з матрицею індексів",
   "selectedFile": "Обраний файл: "

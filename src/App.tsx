@@ -1,6 +1,7 @@
 import { Route, HashRouter as Router, Routes } from 'react-router-dom'
 
 import MainPage from '@/pages/MainPage'
+import { ModalProvider } from '@/providers/ModalProvider'
 import Navbar from './components/Navbar'
 import ModelViewPage from './pages/ModelViewPage'
 
@@ -11,7 +12,15 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" index element={<MainPage />} />
-          <Route path="/model" index element={<ModelViewPage />} />
+          <Route
+            path="/model"
+            index
+            element={
+              <ModalProvider>
+                <ModelViewPage />
+              </ModalProvider>
+            }
+          />
         </Routes>
       </div>
     </Router>

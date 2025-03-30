@@ -1,24 +1,23 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { Face } from '@/types/Face'
-import { ModelPhysicalQuantity } from '@/types/ModelPhysicalQuantity.ts'
-import { Vertex } from '@/types/Vertex'
+import { ElementIndices, ModelPhysicalQuantity, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
 
 export interface ModelState {
-  faces: Face[]
-  facesLoaded: boolean
-  facesFileName: string
-  vertices: Vertex[]
-  verticesLoaded: boolean
-  verticesFileName: string
+  indicesMatrix: ElementIndices[]
+  indicesMatrixLoaded: boolean
+  indicesMatrixFileName: string
+
+  coorinatesMatrix: VertexCoordinate[]
+  coorinatesMatrixLoaded: boolean
+  coorinatesMatrixFileName: string
   isReady: boolean
 
   display: ModelDisplayVariants
 
-  displacement: Vertex[]
+  displacement: VertexCoordinate[]
   displacementLoaded: boolean
   displacementFileName: string | null
 
@@ -33,12 +32,13 @@ export interface ModelState {
 }
 
 export const initialState: ModelState = {
-  faces: [],
-  facesLoaded: false,
-  facesFileName: '',
-  vertices: [],
-  verticesLoaded: false,
-  verticesFileName: '',
+  indicesMatrix: [],
+  indicesMatrixLoaded: false,
+  indicesMatrixFileName: '',
+
+  coorinatesMatrix: [],
+  coorinatesMatrixLoaded: false,
+  coorinatesMatrixFileName: '',
   isReady: false,
 
   display: 'none',
@@ -61,17 +61,17 @@ export const modelSlice = createSlice({
   name: 'model',
   initialState,
   reducers: {
-    setFaces: (state, action: PayloadAction<{ faces: Face[]; fileName: string }>) => {
-      const { faces, fileName } = action.payload
-      state.faces = faces
-      state.facesFileName = fileName
-      state.facesLoaded = true
+    setIndicesMatrix: (state, action: PayloadAction<{ indicesMatrix: ElementIndices[]; fileName: string }>) => {
+      const { indicesMatrix, fileName } = action.payload
+      state.indicesMatrix = indicesMatrix
+      state.indicesMatrixFileName = fileName
+      state.indicesMatrixLoaded = true
     },
-    setVertices: (state, action: PayloadAction<{ vertices: Vertex[]; fileName: string }>) => {
-      const { vertices, fileName } = action.payload
-      state.vertices = vertices
-      state.verticesFileName = fileName
-      state.verticesLoaded = true
+    setCoorinatesMatrix: (state, action: PayloadAction<{ coorinatesMatrix: VertexCoordinate[]; fileName: string }>) => {
+      const { coorinatesMatrix, fileName } = action.payload
+      state.coorinatesMatrix = coorinatesMatrix
+      state.coorinatesMatrixFileName = fileName
+      state.coorinatesMatrixLoaded = true
     },
     setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
       const { stress, fileName } = action.payload
@@ -97,7 +97,10 @@ export const modelSlice = createSlice({
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
     },
-    setDisplacement: (state, action: PayloadAction<{ displacement: Vertex[]; displacementFileName: string }>) => {
+    setDisplacement: (
+      state,
+      action: PayloadAction<{ displacement: VertexCoordinate[]; displacementFileName: string }>
+    ) => {
       const { displacement, displacementFileName } = action.payload
       state.displacement = displacement
       state.displacementLoaded = true
@@ -111,8 +114,8 @@ export const modelSlice = createSlice({
 })
 
 export const {
-  setFaces,
-  setVertices,
+  setIndicesMatrix,
+  setCoorinatesMatrix,
   resetModel,
   setReady,
   setDisplayNodeIndices,

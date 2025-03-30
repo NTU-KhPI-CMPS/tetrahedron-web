@@ -1,4 +1,4 @@
-import { LegendType } from '@/types/Legend.ts'
+import { LegendType } from '@/types/ModelCommonTypes'
 
 export const COLOR_ARRAY_SIZE = 7
 export const COLORS: number[][] = buildColorsForLegend(COLOR_ARRAY_SIZE)

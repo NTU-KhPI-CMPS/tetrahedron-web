@@ -1,11 +1,11 @@
-import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
+import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { describe, expect, it } from 'vitest'
 
 describe('buildPhysicalQuantity', () => {
   it('builds default physical quantity', () => {
     const input = [0.003, 1.8901]
     const expected = { values: [0.003, 1.8901], min: 0.003, max: 1.8901 }
-    expect(buildPhysicalQuantity(input)).toEqual(expected)
+    expect(buildMisesPhysicalQuantity(input)).toEqual(expected)
   })
 })
 

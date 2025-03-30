@@ -1,7 +1,7 @@
 import ModelViewPage from '@/pages/ModelViewPage'
-import { initialState, default as model, setFaces, setVertices } from '@/redux/slices/modelSlice'
-import { Face } from '@/types/Face'
-import { Vertex } from '@/types/Vertex'
+import { ModalProvider } from '@/providers/ModalProvider'
+import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
+import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -18,14 +18,14 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
   writable: true
 })
 
-const faces = [{ index: 1, vertex1: 12, vertex2: 14, vertex3: 10, vertex4: 15 }]
-const vertices = [{ index: 1, x: 0, y: 1, z: 0 }]
+const indicesMatrix = [{ index: 1, vertex1: 12, vertex2: 14, vertex3: 10, vertex4: 15 }]
+const coorinatesMatrix = [{ index: 1, x: 0, y: 1, z: 0 }]
 
-const facesFileName = 'faces.txt'
-const verticesFileName = 'vertices.txt'
+const indicesMatrixFileName = 'indicesMatrix.txt'
+const coorinatesMatrixFileName = 'coorinatesMatrix.txt'
 
-const facesFile = new File(['1 12 14 10 15'], 'faces.txt', { type: 'text/plain' })
-const verticesFile = new File(['1 0 1 0'], 'vertices.txt', { type: 'text/plain' })
+const indicesMatrixFile = new File(['1 12 14 10 15'], 'indicesMatrix.txt', { type: 'text/plain' })
+const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { type: 'text/plain' })
 
 describe('ModelViewPage', () => {
   it('renders Experience component when isReady is true', () => {
@@ -36,7 +36,9 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
@@ -51,14 +53,16 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
     expect(screen.queryByTestId('experience')).not.toBeInTheDocument()
   })
 
-  it('should dispatch setFaces when faces are loaded', () => {
+  it('should dispatch setIndicesMatrix when indicesMatrix in not loaded', () => {
     Object.defineProperty(File.prototype, 'text', {
       value: vi.fn(() => '1 12 14 10 15'),
       writable: true
@@ -72,27 +76,29 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
-    const facesDropZone = screen.getByText('filesUploader.facesFile')
-    fireEvent.drop(facesDropZone, {
+    const indicesMatrixDropZone = screen.getByText('filesUploader.indicesMatrixFile')
+    fireEvent.drop(indicesMatrixDropZone, {
       dataTransfer: {
-        files: [facesFile]
+        files: [indicesMatrixFile]
       }
     })
 
-    const onFacesLoad = (faces: Face[], fileName: string) => {
-      store.dispatch(setFaces({ faces, fileName }))
+    const onIndicesMatrixLoad = (indicesMatrix: ElementIndices[], fileName: string) => {
+      store.dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
     }
 
-    onFacesLoad(faces, facesFileName)
+    onIndicesMatrixLoad(indicesMatrix, indicesMatrixFileName)
 
-    expect(store.dispatch).toHaveBeenCalledWith(setFaces({ faces, fileName: facesFileName }))
+    expect(store.dispatch).toHaveBeenCalledWith(setIndicesMatrix({ indicesMatrix, fileName: indicesMatrixFileName }))
   })
 
-  it('should dispatch setVertices when vertices are loaded', () => {
+  it('should dispatch setCoorinatesMatrix when coorinatesMatrix are loaded', () => {
     Object.defineProperty(File.prototype, 'text', {
       value: vi.fn(() => '1 12 14 10 15'),
       writable: true
@@ -106,24 +112,28 @@ describe('ModelViewPage', () => {
 
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 
-    const verticesDropZone = screen.getByText('filesUploader.verticesFile')
-    fireEvent.drop(verticesDropZone, {
+    const coorinatesMatrixDropZone = screen.getByText('filesUploader.coorinatesMatrixFile')
+    fireEvent.drop(coorinatesMatrixDropZone, {
       dataTransfer: {
-        files: [verticesFile]
+        files: [coorinatesMatrixFile]
       }
     })
 
-    const onVerticesLoad = (vertices: Vertex[], fileName: string) => {
-      store.dispatch(setVertices({ vertices, fileName }))
+    const onCoorinatesMatrixLoad = (coorinatesMatrix: VertexCoordinate[], fileName: string) => {
+      store.dispatch(setCoorinatesMatrix({ coorinatesMatrix, fileName }))
     }
 
-    onVerticesLoad(vertices, verticesFileName)
+    onCoorinatesMatrixLoad(coorinatesMatrix, coorinatesMatrixFileName)
 
-    expect(store.dispatch).toHaveBeenCalledWith(setVertices({ vertices, fileName: verticesFileName }))
+    expect(store.dispatch).toHaveBeenCalledWith(
+      setCoorinatesMatrix({ coorinatesMatrix, fileName: coorinatesMatrixFileName })
+    )
   })
 
   it.skip('should dispatch setReady and close FileUploader when clicking on create model button', () => {
@@ -134,7 +144,9 @@ describe('ModelViewPage', () => {
     store.dispatch = vi.fn()
     render(
       <Provider store={store}>
-        <ModelViewPage />
+        <ModalProvider>
+          <ModelViewPage />
+        </ModalProvider>
       </Provider>
     )
 

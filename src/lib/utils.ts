@@ -1,9 +1,8 @@
-import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser'
-import { buildPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
+import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/stressParser'
+import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { Face } from '@/types/Face'
-import { Vertex } from '@/types/Vertex'
+import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -11,40 +10,45 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function generateFaceIndexArray(data: Face[]) {
+export function generateIndicesMatrix(data: ElementIndices[]) {
   return new Uint16Array(
-    data.flatMap((face) => [
-      face.vertex2 - 1,
-      face.vertex1 - 1,
-      face.vertex3 - 1,
+    data.flatMap((indicesMatrix) => [
+      indicesMatrix.vertex2 - 1,
+      indicesMatrix.vertex1 - 1,
+      indicesMatrix.vertex3 - 1,
 
-      face.vertex1 - 1,
-      face.vertex2 - 1,
-      face.vertex4 - 1,
+      indicesMatrix.vertex1 - 1,
+      indicesMatrix.vertex2 - 1,
+      indicesMatrix.vertex4 - 1,
 
-      face.vertex2 - 1,
-      face.vertex3 - 1,
-      face.vertex4 - 1,
+      indicesMatrix.vertex2 - 1,
+      indicesMatrix.vertex3 - 1,
+      indicesMatrix.vertex4 - 1,
 
-      face.vertex3 - 1,
-      face.vertex1 - 1,
-      face.vertex4 - 1
+      indicesMatrix.vertex3 - 1,
+      indicesMatrix.vertex1 - 1,
+      indicesMatrix.vertex4 - 1
     ])
   )
 }
 
-export function generateVertexPositions(data: Vertex[]) {
+export function generateCoorinatesMatrix(data: VertexCoordinate[]) {
   const positions = new Float32Array(data.flatMap((vertex) => [vertex.x, vertex.y, vertex.z]))
   return positions
 }
 
 export const loadStress = async (file: File) => {
   const input = await file.text()
-  const parsedStress = parseStress(input)
+  const { data: parsedStress, error } = parseStress(input)
+
+  if (error) {
+    console.error(error.message)
+    return
+  }
 
   const calculatedMises = calculateMisesStress(parsedStress)
 
-  const stress = buildPhysicalQuantity(calculatedMises)
+  const stress = buildMisesPhysicalQuantity(calculatedMises)
 
   store.dispatch(setStress({ stress, fileName: file.name }))
 }
@@ -55,8 +59,12 @@ export const loadCharacteristic = async (file: File) => {
   store.dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
 }
 
-export function calculateVerticesDisplacement(vertices: Vertex[], displacement: Vertex[], scale: number) {
-  return vertices.map((vertex, index) => {
+export function calculateCoorinatesMatrixDisplacement(
+  coorinatesMatrix: VertexCoordinate[],
+  displacement: VertexCoordinate[],
+  scale: number
+) {
+  return coorinatesMatrix.map((vertex, index) => {
     return {
       index: vertex.index,
       x: vertex.x + displacement[index].x * scale,

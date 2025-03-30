@@ -1,6 +1,6 @@
 import { useAppSelector } from '@/hooks/use-redux'
 import useConvertColor from '@/hooks/useConvertColor'
-import { LegendType } from '@/types/Legend'
+import { LegendType } from '@/types/ModelCommonTypes'
 import { FC } from 'react'
 
 const LegendItem: FC<LegendType> = ({ color, rangeStart, rangeEnd }) => {

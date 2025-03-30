@@ -2,19 +2,21 @@ import FilesUploader from '@/components/FilesUploader'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 const propsMock = {
-  verticesValid: true,
-  facesValid: true,
-  verticesFileName: 'vertices.txt',
-  facesFileName: 'faces.txt',
+  coorinatesMatrixValid: true,
+  indicesMatrixValid: true,
+  coorinatesMatrixFileName: 'coorinatesMatrix.txt',
+  indicesMatrixFileName: 'indicesMatrix.txt',
   disableCreateModelButton: true,
   closeModal: vi.fn(),
-  onFacesLoad: vi.fn(() => '1 12 14 10 15'),
-  onVerticesLoad: vi.fn(() => '1 2 3'),
-  onCreateModelClick: vi.fn()
+  onIndicesMatrixLoad: vi.fn(() => '1 12 14 10 15'),
+  onCoorinatesMatrixLoad: vi.fn(() => '1 2 3'),
+  onCreateModelClick: vi.fn(),
+  onIndicesMatrixError: vi.fn(),
+  onCoorinatesMatrixError: vi.fn()
 }
 
-const verticesFile = new File(['1 0 1 0'], 'vertices.txt', { type: 'text/plain' })
-const facesFile = new File(['1 12 14 10 15'], 'faces.txt', { type: 'text/plain' })
+const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { type: 'text/plain' })
+const indicesMatrixFile = new File(['1 12 14 10 15'], 'indicesMatrix.txt', { type: 'text/plain' })
 
 describe('FilesUploader', () => {
   it('should call closeModal callback when clicked outside', () => {
@@ -31,8 +33,8 @@ describe('FilesUploader', () => {
     expect(propsMock.closeModal).toHaveBeenCalled()
   })
 
-  it('should render default hints if the fileName is not provided for vertices or faces', () => {
-    const props = { ...propsMock, verticesFileName: '', facesFileName: '' }
+  it('should render default hints if the fileName is not provided for coorinatesMatrix or indicesMatrix', () => {
+    const props = { ...propsMock, coorinatesMatrixFileName: '', indicesMatrixFileName: '' }
     render(<FilesUploader {...props} />)
 
     const hintCoordinates = screen.getAllByText('filesUploader.hintCoordinates')
@@ -42,39 +44,39 @@ describe('FilesUploader', () => {
     expect(hintIndices.length).toEqual(1)
   })
 
-  it('should call onVerticesLoad when vertices file is loaded', async () => {
+  it('should call onCoorinatesMatrixLoad when coorinatesMatrix file is loaded', async () => {
     Object.defineProperty(File.prototype, 'text', {
-      value: propsMock.onVerticesLoad,
+      value: propsMock.onCoorinatesMatrixLoad,
       writable: true
     })
 
     render(<FilesUploader {...propsMock} />)
-    const verticesDropZone = screen.getByText('filesUploader.verticesFile')
+    const coorinatesMatrixDropZone = screen.getByText('filesUploader.coorinatesMatrixFile')
 
-    fireEvent.drop(verticesDropZone, {
+    fireEvent.drop(coorinatesMatrixDropZone, {
       dataTransfer: {
-        files: [verticesFile]
+        files: [coorinatesMatrixFile]
       }
     })
 
-    expect(propsMock.onVerticesLoad).toHaveBeenCalled()
+    expect(propsMock.onCoorinatesMatrixLoad).toHaveBeenCalled()
   })
 
-  it('should call onFacesLoad when faces file is loaded', () => {
+  it('should call onIndicesMatrixLoad when indicesMatrix file is loaded', () => {
     Object.defineProperty(File.prototype, 'text', {
-      value: propsMock.onFacesLoad,
+      value: propsMock.onIndicesMatrixLoad,
       writable: true
     })
 
     render(<FilesUploader {...propsMock} />)
-    const facesDropZone = screen.getByText('filesUploader.facesFile')
+    const indicesMatrixDropZone = screen.getByText('filesUploader.indicesMatrixFile')
 
-    fireEvent.drop(facesDropZone, {
+    fireEvent.drop(indicesMatrixDropZone, {
       dataTransfer: {
-        files: [facesFile]
+        files: [indicesMatrixFile]
       }
     })
 
-    expect(propsMock.onFacesLoad).toHaveBeenCalled()
+    expect(propsMock.onIndicesMatrixLoad).toHaveBeenCalled()
   })
 })

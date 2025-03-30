@@ -8,7 +8,7 @@
   "section1": {
     "number": "1",
     "header": "Bestand Uploaden en Verwerken:",
-    "body": "Het programma maakt het mogelijk om bestanden met knooppuntcoördinaten en elementfaces te uploaden voor het bouwen van het model. Daarnaast kunnen bestanden met verplaatsingen, spanningen, krachten en beperkingen worden geüpload. Als er extra gegevens nodig zijn voor de geselecteerde modus, zal het programma dit aangeven."
+    "body": "Het programma maakt het mogelijk om bestanden met knooppuntcoördinaten en indices matrix te uploaden voor het bouwen van het model. Daarnaast kunnen bestanden met verplaatsingen, spanningen, krachten en beperkingen worden geüpload. Als er extra gegevens nodig zijn voor de geselecteerde modus, zal het programma dit aangeven."
   },
   "section2": {
     "number": "2",
@@ -18,6 +18,6 @@
   "section3": {
     "number": "3",
     "header": "Analyse en Aanpassing:",
-    "body": "Gebruikers kunnen de zichtbaarheid van knoop- en elementfaces in- en uitschakelen, doorsneden van het model bekijken en afzonderlijke knopen selecteren voor gedetailleerde analyse. Bij het hoveren over een knoop wordt informatie over die knoop weergegeven voor een gemakkelijkere interactie."
+    "body": "Gebruikers kunnen de zichtbaarheid van knoop- en indices matrix in- en uitschakelen, doorsneden van het model bekijken en afzonderlijke knopen selecteren voor gedetailleerde analyse. Bij het hoveren over een knoop wordt informatie over die knoop weergegeven voor een gemakkelijkere interactie."
   }
 }

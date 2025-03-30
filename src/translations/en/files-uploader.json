@@ -1,7 +1,7 @@
 {
   "createModelButton": "Create model",
-  "verticesFile": "Coordinates matrix",
-  "facesFile": "Indices matrix",
+  "coorinatesMatrixFile": "Coordinates matrix",
+  "indicesMatrixFile": "Indices matrix",
   "hintCoordinates": "Select file with coordinate matrix",
   "hintIndices": "Select file with indices matrix",
   "selectedFile": "Selected file: "
