@@ -10,7 +10,9 @@ const propsMock = {
   closeModal: vi.fn(),
   onIndicesMatrixLoad: vi.fn(() => '1 12 14 10 15'),
   onCoorinatesMatrixLoad: vi.fn(() => '1 2 3'),
-  onCreateModelClick: vi.fn()
+  onCreateModelClick: vi.fn(),
+  onIndicesMatrixError: vi.fn(),
+  onCoorinatesMatrixError: vi.fn()
 }
 
 const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { type: 'text/plain' })
