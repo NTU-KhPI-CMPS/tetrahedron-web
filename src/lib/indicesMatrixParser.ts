@@ -40,12 +40,6 @@ export function parseIndicesMatrix(input: string): ParsedResult<ElementIndices[]
   const isAnsysIndicesMatrix = hasValidLineFormat(input, 14)
   const isIndicesMatrixWithNoIndex = hasValidLineFormat(input, 4)
 
-  console.log({
-    isDefaultIndicesMatrix,
-    isAnsysIndicesMatrix,
-    isIndicesMatrixWithNoIndex
-  })
-
   if (isDefaultIndicesMatrix) return { data: parseDefaultIndicesMatrix(input) }
   if (isAnsysIndicesMatrix) return { data: parseAnsysIndicesMatrix(input) }
   if (isIndicesMatrixWithNoIndex) return { data: parseIndicesMatrixWithNoIndex(input) }

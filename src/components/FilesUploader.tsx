@@ -63,7 +63,6 @@ const FilesUploader = ({
     }
 
     onIndicesMatrixLoad(indicesMatrix, file.name)
-    onIndicesMatrixError(undefined)
   }
 
   const onCoorinatesMatrixLoadHandler = async (files: File[]) => {
@@ -76,7 +75,6 @@ const FilesUploader = ({
     }
 
     onCoorinatesMatrixLoad(coorinatesMatrix, file.name)
-    onCoorinatesMatrixError(undefined)
   }
 
   if (!showFilesUploader) return null

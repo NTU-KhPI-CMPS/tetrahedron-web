@@ -189,7 +189,7 @@ describe('parseCoorinatesMatrix', () => {
     expect(parseCoorinatesMatrix(input).data).toEqual(expected)
   })
 
-  it('return [] if no parser is matching', () => {
+  it('return an error if no parser is matching', () => {
     const input = '123456789'
     const expected = 'validation.cannotReadCoorinatesMatrix'
     expect(parseCoorinatesMatrix(input).error?.message).toEqual(expected)
@@ -218,7 +218,7 @@ describe('parseIndicesMatrix', () => {
     expect(parseIndicesMatrix(input).data).toEqual(expected)
   })
 
-  it('return [] if no parser is matching', () => {
+  it('return an error if no parser is matching', () => {
     const input = '98746554321'
     const expected = 'validation.cannotReadIndicesMatrix'
     expect(parseIndicesMatrix(input).error?.message).toEqual(expected)

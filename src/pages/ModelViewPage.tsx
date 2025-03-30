@@ -72,6 +72,7 @@ const ModelViewPage = () => {
   const onIndicesMatrixLoad = useCallback(
     (indicesMatrix: ElementIndices[], fileName: string) => {
       dispatch(setIndicesMatrix({ indicesMatrix, fileName }))
+      setIndicesMatrixError(undefined)
     },
     [dispatch]
   )
@@ -79,6 +80,7 @@ const ModelViewPage = () => {
   const onCoorinatesMatrixLoad = useCallback(
     (coorinatesMatrix: VertexCoordinate[], fileName: string) => {
       dispatch(setCoorinatesMatrix({ coorinatesMatrix, fileName }))
+      setCoorinatesMatrixError(undefined)
     },
     [dispatch]
   )
