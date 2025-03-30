@@ -40,13 +40,9 @@ const FilesUploader = ({
   const { t } = useTranslation()
 
   const coorinatesMatrixHint =
-    coorinatesMatrixFileName === ''
-      ? t('filesUploader.hintCoordinates')
-      : t('filesUploader.selectedFile') + coorinatesMatrixFileName
+    coorinatesMatrixFileName === '' ? t('filesUploader.hintCoordinates') : t('filesUploader.selectedFile')
   const indicesMatrixHint =
-    indicesMatrixFileName === ''
-      ? t('filesUploader.hintIndices')
-      : t('filesUploader.selectedFile') + indicesMatrixFileName
+    indicesMatrixFileName === '' ? t('filesUploader.hintIndices') : t('filesUploader.selectedFile')
 
   const outsideClickHandler = () => {
     closeModal()
@@ -95,6 +91,7 @@ const FilesUploader = ({
           <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:gap-10">
             <DragAndDrop
               hint={coorinatesMatrixError ? t(coorinatesMatrixError) : coorinatesMatrixHint}
+              fileName={coorinatesMatrixFileName}
               onFilesLoad={onCoorinatesMatrixLoadHandler}
               title={t('filesUploader.coorinatesMatrixFile')}
               className={cn('aspect-square w-64 border border-transparent p-5', {
@@ -104,6 +101,7 @@ const FilesUploader = ({
             />
             <DragAndDrop
               hint={indicesMatrixError ? t(indicesMatrixError) : indicesMatrixHint}
+              fileName={indicesMatrixFileName}
               onFilesLoad={onIndicesMatrixLoadHandler}
               title={t('filesUploader.indicesMatrixFile')}
               className={cn('aspect-square w-64 border border-transparent p-5', {

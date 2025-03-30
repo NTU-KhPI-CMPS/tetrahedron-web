@@ -8,6 +8,7 @@ import { IoCloudUploadOutline } from 'react-icons/io5'
 interface DragAndDropProps {
   onFilesLoad: (files: File[]) => void
   hint: string
+  fileName?: string
   title?: string
   className?: string
   buttonClassName?: string
@@ -18,6 +19,7 @@ const DragAndDrop = ({
   onFilesLoad,
   accept,
   hint,
+  fileName,
   title = '',
   className = '',
   buttonClassName = ''
@@ -83,7 +85,10 @@ const DragAndDrop = ({
       <p className="text-center text-base font-semibold">{title}</p>
       <div className="flex flex-col items-center justify-center gap-2 font-semibold">
         <IoCloudUploadOutline className="text-2xl" />
-        <p className="text-center">{hint}</p>
+        <div className="flex flex-wrap justify-center gap-x-1">
+          <p className="text-center">{hint}</p>
+          <p className="text-center">{fileName}</p>
+        </div>
       </div>
       <Button onClick={onBrowseButtonClick} size={'icon'} className={buttonClassName}>
         <FiPlus className="text-2xl" />
