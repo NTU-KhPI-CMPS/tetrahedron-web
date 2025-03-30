@@ -93,7 +93,7 @@ const ModelViewPage = () => {
   const loadDisplacement = useCallback(
     async (file: File) => {
       const input = await file.text()
-      const { data: displacement, error } = parseCoorinatesMatrix(input, true)
+      const { data: displacement, error } = parseCoorinatesMatrix(input, 'validation.displacementInvalidNumbersCount')
 
       if (error) {
         openModal({
