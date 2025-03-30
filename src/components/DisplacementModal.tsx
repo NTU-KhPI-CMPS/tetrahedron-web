@@ -33,7 +33,7 @@ const DisplacementModal = () => {
       <PopoverContent
         side="left"
         sideOffset={185}
-        className="w-80 space-y-3 rounded-xl border border-light-grey bg-peach p-3 font-semibold"
+        className="w-80 space-y-3 rounded-xl border border-light-grey bg-peach/50 p-3 font-semibold backdrop-blur-sm"
       >
         <p className="text-center">{t('displacementOptions.nodeDisplacement')}</p>
         <SwitchWithTitle
