@@ -30,7 +30,10 @@ const FileUploadButton = ({
   }
 
   const onButtonClick = () => {
-    inputFile.current?.click()
+    if (inputFile.current) {
+      inputFile.current.value = ''
+      inputFile.current.click()
+    }
   }
 
   return (
