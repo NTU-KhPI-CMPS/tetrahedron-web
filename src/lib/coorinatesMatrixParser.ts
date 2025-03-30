@@ -19,12 +19,18 @@ export function parseCoorinatesMatrixWithNoIndex(input: string): VertexCoordinat
   }))
 }
 
-export function parseCoorinatesMatrix(input: string): ParsedResult<VertexCoordinate[]> {
+export function parseCoorinatesMatrix(input: string, parseDisplacement = false): ParsedResult<VertexCoordinate[]> {
   const isDefaultCoorinatesMatrix = hasValidLineFormat(input, 4)
   const isCoorinatesMatrixWithNoIndex = hasValidLineFormat(input, 3)
 
   if (isDefaultCoorinatesMatrix) return { data: parseDefaultCoorinatesMatrix(input) }
   if (isCoorinatesMatrixWithNoIndex) return { data: parseCoorinatesMatrixWithNoIndex(input) }
 
-  return { error: { message: 'validation.cannotReadCoorinatesMatrix' } }
+  return {
+    error: {
+      message: parseDisplacement
+        ? 'validation.displacementInvalidNumbersCount'
+        : 'validation.cannotReadCoorinatesMatrix'
+    }
+  }
 }
