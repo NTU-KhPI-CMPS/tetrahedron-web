@@ -1,0 +1,15 @@
+{
+  "error": "Error",
+  "attention": "Attention",
+  "ok": "Ok",
+  "yes": "Yes",
+  "no": "No",
+  "doYouWantToContinue": "Do you want to continue?",
+  "checkDataAndTryAgain": "Check data and try again!",
+  "cannotReadCoorinatesMatrix": "Cannot read coordinates matrix",
+  "cannotReadIndicesMatrix": "Cannot read indices matrix",
+  "displacementInvalidNumbersCount": "Each line in file with displacement data should have 3 (dx, dy, dz) or 4 (index, dx, dy, dz) numbers.",
+  "displacementIsNotTheSameAsNodesCount": "Displacement count ({{displacementCount}}) is not  the same as nodes count ({{nodesCount}}).",
+  "stressInvalidNumbersCount": "Each line in file with stress data should have values for 6 stress components: index (optional), x, xy, zx, y, yz, z. If your file has only one value for an element, use option “Other characteristic”.",
+  "stressIsNotTheSameAsNodesCount": "Stress count ({{stressCount}}) is not  the same as elements count ({{elementsCount}})."
+}

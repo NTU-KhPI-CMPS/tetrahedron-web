@@ -1,14 +1,6 @@
-import {
-  parseAnsysIndicesMatrix,
-  parseCoorinatesMatrix,
-  parseDefaultCoorinatesMatrix,
-  parseDefaultIndicesMatrix,
-  parseDefaultPhysicalQuantity,
-  parseDefaultStress,
-  parseIndicesMatrix,
-  parseStress
-} from '@/lib/parser'
-import { ElementIndices, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
+import { parseCoorinatesMatrix, parseDefaultCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
+import { parseAnsysIndicesMatrix, parseDefaultIndicesMatrix, parseIndicesMatrix } from '@/lib/indicesMatrixParser'
+import { parseDefaultPhysicalQuantity, parseDefaultStress, parseStress } from '@/lib/stressParser'
 import { describe, expect, it } from 'vitest'
 
 describe('parseDefaultCoorinatesMatrix', () => {
@@ -184,7 +176,7 @@ describe('parseCoorinatesMatrix', () => {
   it('parses default coorinatesMatrix', () => {
     const input = '1 1 1 1'
     const expected = [{ index: 1, x: 1, y: 1, z: 1 }]
-    expect(parseCoorinatesMatrix(input)).toEqual(expected)
+    expect(parseCoorinatesMatrix(input).data).toEqual(expected)
   })
 
   it('parses coorinatesMatrix with no index', () => {
@@ -194,13 +186,13 @@ describe('parseCoorinatesMatrix', () => {
       { index: 2, x: 2, y: 5, z: 0 },
       { index: 3, x: 5, y: 3, z: 0 }
     ]
-    expect(parseCoorinatesMatrix(input)).toEqual(expected)
+    expect(parseCoorinatesMatrix(input).data).toEqual(expected)
   })
 
   it('return [] if no parser is matching', () => {
     const input = '123456789'
-    const expected = [] as VertexCoordinate[]
-    expect(parseCoorinatesMatrix(input)).toEqual(expected)
+    const expected = 'validation.cannotReadCoorinatesMatrix'
+    expect(parseCoorinatesMatrix(input).error?.message).toEqual(expected)
   })
 })
 
@@ -208,13 +200,13 @@ describe('parseIndicesMatrix', () => {
   it('parses default indicesMatrix', () => {
     const input = '2 42 46 41 32'
     const expected = [{ index: 2, vertex1: 42, vertex2: 46, vertex3: 41, vertex4: 32 }]
-    expect(parseIndicesMatrix(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input).data).toEqual(expected)
   })
 
   it('parses ansys indicesMatrix', () => {
     const input = '1 1 1 1 0 1 224 225 226 226 227 227 227 227'
     const expected = [{ index: 1, vertex1: 224, vertex2: 225, vertex3: 226, vertex4: 227 }]
-    expect(parseIndicesMatrix(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input).data).toEqual(expected)
   })
 
   it('parses indicesMatrix with no index', () => {
@@ -223,13 +215,13 @@ describe('parseIndicesMatrix', () => {
       { index: 1, vertex1: 1, vertex2: 2, vertex3: 3, vertex4: 4 },
       { index: 2, vertex1: 5, vertex2: 2, vertex3: 1, vertex4: 4 }
     ]
-    expect(parseIndicesMatrix(input)).toEqual(expected)
+    expect(parseIndicesMatrix(input).data).toEqual(expected)
   })
 
   it('return [] if no parser is matching', () => {
     const input = '98746554321'
-    const expected = [] as ElementIndices[]
-    expect(parseIndicesMatrix(input)).toEqual(expected)
+    const expected = 'validation.cannotReadIndicesMatrix'
+    expect(parseIndicesMatrix(input).error?.message).toEqual(expected)
   })
 })
 
@@ -237,7 +229,7 @@ describe('parseStress', () => {
   it('parses default stress', () => {
     const input = '1 2 4 -5 6 4 -1'
     const expected = [{ index: 1, qx: 2, txy: 4, tzx: -5, qy: 6, tyz: 4, qz: -1 }]
-    expect(parseStress(input)).toEqual(expected)
+    expect(parseStress(input).data).toEqual(expected)
   })
 
   it('parses stress with no index', () => {
@@ -246,13 +238,13 @@ describe('parseStress', () => {
       { index: 1, qx: 2, txy: 4, tzx: -5, qy: 6, tyz: 4, qz: -1 },
       { index: 2, qx: 3, txy: -4, tzx: 1, qy: -2, tyz: -5, qz: 9 }
     ]
-    expect(parseStress(input)).toEqual(expected)
+    expect(parseStress(input).data).toEqual(expected)
   })
 
-  it('return [] if found mismatch', () => {
+  it('return error if found mismatch', () => {
     const input = '1234567890'
-    const expected = [] as Stress[]
-    expect(parseStress(input)).toEqual(expected)
+    const expected = 'valitation.stressInvalidNumbersCount'
+    expect(parseStress(input).error?.message).toEqual(expected)
   })
 })
 

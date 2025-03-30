@@ -1,0 +1,15 @@
+{
+  "error": "Помилка",
+  "attention": "Увага",
+  "ok": "Ок",
+  "yes": "Так",
+  "no": "Ні",
+  "doYouWantToContinue": "Ви впевнені, що хочете продовжити?",
+  "checkDataAndTryAgain": "Перевірте дані та спробуйте знову!",
+  "cannotReadCoorinatesMatrix": "Неможливо зчитати матрицю координат",
+  "cannotReadIndicesMatrix": "Неможливо зчитати матрицю індексів",
+  "displacementInvalidNumbersCount": "У кожному рядку файлу з переміщеннями має бути 3 (dx, dy, dz) чи 4 (index, dx, dy, dz) числа.",
+  "displacementIsNotTheSameAsNodesCount": "Кількість переміщень ({{displacementCount}}) не збігається з кількістю вузлів ({{nodesCount}}).",
+  "stressInvalidNumbersCount": "У кожному рядку файлу мають бути вказані значення для 6 компонентів напруження: індекс (необовʼязково), x, xy, zx, y, yz, z. Якщо у вашому файлі є тільки одне значення для елементу, використовуйте опцію “Довільна характеристика“.",
+  "stressIsNotTheSameAsNodesCount": "Кількість зчитаних напружень ({{stressCount}}) не збігається з кількістю елементів ({{elementsCount}})."
+}

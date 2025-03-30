@@ -9,6 +9,7 @@ export interface ModelState {
   indicesMatrix: ElementIndices[]
   indicesMatrixLoaded: boolean
   indicesMatrixFileName: string
+
   coorinatesMatrix: VertexCoordinate[]
   coorinatesMatrixLoaded: boolean
   coorinatesMatrixFileName: string
@@ -34,6 +35,7 @@ export const initialState: ModelState = {
   indicesMatrix: [],
   indicesMatrixLoaded: false,
   indicesMatrixFileName: '',
+
   coorinatesMatrix: [],
   coorinatesMatrixLoaded: false,
   coorinatesMatrixFileName: '',

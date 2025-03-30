@@ -1,4 +1,4 @@
-import { parseStress } from '@/lib/parser'
+import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { calculateCoorinatesMatrixDisplacement, generateCoorinatesMatrix, generateIndicesMatrix } from '@/lib/utils'
 import { setStress } from '@/redux/slices/modelSlice'
@@ -75,8 +75,8 @@ describe('loadStress', () => {
       { index: 2, qx: 3, txy: 1, tzx: 4, qy: 5, tyz: 6, qz: 7 },
       { index: 3, qx: 1, txy: 4, tzx: 5, qy: 2, tyz: 7, qz: 1 }
     ]
-
-    expect(parseStress(input)).toEqual(expected)
+    const { data } = parseStress(input)
+    expect(data).toEqual(expected)
   })
 
   it('should call calculateMisesStress', () => {

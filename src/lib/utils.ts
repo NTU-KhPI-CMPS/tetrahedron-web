@@ -1,4 +1,4 @@
-import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/parser'
+import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
@@ -39,7 +39,12 @@ export function generateCoorinatesMatrix(data: VertexCoordinate[]) {
 
 export const loadStress = async (file: File) => {
   const input = await file.text()
-  const parsedStress = parseStress(input)
+  const { data: parsedStress, error } = parseStress(input)
+
+  if (error) {
+    console.error(error.message)
+    return
+  }
 
   const calculatedMises = calculateMisesStress(parsedStress)
 

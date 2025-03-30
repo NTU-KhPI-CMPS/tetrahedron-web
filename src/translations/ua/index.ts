@@ -4,6 +4,7 @@ import instrumentsSidebar from './instruments-sidebar.json'
 import mainPage from './main-page.json'
 import navbar from './navbar.json'
 import toolbar from './toolbar.json'
+import validation from './validation.json'
 
 const ua = {
   translation: {
@@ -12,7 +13,8 @@ const ua = {
     filesUploader,
     toolbar,
     instrumentsSidebar,
-    errorModal
+    errorModal,
+    validation
   }
 }
 

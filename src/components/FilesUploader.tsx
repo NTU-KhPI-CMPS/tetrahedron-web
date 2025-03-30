@@ -3,33 +3,38 @@ import { useTranslation } from 'react-i18next'
 import DragAndDrop from '@/components/DragAndDrop'
 import OutsideClickHandler from '@/components/OutsideClickHandler'
 import { Button } from '@/components/ui/button'
-import { parseCoorinatesMatrix, parseIndicesMatrix } from '@/lib/parser'
+import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
+import { parseIndicesMatrix } from '@/lib/indicesMatrixParser'
 import { cn } from '@/lib/utils'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 
 interface FilesUploaderProps {
   coorinatesMatrixFileName: string
-  coorinatesMatrixValid: boolean
+  coorinatesMatrixError?: string
   indicesMatrixFileName: string
-  indicesMatrixValid: boolean
+  indicesMatrixError?: string
   disableCreateModelButton: boolean
   showFilesUploader?: boolean
   closeModal: () => void
   onIndicesMatrixLoad: (indicesMatrix: ElementIndices[], fileName: string) => void
+  onIndicesMatrixError: (errorMessage: string | undefined) => void
   onCoorinatesMatrixLoad: (coorinatesMatrix: VertexCoordinate[], fileName: string) => void
+  onCoorinatesMatrixError: (errorMessage: string | undefined) => void
   onCreateModelClick: () => void
 }
 
 const FilesUploader = ({
   coorinatesMatrixFileName,
-  coorinatesMatrixValid,
+  coorinatesMatrixError,
   indicesMatrixFileName,
-  indicesMatrixValid,
+  indicesMatrixError,
   disableCreateModelButton,
   showFilesUploader = true,
   closeModal,
   onIndicesMatrixLoad,
+  onIndicesMatrixError,
   onCoorinatesMatrixLoad,
+  onCoorinatesMatrixError,
   onCreateModelClick
 }: FilesUploaderProps) => {
   const { t } = useTranslation()
@@ -54,14 +59,28 @@ const FilesUploader = ({
 
   const onIndicesMatrixLoadHandler = async (files: File[]) => {
     const file = files[0]
-    const indicesMatrix = await parseText(files[0], parseIndicesMatrix)
+    const { data: indicesMatrix, error } = await parseText(files[0], parseIndicesMatrix)
+
+    if (error) {
+      onIndicesMatrixError(error.message)
+      return
+    }
+
     onIndicesMatrixLoad(indicesMatrix, file.name)
+    onIndicesMatrixError(undefined)
   }
 
   const onCoorinatesMatrixLoadHandler = async (files: File[]) => {
     const file = files[0]
-    const coorinatesMatrix = await parseText(file, parseCoorinatesMatrix)
+    const { data: coorinatesMatrix, error } = await parseText(file, parseCoorinatesMatrix)
+
+    if (error) {
+      onCoorinatesMatrixError(error.message)
+      return
+    }
+
     onCoorinatesMatrixLoad(coorinatesMatrix, file.name)
+    onCoorinatesMatrixError(undefined)
   }
 
   if (!showFilesUploader) return null
@@ -75,22 +94,22 @@ const FilesUploader = ({
         <div className="grid aspect-video max-w-7xl grid-rows-[1fr,auto] gap-5 rounded-3xl bg-white p-5 md:gap-10 md:p-10">
           <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:gap-10">
             <DragAndDrop
-              hint={coorinatesMatrixValid ? coorinatesMatrixHint : 'Неможливо зчитати таблицю координат'}
+              hint={coorinatesMatrixError ? t(coorinatesMatrixError) : coorinatesMatrixHint}
               onFilesLoad={onCoorinatesMatrixLoadHandler}
               title={t('filesUploader.coorinatesMatrixFile')}
               className={cn('aspect-square w-64 border border-transparent p-5', {
-                'border-red-500 bg-red-200': !coorinatesMatrixValid
+                'border-red-500 bg-red-200': coorinatesMatrixError
               })}
-              buttonClassName={cn({ 'bg-black text-white': !coorinatesMatrixValid })}
+              buttonClassName={cn({ 'bg-black text-white': coorinatesMatrixError })}
             />
             <DragAndDrop
-              hint={indicesMatrixValid ? indicesMatrixHint : 'Неможливо зчитати матрицю індексів'}
+              hint={indicesMatrixError ? t(indicesMatrixError) : indicesMatrixHint}
               onFilesLoad={onIndicesMatrixLoadHandler}
               title={t('filesUploader.indicesMatrixFile')}
               className={cn('aspect-square w-64 border border-transparent p-5', {
-                'border-red-500 bg-red-200': !indicesMatrixValid
+                'border-red-500 bg-red-200': indicesMatrixError
               })}
-              buttonClassName={cn({ 'bg-black text-white': !indicesMatrixValid })}
+              buttonClassName={cn({ 'bg-black text-white': indicesMatrixError })}
             />
           </div>
           <div className="flex items-center justify-end">

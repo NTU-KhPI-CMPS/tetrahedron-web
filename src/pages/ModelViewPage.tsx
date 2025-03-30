@@ -6,7 +6,7 @@ import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
-import { parseCoorinatesMatrix } from '@/lib/parser.ts'
+import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import {
@@ -34,8 +34,6 @@ const ModelViewPage = () => {
     coorinatesMatrixFileName,
     indicesMatrix,
     coorinatesMatrix,
-    coorinatesMatrixLoaded,
-    indicesMatrixLoaded,
     displayNodeIndices,
     displacementLoaded,
     displacementFileName,
@@ -50,6 +48,8 @@ const ModelViewPage = () => {
   const { openModal } = useModal()
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
+  const [coorinatesMatrixError, setCoorinatesMatrixError] = useState<undefined | string>()
+  const [indicesMatrixError, setIndicesMatrixError] = useState<undefined | string>()
 
   const onModelDelete = useCallback(() => {
     dispatch(resetModel())
@@ -91,17 +91,27 @@ const ModelViewPage = () => {
   const loadDisplacement = useCallback(
     async (file: File) => {
       const input = await file.text()
-      const displacement = parseCoorinatesMatrix(input)
-      const isDisplacementValid = displacement.length === coorinatesMatrix.length
+      const { data: displacement, error } = parseCoorinatesMatrix(input)
 
-      if (!isDisplacementValid) {
+      if (error) {
         openModal({
-          buttons: 'ok',
-          title: t('errorModal.errorExclamationMark'),
-          message: t('errorModal.invalidDisplacementValuesMessage'),
-          onOkClick: () => {
-            console.log('ok')
-          }
+          title: t('validation.error'),
+          message: t(error.message),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+        return
+      }
+
+      if (displacement.length !== coorinatesMatrix.length) {
+        openModal({
+          title: t('validation.error'),
+          message: t('validation.displacementIsNotTheSameAsNodesCount', {
+            displacementCount: displacement.length,
+            nodesCount: coorinatesMatrix.length
+          }),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
         })
         return
       }
@@ -157,14 +167,16 @@ const ModelViewPage = () => {
       </div>
       <FilesUploader
         showFilesUploader={filesUploaderOpen}
-        coorinatesMatrixValid={!coorinatesMatrixLoaded || coorinatesMatrix.length > 1}
+        coorinatesMatrixError={coorinatesMatrixError}
         coorinatesMatrixFileName={coorinatesMatrixFileName}
         indicesMatrixFileName={indicesMatrixFileName}
-        indicesMatrixValid={!indicesMatrixLoaded || indicesMatrix.length > 1}
+        indicesMatrixError={indicesMatrixError}
         disableCreateModelButton={!coorinatesMatrix.length || !indicesMatrix.length}
         closeModal={closeModal}
         onIndicesMatrixLoad={onIndicesMatrixLoad}
+        onIndicesMatrixError={(errorMessage) => setIndicesMatrixError(errorMessage)}
         onCoorinatesMatrixLoad={onCoorinatesMatrixLoad}
+        onCoorinatesMatrixError={(errorMessage) => setCoorinatesMatrixError(errorMessage)}
         onCreateModelClick={closeModal}
       />
       <ErrorModal />
