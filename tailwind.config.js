@@ -22,6 +22,7 @@ export default {
         'button-pressed': '#1D0070',
         'button-hover': '#5826EA',
         'button-disabled': '#909090',
+        'grey-disabled': '#E5E5E6',
         select: '#EFEBFE',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

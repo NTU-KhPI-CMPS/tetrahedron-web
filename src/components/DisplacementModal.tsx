@@ -33,7 +33,7 @@ const DisplacementModal = () => {
       <PopoverContent
         side="left"
         sideOffset={185}
-        className="w-80 space-y-3 rounded-xl border border-light-grey bg-peach/50 p-3 font-semibold backdrop-blur-sm"
+        className="w-80 space-y-3 rounded-xl bg-peach/50 p-3 font-semibold backdrop-blur-sm"
       >
         <p className="text-center">{t('displacementOptions.nodeDisplacement')}</p>
         <SwitchWithTitle
@@ -57,7 +57,7 @@ const DisplacementModal = () => {
             placeholder={`${displacementScale}`}
             name="displacement-scale"
             id="displacement-scale"
-            className="w-24 rounded-md bg-soft py-1 text-center text-coal-black outline-none"
+            className="w-24 rounded-md bg-soft py-1 text-center text-coal-black outline-none hover:bg-grey-disabled"
           />
         </div>
         <div className="flex items-center justify-center">
