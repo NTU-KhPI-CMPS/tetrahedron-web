@@ -1,14 +1,23 @@
 import { Button } from '@/components/ui/button'
-import { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, ReactNode, useRef } from 'react'
 
 interface FileUploadButtonProps {
   title?: string
+  modal?: ReactNode
+  disableModal?: boolean
   buttonText: string
   variant?: 'default' | 'ghost'
   onFileSelect?: (file: File) => void
 }
 
-const FileUploadButton = ({ title, buttonText, onFileSelect, variant = 'default' }: FileUploadButtonProps) => {
+const FileUploadButton = ({
+  title,
+  modal,
+  disableModal,
+  buttonText,
+  onFileSelect,
+  variant = 'default'
+}: FileUploadButtonProps) => {
   const inputFile = useRef<HTMLInputElement | null>(null)
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +42,13 @@ const FileUploadButton = ({ title, buttonText, onFileSelect, variant = 'default'
         onChange={handleFileUpload}
         type="file"
       />
-      {title && <p className="font-semibold">{title}</p>}
+
+      {title && (
+        <div className="flex items-center justify-between">
+          <p className="font-semibold">{title}</p>
+          {!disableModal && modal}
+        </div>
+      )}
       <Button variant={variant} onClick={onButtonClick} size="sm" className="w-full">
         {buttonText}
       </Button>
