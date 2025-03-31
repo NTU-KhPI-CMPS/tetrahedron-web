@@ -26,10 +26,6 @@ describe('Toolbar', () => {
           otherCharacteristicFileName={''}
           loadStress={mockLoadStress}
           loadCharacteristic={mockLoadCharacteristic}
-          useDisplacement={false}
-          onDisplacementSwitchClick={() => {
-            return
-          }}
           onNodeIndicesSwitchClick={() => {
             return
           }}

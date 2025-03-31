@@ -40,8 +40,7 @@ const ModelViewPage = () => {
     stress,
     stressFileName,
     otherCharacteristicFileName,
-    otherCharacteristic,
-    display
+    otherCharacteristic
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -124,10 +123,6 @@ const ModelViewPage = () => {
     [coorinatesMatrix, t, dispatch, openModal]
   )
 
-  const onDisplacementSwitchClick = useCallback(() => {
-    dispatch(setDisplay(display === 'displacement' ? 'none' : 'displacement'))
-  }, [dispatch, display])
-
   const onNodeIndicesSwitchClick = useCallback(() => {
     dispatch(setDisplayNodeIndices(!displayNodeIndices))
   }, [dispatch, displayNodeIndices])
@@ -154,14 +149,12 @@ const ModelViewPage = () => {
         <Toolbar
           displayNodeIndices={displayNodeIndices}
           displacementLoaded={displacementLoaded}
-          useDisplacement={display === 'displacement'}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
           stressLoaded={stress !== null}
           otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
           onNodeIndicesSwitchClick={onNodeIndicesSwitchClick}
-          onDisplacementSwitchClick={onDisplacementSwitchClick}
           loadStress={loadStress}
           loadCharacteristic={loadCharacteristic}
           loadDisplacement={loadDisplacement}

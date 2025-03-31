@@ -1,3 +1,4 @@
+import displacementOptions from './displacement-options.json'
 import errorModal from './error-modal.json'
 import filesUploader from './files-uploader.json'
 import instrumentsSidebar from './instruments-sidebar.json'
@@ -14,7 +15,8 @@ const en = {
     toolbar,
     instrumentsSidebar,
     errorModal,
-    validation
+    validation,
+    displacementOptions
   }
 }
 

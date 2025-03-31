@@ -1,3 +1,4 @@
+import DisplacementModal from '@/components/DisplacementModal'
 import FileUploadButton from '@/components/FileUploadButton.tsx'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useTranslation } from 'react-i18next'
@@ -9,10 +10,8 @@ interface ToolbarProps {
   stressFileName: string
   otherCharacteristicLoaded: boolean
   otherCharacteristicFileName: string
-  useDisplacement: boolean
   displacementFileName: string
   onNodeIndicesSwitchClick: () => void
-  onDisplacementSwitchClick: () => void
   loadStress: (file: File) => void
   loadCharacteristic: (file: File) => void
   loadDisplacement: (file: File) => void
@@ -25,10 +24,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
   stressFileName,
   otherCharacteristicLoaded,
   otherCharacteristicFileName,
-  useDisplacement,
   displacementFileName,
   onNodeIndicesSwitchClick,
-  onDisplacementSwitchClick,
   loadStress,
   loadCharacteristic,
   loadDisplacement
@@ -37,13 +34,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <div className="absolute right-14 z-10 flex max-h-full w-52 select-none flex-col gap-3 overflow-y-auto rounded-3xl p-3 py-10 shadow-md backdrop-blur-sm">
-      <SwitchWithTitle
-        disabled={!displacementLoaded}
-        checked={useDisplacement}
-        label={t('toolbar.toolbarSections.switchSection.displacement')}
-        id="displacement"
-        onClick={onDisplacementSwitchClick}
-      />
       <SwitchWithTitle
         checked={displayNodeIndices}
         label={t('toolbar.toolbarSections.switchSection.nodes')}
@@ -69,6 +59,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
       <FileUploadButton
         variant={displacementLoaded ? 'ghost' : 'default'}
         title={t('toolbar.toolbarSections.buttonsSection.nodeDisplacement')}
+        modal={<DisplacementModal />}
+        disableModal={!displacementLoaded}
         buttonText={displacementLoaded ? displacementFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
         onFileSelect={loadDisplacement}
       />

@@ -18,6 +18,7 @@ export interface ModelState {
   display: ModelDisplayVariants
 
   displacement: VertexCoordinate[]
+  displacementScale: number
   displacementLoaded: boolean
   displacementFileName: string | null
 
@@ -44,6 +45,7 @@ export const initialState: ModelState = {
   display: 'none',
 
   displacement: [],
+  displacementScale: 1,
   displacementLoaded: false,
   displacementFileName: null,
 
@@ -109,6 +111,9 @@ export const modelSlice = createSlice({
     },
     setDisplay: (state, action: PayloadAction<ModelDisplayVariants>) => {
       state.display = action.payload
+    },
+    setDisplacementScale: (state, action: PayloadAction<number>) => {
+      state.displacementScale = action.payload
     }
   }
 })
@@ -122,7 +127,8 @@ export const {
   setStress,
   setCharacteristic,
   setDisplacement,
-  setDisplay
+  setDisplay,
+  setDisplacementScale
 } = modelSlice.actions
 
 export default modelSlice.reducer
