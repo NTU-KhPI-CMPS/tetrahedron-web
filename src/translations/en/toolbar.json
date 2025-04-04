@@ -1,6 +1,7 @@
 {
   "toolbarSections": {
     "switchSection": {
+      "light": "Light",
       "nodes": "Nodes",
       "nodeNumbers": "Node numbers",
       "legend": "Legend",

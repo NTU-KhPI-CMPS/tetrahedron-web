@@ -2,13 +2,21 @@ import NodeDisplay from '@/components/NodeDisplay'
 import { useAppSelector } from '@/hooks/use-redux'
 import { calculateCoorinatesMatrixDisplacement, generateCoorinatesMatrix, generateIndicesMatrix } from '@/lib/utils'
 import { Wireframe } from '@react-three/drei'
-import { FC, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { shallowEqual } from 'react-redux'
 import * as THREE from 'three'
 
 const CustomGeometry: FC = () => {
-  const { coorinatesMatrix, indicesMatrix, colors, displacement, displayNodeIndices, display, displacementScale } =
-    useAppSelector((store) => store.model, shallowEqual)
+  const {
+    coorinatesMatrix,
+    indicesMatrix,
+    colors,
+    displacement,
+    displayNodeIndices,
+    display,
+    displacementScale,
+    displayLight
+  } = useAppSelector((store) => store.model, shallowEqual)
 
   const meshRef = useRef<THREE.Mesh>(null)
 
@@ -32,8 +40,19 @@ const CustomGeometry: FC = () => {
     return `${result}${index}${x}${y}${z}`
   }, '')
 
+  useEffect(() => {
+    const geometry = meshRef.current?.geometry
+    if (!geometry) {
+      return
+    }
+
+    geometry.toNonIndexed()
+  }, [meshRef])
+
   return (
     <>
+      {/*TODO: define light position*/}
+      <pointLight position={[0, 20, 10]} intensity={1000} />
       <mesh ref={meshRef} key={coorinatesMatrixKey}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" array={position} itemSize={3} count={position.length / 3} />
@@ -41,7 +60,11 @@ const CustomGeometry: FC = () => {
           <bufferAttribute attach="attributes-color" args={[colorArray, colorsCount]} />
         </bufferGeometry>
 
-        <meshBasicMaterial vertexColors={colorsCheck} />
+        {displayLight ? (
+          <meshPhongMaterial vertexColors={colorsCheck} flatShading={displayLight} />
+        ) : (
+          <meshBasicMaterial vertexColors={colorsCheck} />
+        )}
 
         <Wireframe thickness={0.01} stroke={'black'} />
       </mesh>

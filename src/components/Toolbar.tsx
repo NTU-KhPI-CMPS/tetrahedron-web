@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 interface ToolbarProps {
   displayNodeIndices: boolean
+  displayLight: boolean
   displacementLoaded: boolean
   stressLoaded: boolean
   stressFileName: string
@@ -12,6 +13,7 @@ interface ToolbarProps {
   otherCharacteristicFileName: string
   displacementFileName: string
   onNodeIndicesSwitchClick: () => void
+  onLightSwitchClick: () => void
   loadStress: (file: File) => void
   loadCharacteristic: (file: File) => void
   loadDisplacement: (file: File) => void
@@ -19,6 +21,7 @@ interface ToolbarProps {
 
 const Toolbar: React.FC<ToolbarProps> = ({
   displayNodeIndices,
+  displayLight,
   displacementLoaded,
   stressLoaded,
   stressFileName,
@@ -26,6 +29,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   otherCharacteristicFileName,
   displacementFileName,
   onNodeIndicesSwitchClick,
+  onLightSwitchClick,
   loadStress,
   loadCharacteristic,
   loadDisplacement
@@ -34,6 +38,12 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <div className="absolute right-14 z-10 flex max-h-full w-52 select-none flex-col gap-3 overflow-y-auto rounded-3xl p-3 py-10 shadow-md backdrop-blur-sm">
+      <SwitchWithTitle
+        checked={displayLight}
+        label={t('toolbar.toolbarSections.switchSection.light')}
+        id="light"
+        onClick={onLightSwitchClick}
+      />
       <SwitchWithTitle
         checked={displayNodeIndices}
         label={t('toolbar.toolbarSections.switchSection.nodes')}

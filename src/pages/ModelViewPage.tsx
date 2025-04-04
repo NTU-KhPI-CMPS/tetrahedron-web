@@ -12,6 +12,7 @@ import { resetLegend } from '@/redux/slices/legendSlice'
 import {
   resetModel,
   setCoorinatesMatrix,
+  setDisplayLight,
   setDisplayNodeIndices,
   setIndicesMatrix,
   setReady
@@ -35,6 +36,7 @@ const ModelViewPage = () => {
     indicesMatrix,
     coorinatesMatrix,
     displayNodeIndices,
+    displayLight,
     displacementLoaded,
     displacementFileName,
     stress,
@@ -127,6 +129,10 @@ const ModelViewPage = () => {
     dispatch(setDisplayNodeIndices(!displayNodeIndices))
   }, [dispatch, displayNodeIndices])
 
+  const onLightSwitchClick = useCallback(() => {
+    dispatch(setDisplayLight(!displayLight))
+  }, [dispatch, displayLight])
+
   return (
     <>
       <div className="relative flex items-center justify-between">
@@ -148,6 +154,7 @@ const ModelViewPage = () => {
         )}
         <Toolbar
           displayNodeIndices={displayNodeIndices}
+          displayLight={displayLight}
           displacementLoaded={displacementLoaded}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
@@ -155,6 +162,7 @@ const ModelViewPage = () => {
           otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
           onNodeIndicesSwitchClick={onNodeIndicesSwitchClick}
+          onLightSwitchClick={onLightSwitchClick}
           loadStress={loadStress}
           loadCharacteristic={loadCharacteristic}
           loadDisplacement={loadDisplacement}

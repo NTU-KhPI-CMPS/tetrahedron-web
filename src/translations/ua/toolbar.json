@@ -1,6 +1,7 @@
 {
   "toolbarSections": {
     "switchSection": {
+      "light": "Світло",
       "nodes": "Вузли",
       "nodeNumbers": "Номери вузлів",
       "legend": "Легенда",
