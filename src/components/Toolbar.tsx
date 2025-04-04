@@ -1,36 +1,47 @@
 import DisplacementModal from '@/components/DisplacementModal'
 import FileUploadButton from '@/components/FileUploadButton.tsx'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
+import { useAppDispatch, useAppSelector } from '@/hooks/use-redux.ts'
+import { setDisplayCoordinateAxes, setDisplayNodeIndices } from '@/redux/slices/modelViewSettingSlice.ts'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { shallowEqual } from 'react-redux'
 
 interface ToolbarProps {
-  displayNodeIndices: boolean
   displacementLoaded: boolean
   stressLoaded: boolean
   stressFileName: string
   otherCharacteristicLoaded: boolean
   otherCharacteristicFileName: string
   displacementFileName: string
-  onNodeIndicesSwitchClick: () => void
   loadStress: (file: File) => void
   loadCharacteristic: (file: File) => void
   loadDisplacement: (file: File) => void
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
-  displayNodeIndices,
   displacementLoaded,
   stressLoaded,
   stressFileName,
   otherCharacteristicLoaded,
   otherCharacteristicFileName,
   displacementFileName,
-  onNodeIndicesSwitchClick,
   loadStress,
   loadCharacteristic,
   loadDisplacement
 }) => {
+  const dispatch = useAppDispatch()
   const { t } = useTranslation()
+
+  const { displayNodeIndices, displayCoordinateAxes } = useAppSelector((store) => store.modelViewSetting, shallowEqual)
+
+  const onNodeIndicesSwitchClick = useCallback(() => {
+    dispatch(setDisplayNodeIndices(!displayNodeIndices))
+  }, [dispatch, displayNodeIndices])
+
+  const onCoordinateAxesSwitchClick = useCallback(() => {
+    dispatch(setDisplayCoordinateAxes(!displayCoordinateAxes))
+  }, [dispatch, displayCoordinateAxes])
 
   return (
     <div className="absolute right-14 z-10 flex max-h-full w-52 select-none flex-col gap-3 overflow-y-auto rounded-3xl p-3 py-10 shadow-md backdrop-blur-sm">
@@ -39,6 +50,12 @@ const Toolbar: React.FC<ToolbarProps> = ({
         label={t('toolbar.toolbarSections.switchSection.nodes')}
         id="face-numbers"
         onClick={onNodeIndicesSwitchClick}
+      />
+      <SwitchWithTitle
+        checked={displayCoordinateAxes}
+        label={t('toolbar.toolbarSections.switchSection.coordinateAxes')}
+        id="coordinate-axes"
+        onClick={onCoordinateAxesSwitchClick}
       />
       <FileUploadButton
         variant={stressLoaded ? 'ghost' : 'default'}

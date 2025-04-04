@@ -9,13 +9,7 @@ import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
 import { loadCharacteristic, loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
-import {
-  resetModel,
-  setCoorinatesMatrix,
-  setDisplayNodeIndices,
-  setIndicesMatrix,
-  setReady
-} from '@/redux/slices/modelSlice'
+import { resetModel, setCoorinatesMatrix, setIndicesMatrix, setReady } from '@/redux/slices/modelSlice'
 import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
@@ -34,7 +28,6 @@ const ModelViewPage = () => {
     coorinatesMatrixFileName,
     indicesMatrix,
     coorinatesMatrix,
-    displayNodeIndices,
     displacementLoaded,
     displacementFileName,
     stress,
@@ -123,10 +116,6 @@ const ModelViewPage = () => {
     [coorinatesMatrix, t, dispatch, openModal]
   )
 
-  const onNodeIndicesSwitchClick = useCallback(() => {
-    dispatch(setDisplayNodeIndices(!displayNodeIndices))
-  }, [dispatch, displayNodeIndices])
-
   return (
     <>
       <div className="relative flex items-center justify-between">
@@ -147,14 +136,12 @@ const ModelViewPage = () => {
           </div>
         )}
         <Toolbar
-          displayNodeIndices={displayNodeIndices}
           displacementLoaded={displacementLoaded}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
           stressLoaded={stress !== null}
           otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
-          onNodeIndicesSwitchClick={onNodeIndicesSwitchClick}
           loadStress={loadStress}
           loadCharacteristic={loadCharacteristic}
           loadDisplacement={loadDisplacement}
