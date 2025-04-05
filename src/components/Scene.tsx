@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/hooks/use-redux.ts'
+import { useAppSelector } from '@/hooks/use-redux'
 import { Center, GizmoHelper, GizmoViewport, OrbitControls } from '@react-three/drei'
 import { shallowEqual } from 'react-redux'
 import CustomGeometry from './CustomGeometry'

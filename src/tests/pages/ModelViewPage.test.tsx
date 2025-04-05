@@ -1,7 +1,7 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
 import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
-import modelViewSettingReducer from '@/redux/slices/modelViewSettingSlice.ts'
+import modelViewSettingReducer from '@/redux/slices/modelViewSettingSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'

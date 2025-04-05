@@ -12,7 +12,7 @@ const CustomGeometry: FC = () => {
     shallowEqual
   )
 
-  const { displayNodeIndices } = useAppSelector((store) => store.modelViewSetting, shallowEqual)
+  const displayNodeIndices = useAppSelector((store) => store.modelViewSetting.displayNodeIndices)
 
   const meshRef = useRef<THREE.Mesh>(null)
 
