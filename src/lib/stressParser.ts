@@ -2,14 +2,14 @@ import { filterByLength, hasValidLineFormat, ParsedResult, parseLinesWithNumbers
 import { ModelPhysicalQuantity, Stress } from '@/types/ModelCommonTypes'
 
 export function parseDefaultPhysicalQuantity(input: string): ModelPhysicalQuantity {
-  const values = filterByLength(parseLinesWithNumbers(input), 1)
-    .map(([value]) => Number(value))
-    .sort((a, b) => a - b)
+  const values = filterByLength(parseLinesWithNumbers(input), 1).map(([value]) => Number(value))
+  const minValue = Math.min(...values)
+  const maxValue = Math.max(...values)
 
   return {
     values: values,
-    min: values[0],
-    max: values[values.length - 1]
+    min: minValue,
+    max: maxValue
   }
 }
 
