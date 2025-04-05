@@ -1,10 +1,9 @@
 import { useAppSelector } from '@/hooks/use-redux'
 import { Center, GizmoHelper, GizmoViewport, OrbitControls } from '@react-three/drei'
-import { shallowEqual } from 'react-redux'
 import CustomGeometry from './CustomGeometry'
 
 const Scene = () => {
-  const { displayCoordinateAxes } = useAppSelector((store) => store.modelViewSetting, shallowEqual)
+  const displayCoordinateAxes = useAppSelector((store) => store.modelViewSetting.displayCoordinateAxes)
 
   return (
     <>
