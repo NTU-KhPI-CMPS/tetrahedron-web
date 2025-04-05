@@ -22,8 +22,6 @@ export interface ModelState {
   displacementLoaded: boolean
   displacementFileName: string | null
 
-  displayNodeIndices: boolean
-
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
 
@@ -48,8 +46,6 @@ export const initialState: ModelState = {
   displacementScale: 1,
   displacementLoaded: false,
   displacementFileName: null,
-
-  displayNodeIndices: false,
 
   stress: null,
   stressFileName: null,
@@ -86,9 +82,6 @@ export const modelSlice = createSlice({
     setReady: (state, action: PayloadAction<boolean>) => {
       state.isReady = action.payload
     },
-    setDisplayNodeIndices: (state, action: PayloadAction<boolean>) => {
-      state.displayNodeIndices = action.payload
-    },
     setCharacteristic: (
       state,
       action: PayloadAction<{ otherCharacteristic: ModelPhysicalQuantity; fileName: string }>
@@ -123,7 +116,6 @@ export const {
   setCoorinatesMatrix,
   resetModel,
   setReady,
-  setDisplayNodeIndices,
   setStress,
   setCharacteristic,
   setDisplacement,

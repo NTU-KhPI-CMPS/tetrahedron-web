@@ -1,6 +1,7 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
 import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
+import modelViewSettingReducer from '@/redux/slices/modelViewSettingSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -30,7 +31,7 @@ const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { typ
 describe('ModelViewPage', () => {
   it('renders Experience component when isReady is true', () => {
     const store = configureStore({
-      reducer: { model },
+      reducer: { model, modelViewSetting: modelViewSettingReducer },
       preloadedState: { model: { ...initialState, isReady: true } }
     })
 
@@ -47,7 +48,7 @@ describe('ModelViewPage', () => {
 
   it('does not render Experience component when isReady is false', () => {
     const store = configureStore({
-      reducer: { model },
+      reducer: { model, modelViewSetting: modelViewSettingReducer },
       preloadedState: { model: { ...initialState, isReady: false } }
     })
 
@@ -69,7 +70,7 @@ describe('ModelViewPage', () => {
     })
 
     const store = configureStore({
-      reducer: { model },
+      reducer: { model, modelViewSetting: modelViewSettingReducer },
       preloadedState: { model: { ...initialState, isReady: false } }
     })
     store.dispatch = vi.fn()
@@ -105,7 +106,7 @@ describe('ModelViewPage', () => {
     })
 
     const store = configureStore({
-      reducer: { model },
+      reducer: { model, modelViewSetting: modelViewSettingReducer },
       preloadedState: { model: { ...initialState, isReady: false } }
     })
     store.dispatch = vi.fn()
@@ -138,7 +139,7 @@ describe('ModelViewPage', () => {
 
   it.skip('should dispatch setReady and close FileUploader when clicking on create model button', () => {
     const store = configureStore({
-      reducer: { model },
+      reducer: { model, modelViewSetting: modelViewSettingReducer },
       preloadedState: { model: initialState }
     })
     store.dispatch = vi.fn()
