@@ -1,17 +1,5 @@
 import { filterByLength, hasValidLineFormat, ParsedResult, parseLinesWithNumbers } from '@/lib/parserUtils'
-import { ModelPhysicalQuantity, Stress } from '@/types/ModelCommonTypes'
-
-export function parseDefaultPhysicalQuantity(input: string): ModelPhysicalQuantity {
-  const values = filterByLength(parseLinesWithNumbers(input), 1).map(([value]) => Number(value))
-  const minValue = Math.min(...values)
-  const maxValue = Math.max(...values)
-
-  return {
-    values: values,
-    min: minValue,
-    max: maxValue
-  }
-}
+import { Stress } from '@/types/ModelCommonTypes'
 
 export function parseDefaultStress(input: string): Stress[] {
   return filterByLength(parseLinesWithNumbers(input), 7).map(([index, qx, txy, tzx, qy, tyz, qz]) => ({
