@@ -7,9 +7,16 @@ import Toolbar from '@/components/Toolbar'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
-import { loadCharacteristic, loadStress } from '@/lib/utils'
+import { parseOtherCharacteristics } from '@/lib/otherCharacteristicsParser'
+import { loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
-import { resetModel, setCoorinatesMatrix, setIndicesMatrix, setReady } from '@/redux/slices/modelSlice'
+import {
+  resetModel,
+  setCharacteristic,
+  setCoorinatesMatrix,
+  setIndicesMatrix,
+  setReady
+} from '@/redux/slices/modelSlice'
 import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
@@ -114,6 +121,39 @@ const ModelViewPage = () => {
       dispatch(setDisplay('displacement'))
     },
     [coorinatesMatrix, t, dispatch, openModal]
+  )
+
+  const loadCharacteristic = useCallback(
+    async (file: File) => {
+      const input = await file.text()
+      const { data: otherCharacteristic, error } = parseOtherCharacteristics(input)
+
+      if (error) {
+        openModal({
+          title: t('validation.error'),
+          message: t(error.message),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+        return
+      }
+
+      if (otherCharacteristic.values.length !== indicesMatrix.length) {
+        openModal({
+          title: t('validation.error'),
+          message: t('validation.otherCharacteristicIsNotTheSameAsElementsCount', {
+            valueCount: otherCharacteristic.values.length,
+            elementsCount: indicesMatrix.length
+          }),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+        return
+      }
+
+      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
+    },
+    [indicesMatrix, t, dispatch, openModal]
   )
 
   return (
