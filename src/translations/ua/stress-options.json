@@ -1,0 +1,7 @@
+{
+  "elementStress": "Напруження в елементах",
+  "elementMises": "Напруження по Мізесу",
+  "stressComponent": "Компонент напруження",
+  "selectComponent": "Вибрати компонент",
+  "save": "Зберегти"
+}

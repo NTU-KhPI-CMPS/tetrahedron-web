@@ -1,9 +1,11 @@
 import { generateColorArray } from '@/lib/colorUtils'
+import { StressPhysicalQuantityType } from '@/lib/stressUtils'
 import { ElementIndices, ModelPhysicalQuantity, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
+type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'none'
+export type ComponentDisplayVariants = 'Mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
 
 export interface ModelState {
   indicesMatrix: ElementIndices[]
@@ -24,6 +26,9 @@ export interface ModelState {
 
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
+  stressLoaded: boolean
+  stressComponent: StressPhysicalQuantityType | null
+  componentDisplay: ComponentDisplayVariants
 
   otherCharacteristicFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
@@ -49,6 +54,9 @@ export const initialState: ModelState = {
 
   stress: null,
   stressFileName: null,
+  stressLoaded: false,
+  stressComponent: null,
+  componentDisplay: 'none',
 
   otherCharacteristicFileName: null,
   otherCharacteristic: null,
@@ -71,12 +79,18 @@ export const modelSlice = createSlice({
       state.coorinatesMatrixFileName = fileName
       state.coorinatesMatrixLoaded = true
     },
-    setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
-      const { stress, fileName } = action.payload
+    setStress: (
+      state,
+      action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string; components: StressPhysicalQuantityType }>
+    ) => {
+      const { stress, fileName, components } = action.payload
       state.stress = stress
       state.stressFileName = fileName
+      state.stressLoaded = true
+      state.stressComponent = components
+      state.componentDisplay = 'Mises'
+
       state.colors = generateColorArray(stress.values, stress.min, stress.max)
-      state.display = 'stress'
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -92,6 +106,21 @@ export const modelSlice = createSlice({
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
     },
+    setComponentDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+      state.componentDisplay = action.payload
+
+      if (action.payload === 'Mises' && state.stress) {
+        state.colors = generateColorArray(state.stress.values, state.stress.min, state.stress.max)
+      }
+
+      if (action.payload !== 'none' && state.stressComponent && action.payload !== 'Mises') {
+        const componentData = state.stressComponent[action.payload]
+        if (componentData) {
+          state.colors = generateColorArray(componentData.values, componentData.min, componentData.max)
+        }
+      }
+    },
+
     setDisplacement: (
       state,
       action: PayloadAction<{ displacement: VertexCoordinate[]; displacementFileName: string }>
@@ -117,6 +146,7 @@ export const {
   resetModel,
   setReady,
   setStress,
+  setComponentDisplay,
   setCharacteristic,
   setDisplacement,
   setDisplay,

@@ -1,0 +1,7 @@
+{
+  "elementStress": "Elements stress",
+  "elementMises": "Mises stress",
+  "stressComponent": "Stress component",
+  "selectComponent": "Select component",
+  "save": "Save"
+}

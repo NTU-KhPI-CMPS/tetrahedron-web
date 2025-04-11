@@ -1,3 +1,4 @@
+import ComponentsModal from '@/components/ComponentsSection/ComponentsModal'
 import DisplacementModal from '@/components/DisplacementModal'
 import FileUploadButton from '@/components/FileUploadButton'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
@@ -60,6 +61,8 @@ const Toolbar: React.FC<ToolbarProps> = ({
       <FileUploadButton
         variant={stressLoaded ? 'ghost' : 'default'}
         title={t('toolbar.toolbarSections.buttonsSection.nodeStress')}
+        modal={<ComponentsModal />}
+        disableModal={!stressLoaded}
         buttonText={stressLoaded ? stressFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
         onFileSelect={loadStress}
       />

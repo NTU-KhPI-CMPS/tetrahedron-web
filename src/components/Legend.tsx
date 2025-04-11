@@ -1,10 +1,11 @@
 import LegendItem from '@/components/LegendItem'
 import { useAppSelector } from '@/hooks/use-redux'
+import { shallowEqual } from 'react-redux'
 
 const Legend = () => {
   const legendColors = useAppSelector((store) => store.legend?.legend)
-  const display = useAppSelector((store) => store.model.display)
-  const canDisplayLegend = display === 'otherCharacteristic' || display === 'stress'
+  const { display, componentDisplay } = useAppSelector((store) => store.model, shallowEqual)
+  const canDisplayLegend = display === 'otherCharacteristic' || componentDisplay !== 'none'
 
   if (!legendColors || !canDisplayLegend) {
     return
