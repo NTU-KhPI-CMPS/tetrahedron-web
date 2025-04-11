@@ -1,4 +1,5 @@
-import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/stressParser'
+import { parseDefaultPhysicalQuantityWithIndex } from '@/lib/otherCharacteristicsParser'
+import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress, StressPhysicalQuantityType } from '@/lib/stressUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
@@ -64,7 +65,7 @@ export const loadStress = async (file: File) => {
 
 export const loadCharacteristic = async (file: File) => {
   const input = await file.text()
-  const otherCharacteristic = parseDefaultPhysicalQuantity(input)
+  const otherCharacteristic = parseDefaultPhysicalQuantityWithIndex(input)
   store.dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
 }
 
