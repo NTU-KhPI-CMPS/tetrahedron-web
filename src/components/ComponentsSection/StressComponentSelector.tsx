@@ -23,7 +23,7 @@ export interface ComponentSelectorProps {
   onChange: (value: ComponentDisplayVariants) => void
 }
 
-export function ComponentSelector({ value, onChange }: ComponentSelectorProps) {
+export function StressComponentSelector({ value, onChange }: ComponentSelectorProps) {
   const display = useAppSelector((store) => store.model.componentDisplay)
 
   const { t } = useTranslation()

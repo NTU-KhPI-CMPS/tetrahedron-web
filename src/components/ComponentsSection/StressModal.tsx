@@ -1,25 +1,25 @@
-import { ComponentSelector } from '@/components/ComponentsSection/ComponentSelector'
+import { StressComponentSelector } from '@/components/ComponentsSection/StressComponentSelector'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { ComponentDisplayVariants, setComponentDisplay } from '@/redux/slices/modelSlice'
+import { ComponentDisplayVariants, updateModelColor } from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
 
-const ComponentsModal = () => {
+const StressModal = () => {
   const display = useAppSelector((store) => store.model.componentDisplay)
   const dispatch = useAppDispatch()
 
   const onSwitchClick = () => {
-    dispatch(setComponentDisplay(display === 'Mises' ? 'none' : 'Mises'))
+    dispatch(updateModelColor(display === 'Mises' ? 'none' : 'Mises'))
   }
 
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
 
   const onSaveClick = () => {
-    if (selectedComponent !== 'none') dispatch(setComponentDisplay(selectedComponent))
+    if (selectedComponent !== 'none') dispatch(updateModelColor(selectedComponent))
   }
 
   const { t } = useTranslation()
@@ -45,7 +45,7 @@ const ComponentsModal = () => {
         />
         <div className="flex items-center justify-between">
           <label>{t('stressOptions.stressComponent')}</label>
-          <ComponentSelector value={selectedComponent} onChange={setSelectedComponent} />
+          <StressComponentSelector value={selectedComponent} onChange={setSelectedComponent} />
         </div>
         <div className="flex items-center justify-center">
           <Button onClick={onSaveClick} className="h-79 mx-auto w-24 rounded-full">
@@ -57,4 +57,4 @@ const ComponentsModal = () => {
   )
 }
 
-export default ComponentsModal
+export default StressModal

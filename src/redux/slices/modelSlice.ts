@@ -106,7 +106,7 @@ export const modelSlice = createSlice({
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
     },
-    setComponentDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+    updateModelColor: (state, action: PayloadAction<ComponentDisplayVariants>) => {
       state.componentDisplay = action.payload
 
       if (action.payload === 'Mises' && state.stress) {
@@ -146,7 +146,7 @@ export const {
   resetModel,
   setReady,
   setStress,
-  setComponentDisplay,
+  updateModelColor,
   setCharacteristic,
   setDisplacement,
   setDisplay,
