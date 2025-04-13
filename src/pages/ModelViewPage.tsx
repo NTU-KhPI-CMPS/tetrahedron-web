@@ -4,20 +4,10 @@ import InstrumentsSidebar from '@/components/InstrumentsSidebar'
 import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
+import useLoadHandler from '@/components/useLoadHandler'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { useModal } from '@/hooks/useModal'
-import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
-import { parseOtherCharacteristics } from '@/lib/otherCharacteristicsParser'
-import { loadStress } from '@/lib/utils'
 import { resetLegend } from '@/redux/slices/legendSlice'
-import {
-  resetModel,
-  setCharacteristic,
-  setCoorinatesMatrix,
-  setIndicesMatrix,
-  setReady
-} from '@/redux/slices/modelSlice'
-import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
+import { resetModel, setCoorinatesMatrix, setIndicesMatrix, setReady } from '@/redux/slices/modelSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
@@ -37,14 +27,13 @@ const ModelViewPage = () => {
     coorinatesMatrix,
     displacementLoaded,
     displacementFileName,
-    stress,
+    stressMises,
     stressFileName,
     otherCharacteristicFileName,
     otherCharacteristic
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const { openModal } = useModal()
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
   const [coorinatesMatrixError, setCoorinatesMatrixError] = useState<undefined | string>()
@@ -89,72 +78,7 @@ const ModelViewPage = () => {
     setFilesUploaderOpen(false)
   }, [dispatch, indicesMatrix, coorinatesMatrix])
 
-  const loadDisplacement = useCallback(
-    async (file: File) => {
-      const input = await file.text()
-      const { data: displacement, error } = parseCoorinatesMatrix(input, 'validation.displacementInvalidNumbersCount')
-
-      if (error) {
-        openModal({
-          title: t('validation.error'),
-          message: t(error.message),
-          confirmation: t('validation.checkDataAndTryAgain'),
-          buttons: 'ok'
-        })
-        return
-      }
-
-      if (displacement.length !== coorinatesMatrix.length) {
-        openModal({
-          title: t('validation.error'),
-          message: t('validation.displacementIsNotTheSameAsNodesCount', {
-            displacementCount: displacement.length,
-            nodesCount: coorinatesMatrix.length
-          }),
-          confirmation: t('validation.checkDataAndTryAgain'),
-          buttons: 'ok'
-        })
-        return
-      }
-
-      dispatch(setDisplacement({ displacement, displacementFileName: file.name }))
-      dispatch(setDisplay('displacement'))
-    },
-    [coorinatesMatrix, t, dispatch, openModal]
-  )
-
-  const loadCharacteristic = useCallback(
-    async (file: File) => {
-      const input = await file.text()
-      const { data: otherCharacteristic, error } = parseOtherCharacteristics(input)
-
-      if (error) {
-        openModal({
-          title: t('validation.error'),
-          message: t(error.message),
-          confirmation: t('validation.checkDataAndTryAgain'),
-          buttons: 'ok'
-        })
-        return
-      }
-
-      if (otherCharacteristic.values.length !== indicesMatrix.length) {
-        openModal({
-          title: t('validation.error'),
-          message: t('validation.otherCharacteristicIsNotTheSameAsElementsCount', {
-            valueCount: otherCharacteristic.values.length,
-            elementsCount: indicesMatrix.length
-          }),
-          confirmation: t('validation.checkDataAndTryAgain'),
-          buttons: 'ok'
-        })
-        return
-      }
-
-      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
-    },
-    [indicesMatrix, t, dispatch, openModal]
-  )
+  const { loadCharacteristic, loadStress, loadDisplacement } = useLoadHandler()
 
   return (
     <>
@@ -179,7 +103,7 @@ const ModelViewPage = () => {
           displacementLoaded={displacementLoaded}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
-          stressLoaded={stress !== null}
+          stressLoaded={stressMises !== null}
           otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
           loadStress={loadStress}

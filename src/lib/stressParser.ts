@@ -25,12 +25,15 @@ export function parseStressWithNoIndex(input: string): Stress[] {
   }))
 }
 
-export function parseStress(input: string): ParsedResult<Stress[]> {
+export function parseStress(
+  input: string,
+  errorMessage = 'validation.stressInvalidNumbersCount'
+): ParsedResult<Stress[]> {
   const isMisesStress = hasValidLineFormat(input, 7)
   const isStressWithoutIndices = hasValidLineFormat(input, 6)
 
   if (isMisesStress) return { data: parseDefaultStress(input) }
   if (isStressWithoutIndices) return { data: parseStressWithNoIndex(input) }
 
-  return { error: { message: 'valitation.stressInvalidNumbersCount' } }
+  return { error: { message: errorMessage } }
 }
