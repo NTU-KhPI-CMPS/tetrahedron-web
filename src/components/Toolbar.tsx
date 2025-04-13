@@ -1,7 +1,6 @@
 import DisplacementModal from '@/components/DisplacementModal'
 import FileUploadButton from '@/components/FileUploadButton'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { setDisplayCoordinateAxes, setDisplayNodeIndices } from '@/redux/slices/modelViewSettingSlice'
 import { useCallback } from 'react'
@@ -45,52 +44,44 @@ const Toolbar: React.FC<ToolbarProps> = ({
   }, [dispatch, displayCoordinateAxes])
 
   return (
-    <ResizablePanelGroup autoSaveId="toolbar" direction="horizontal">
-      <ResizablePanel />
-      <ResizableHandle withHandle className="z-[11] bg-transparent" />
-      <ResizablePanel defaultSize={20} className="relative flex items-center">
-        <div className="absolute z-10 flex max-h-full w-full select-none flex-col gap-3 overflow-y-auto rounded-3xl bg-peach/30 p-3 py-10 shadow-md backdrop-blur-sm">
-          <SwitchWithTitle
-            checked={displayNodeIndices}
-            label={t('toolbar.toolbarSections.switchSection.nodes')}
-            id="face-numbers"
-            onClick={onNodeIndicesSwitchClick}
-          />
-          <SwitchWithTitle
-            checked={displayCoordinateAxes}
-            label={t('toolbar.toolbarSections.switchSection.coordinateAxes')}
-            id="coordinate-axes"
-            onClick={onCoordinateAxesSwitchClick}
-          />
-          <FileUploadButton
-            variant={stressLoaded ? 'ghost' : 'default'}
-            title={t('toolbar.toolbarSections.buttonsSection.nodeStress')}
-            buttonText={stressLoaded ? stressFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
-            onFileSelect={loadStress}
-          />
-          <FileUploadButton
-            title={t('toolbar.toolbarSections.buttonsSection.otherCharacteristic')}
-            variant={otherCharacteristicLoaded ? 'ghost' : 'default'}
-            buttonText={
-              otherCharacteristicLoaded
-                ? otherCharacteristicFileName
-                : t('toolbar.toolbarSections.buttonsSection.fileUpload')
-            }
-            onFileSelect={loadCharacteristic}
-          />
-          <FileUploadButton
-            variant={displacementLoaded ? 'ghost' : 'default'}
-            title={t('toolbar.toolbarSections.buttonsSection.nodeDisplacement')}
-            modal={<DisplacementModal />}
-            disableModal={!displacementLoaded}
-            buttonText={
-              displacementLoaded ? displacementFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')
-            }
-            onFileSelect={loadDisplacement}
-          />
-        </div>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+    <div className="flex max-h-full w-full select-none flex-col gap-3 overflow-y-auto rounded-3xl bg-peach/30 p-3 py-10 shadow-md backdrop-blur-sm">
+      <SwitchWithTitle
+        checked={displayNodeIndices}
+        label={t('toolbar.toolbarSections.switchSection.nodes')}
+        id="face-numbers"
+        onClick={onNodeIndicesSwitchClick}
+      />
+      <SwitchWithTitle
+        checked={displayCoordinateAxes}
+        label={t('toolbar.toolbarSections.switchSection.coordinateAxes')}
+        id="coordinate-axes"
+        onClick={onCoordinateAxesSwitchClick}
+      />
+      <FileUploadButton
+        variant={stressLoaded ? 'ghost' : 'default'}
+        title={t('toolbar.toolbarSections.buttonsSection.nodeStress')}
+        buttonText={stressLoaded ? stressFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
+        onFileSelect={loadStress}
+      />
+      <FileUploadButton
+        title={t('toolbar.toolbarSections.buttonsSection.otherCharacteristic')}
+        variant={otherCharacteristicLoaded ? 'ghost' : 'default'}
+        buttonText={
+          otherCharacteristicLoaded
+            ? otherCharacteristicFileName
+            : t('toolbar.toolbarSections.buttonsSection.fileUpload')
+        }
+        onFileSelect={loadCharacteristic}
+      />
+      <FileUploadButton
+        variant={displacementLoaded ? 'ghost' : 'default'}
+        title={t('toolbar.toolbarSections.buttonsSection.nodeDisplacement')}
+        modal={<DisplacementModal />}
+        disableModal={!displacementLoaded}
+        buttonText={displacementLoaded ? displacementFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
+        onFileSelect={loadDisplacement}
+      />
+    </div>
   )
 }
 

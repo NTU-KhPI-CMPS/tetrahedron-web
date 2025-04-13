@@ -4,6 +4,7 @@ import InstrumentsSidebar from '@/components/InstrumentsSidebar'
 import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
@@ -159,33 +160,46 @@ const ModelViewPage = () => {
   return (
     <>
       <div className="relative flex items-center justify-between">
-        <InstrumentsSidebar buttonsData={buttonsData} />
-        <Legend />
-        {isReady && (
-          <div data-testid="experience" className="fixed left-0 top-0 z-0 h-dvh w-full overflow-hidden">
-            <Canvas
-              camera={{
-                fov: 45,
-                near: 0.001,
-                far: 10000,
-                position: [3, 3, 3]
-              }}
-            >
-              <Scene />
-            </Canvas>
+        <ResizablePanelGroup autoSaveId="toolbar" direction="horizontal">
+          <div className="flex items-center">
+            <InstrumentsSidebar buttonsData={buttonsData} />
           </div>
-        )}
-        <Toolbar
-          displacementLoaded={displacementLoaded}
-          displacementFileName={displacementFileName ?? ''}
-          stressFileName={stressFileName ?? ''}
-          stressLoaded={stress !== null}
-          otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
-          otherCharacteristicLoaded={otherCharacteristic !== null}
-          loadStress={loadStress}
-          loadCharacteristic={loadCharacteristic}
-          loadDisplacement={loadDisplacement}
-        />
+          <ResizablePanel className="flex flex-col justify-center">
+            <Legend />
+          </ResizablePanel>
+          <ResizableHandle className="bg-transparent" />
+
+          <ResizablePanel>
+            {isReady && (
+              <div data-testid="experience" className="fixed left-0 top-0 z-0 h-dvh w-full overflow-hidden">
+                <Canvas
+                  camera={{
+                    fov: 45,
+                    near: 0.001,
+                    far: 10000,
+                    position: [3, 3, 3]
+                  }}
+                >
+                  <Scene />
+                </Canvas>
+              </div>
+            )}
+          </ResizablePanel>
+          <ResizableHandle className="bg-transparent" />
+          <ResizablePanel className="flex flex-col justify-center">
+            <Toolbar
+              displacementLoaded={displacementLoaded}
+              displacementFileName={displacementFileName ?? ''}
+              stressFileName={stressFileName ?? ''}
+              stressLoaded={stress !== null}
+              otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
+              otherCharacteristicLoaded={otherCharacteristic !== null}
+              loadStress={loadStress}
+              loadCharacteristic={loadCharacteristic}
+              loadDisplacement={loadDisplacement}
+            />
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </div>
       <FilesUploader
         showFilesUploader={filesUploaderOpen}
