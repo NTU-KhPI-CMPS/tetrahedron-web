@@ -1,4 +1,5 @@
 import LegendItem from '@/components/LegendItem'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useAppSelector } from '@/hooks/use-redux'
 
 const Legend = () => {
@@ -11,11 +12,15 @@ const Legend = () => {
   }
 
   return (
-    <div className="absolute z-10 ml-44 flex flex-col justify-center bg-red-500">
-      {legendColors.map((item) => (
-        <LegendItem color={item.color} rangeStart={item.rangeStart} rangeEnd={item.rangeEnd} key={item.rangeStart} />
-      ))}
-    </div>
+    <ResizablePanelGroup autoSaveId="legend" direction="horizontal" className="absolute z-10 pl-44">
+      <ResizablePanel defaultSize={10} className="flex flex-col justify-center">
+        {legendColors.map((item) => (
+          <LegendItem color={item.color} rangeStart={item.rangeStart} rangeEnd={item.rangeEnd} key={item.rangeStart} />
+        ))}
+      </ResizablePanel>
+      <ResizableHandle withHandle className="bg-transparent" />
+      <ResizablePanel />
+    </ResizablePanelGroup>
   )
 }
 

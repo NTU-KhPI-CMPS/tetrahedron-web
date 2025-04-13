@@ -42,7 +42,7 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
 
   return (
     <TooltipProvider>
-      <div className="absolute left-14 z-10 flex h-[372px] w-[72px] flex-col gap-3 rounded-3xl p-3 shadow-md backdrop-blur-sm">
+      <div className="absolute left-14 z-10 flex h-[372px] w-[72px] flex-col gap-3 rounded-3xl bg-peach/30 p-3 shadow-md backdrop-blur-sm">
         <div className="absolute left-0 z-10 flex h-full w-full flex-col items-center gap-3">{buttons}</div>
         <div className="absolute left-0 top-0 h-full w-full p-3">
           <div style={circlePosition} className="size-12 translate-y-5 rounded-full bg-app-blue duration-150" />

@@ -10,7 +10,7 @@ const LegendItem: FC<LegendType> = ({ color, rangeStart, rangeEnd }) => {
 
   return (
     <div className="relative flex flex-col">
-      <div className="h-9 w-24 border-y border-black" style={{ backgroundColor: rgbColor }}></div>
+      <div className="h-9 border-y border-black" style={{ backgroundColor: rgbColor }} />
       <div className="absolute left-1/2 top-1/2 flex h-5 w-16 -translate-x-1/2 -translate-y-7 items-center justify-center border border-black bg-white">
         <div className="text-center text-xs">
           {rangeStart.toExponential(2)}
