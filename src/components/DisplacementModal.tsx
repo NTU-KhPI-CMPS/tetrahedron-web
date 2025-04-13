@@ -1,19 +1,29 @@
+import MultipleSelect from '@/components/MultipleSelect'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { setDisplacementScale, setDisplay } from '@/redux/slices/modelSlice'
+import { AxisComponent, setDisplacementComponents, setDisplacementScale, setDisplay } from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
+import { shallowEqual } from 'react-redux'
 
 const DisplacementModal = () => {
-  const display = useAppSelector((store) => store.model.display)
-  const displacementScale = useAppSelector((store) => store.model.displacementScale)
+  const [open, setOpen] = useState(false)
+  const { display, displacementComponents, displacementScale } = useAppSelector((store) => store.model, shallowEqual)
+
   const dispatch = useAppDispatch()
-  const [scale, setScale] = useState(displacementScale)
   const { t } = useTranslation()
+
+  const [scale, setScale] = useState(displacementScale)
+
   const scaleLimit = 100000
+  const components = [
+    { value: 'x', selected: displacementComponents.includes('x') },
+    { value: 'y', selected: displacementComponents.includes('y') },
+    { value: 'z', selected: displacementComponents.includes('z') }
+  ]
 
   const onSwitchClick = () => {
     dispatch(setDisplay(display === 'displacement' ? 'none' : 'displacement'))
@@ -21,12 +31,17 @@ const DisplacementModal = () => {
 
   const onSaveClick = () => {
     dispatch(setDisplacementScale(scale))
+    setOpen(false)
+  }
+
+  const changeComponent = (components: AxisComponent[]) => {
+    dispatch(setDisplacementComponents(components))
   }
 
   return (
-    <Popover>
+    <Popover open={open}>
       <div className="flex items-center justify-center rounded-full border border-app-blue bg-soft px-1.5 text-app-blue duration-150 hover:bg-app-blue hover:text-soft">
-        <PopoverTrigger>
+        <PopoverTrigger onClick={() => setOpen(true)}>
           <BsThreeDots />
         </PopoverTrigger>
       </div>
@@ -43,6 +58,17 @@ const DisplacementModal = () => {
           id="general-displacement"
         />
         <div className="flex items-center justify-between">
+          <p>{t('displacementOptions.displacementComponents')}</p>
+          <MultipleSelect
+            defaultItems={components}
+            onItemSelected={(items) => {
+              const componentsToUse = items.filter((item) => item.selected).map((i) => i.value as AxisComponent)
+              changeComponent(componentsToUse)
+            }}
+            title={t('displacementOptions.selectComponent')}
+          />
+        </div>
+        <div className="flex items-center justify-between">
           <label htmlFor="displacement-scale">{t('displacementOptions.displacementScale')}</label>
           <input
             value={scale}
@@ -57,7 +83,7 @@ const DisplacementModal = () => {
             placeholder={`${displacementScale}`}
             name="displacement-scale"
             id="displacement-scale"
-            className="w-24 rounded-md bg-soft py-1 text-center text-coal-black outline-none hover:bg-grey-disabled"
+            className="w-24 rounded-md bg-soft py-1 text-center text-coal-black outline-none hover:bg-gray-disabled"
           />
         </div>
         <div className="flex items-center justify-center">

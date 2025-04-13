@@ -1,6 +1,6 @@
 import { parseDefaultPhysicalQuantity, parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
-import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
+import { AxisComponent, setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { clsx, type ClassValue } from 'clsx'
@@ -62,14 +62,18 @@ export const loadCharacteristic = async (file: File) => {
 export function calculateCoorinatesMatrixDisplacement(
   coorinatesMatrix: VertexCoordinate[],
   displacement: VertexCoordinate[],
-  scale: number
+  scale: number,
+  displacementComponents: AxisComponent[]
 ) {
   return coorinatesMatrix.map((vertex, index) => {
+    const useXDisplacement = displacementComponents.includes('x')
+    const useYDisplacement = displacementComponents.includes('y')
+    const useZDisplacement = displacementComponents.includes('z')
     return {
       index: vertex.index,
-      x: vertex.x + displacement[index].x * scale,
-      y: vertex.y + displacement[index].y * scale,
-      z: vertex.z + displacement[index].z * scale
+      x: useXDisplacement ? vertex.x + displacement[index].x * scale : vertex.x,
+      y: useYDisplacement ? vertex.y + displacement[index].y * scale : vertex.y,
+      z: useZDisplacement ? vertex.z + displacement[index].z * scale : vertex.z
     }
   })
 }
