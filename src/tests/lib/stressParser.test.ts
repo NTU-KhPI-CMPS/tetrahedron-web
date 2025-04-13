@@ -1,4 +1,5 @@
-import { parseDefaultPhysicalQuantity, parseDefaultStress, parseStress } from '@/lib/stressParser'
+import { parseDefaultPhysicalQuantity } from '@/lib/otherCharacteristicsParser'
+import { parseDefaultStress, parseStress } from '@/lib/stressParser'
 import { describe, expect, it } from 'vitest'
 
 describe('parseDefaultStress', () => {
