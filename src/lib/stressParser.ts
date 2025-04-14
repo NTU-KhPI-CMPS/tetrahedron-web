@@ -32,5 +32,5 @@ export function parseStress(input: string): ParsedResult<Stress[]> {
   if (isMisesStress) return { data: parseDefaultStress(input) }
   if (isStressWithoutIndices) return { data: parseStressWithNoIndex(input) }
 
-  return { error: { message: 'valitation.stressInvalidNumbersCount' } }
+  return { error: { message: 'validation.stressInvalidNumbersCount' } }
 }

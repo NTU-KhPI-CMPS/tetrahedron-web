@@ -1,5 +1,5 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { ElementIndices, ModelPhysicalQuantity, VertexCoordinate } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -25,6 +25,7 @@ export interface ModelState {
   displacementFileName: string | null
   displacementComponents: AxisComponent[]
 
+  stressValues: Stress[]
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
 
@@ -51,6 +52,7 @@ export const initialState: ModelState = {
   displacementFileName: null,
   displacementComponents: ['x', 'y', 'z'],
 
+  stressValues: [],
   stress: null,
   stressFileName: null,
 
