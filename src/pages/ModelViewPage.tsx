@@ -40,11 +40,11 @@ const ModelViewPage = () => {
     coorinatesMatrix,
     displacementLoaded,
     displacementFileName,
-    stressMises,
+    stress,
     stressFileName,
     otherCharacteristicFileName,
     otherCharacteristic,
-    stress
+    stressValues
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -141,12 +141,12 @@ const ModelViewPage = () => {
         })
         return
       }
-      if (parsedStress.values.length !== stress.length) {
+      if (parsedStress.values.length !== stressValues.length) {
         openModal({
           title: t('validation.error'),
           message: t('validation.stressIsNotTheSameAsNodesCount', {
             stressCount: parsedStress.length,
-            elementsCount: stress.length
+            elementsCount: stressValues.length
           }),
           confirmation: t('validation.checkDataAndTryAgain'),
           buttons: 'ok'
@@ -157,9 +157,9 @@ const ModelViewPage = () => {
 
       const calculatedMises = calculateMisesStress(parsedStress)
 
-      const stressMises = buildMisesPhysicalQuantity(calculatedMises)
+      const stress = buildMisesPhysicalQuantity(calculatedMises)
 
-      dispatch(setStress({ stressMises, fileName: file.name }))
+      dispatch(setStress({ stress, fileName: file.name }))
       dispatch(setDisplay('stress'))
     },
     [dispatch, t, openModal, stress]
@@ -222,7 +222,7 @@ const ModelViewPage = () => {
           displacementLoaded={displacementLoaded}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
-          stressLoaded={stressMises !== null}
+          stressLoaded={stress !== null}
           otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
           loadStress={loadStress}

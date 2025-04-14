@@ -29,12 +29,12 @@ export const legendSlice = createSlice({
       (
         state,
         action: PayloadAction<{
-          stressMises: ModelPhysicalQuantity
+          stress: ModelPhysicalQuantity
           fileName: string
         }>
       ) => {
-        state.max = action.payload.stressMises.max
-        state.min = action.payload.stressMises.min
+        state.max = action.payload.stress.max
+        state.min = action.payload.stress.min
         state.legend = generateLegend(state.min, state.max)
         state.isLoaded = true
       }
