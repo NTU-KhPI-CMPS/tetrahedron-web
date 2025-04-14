@@ -11,7 +11,7 @@ const Legend = () => {
   }
 
   return (
-    <div className="relative z-10 ml-44">
+    <div className="relative z-10">
       {legendColors.map((item) => (
         <LegendItem color={item.color} rangeStart={item.rangeStart} rangeEnd={item.rangeEnd} key={item.rangeStart} />
       ))}
