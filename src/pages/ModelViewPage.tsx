@@ -164,10 +164,10 @@ const ModelViewPage = () => {
           <div className="flex items-center">
             <InstrumentsSidebar buttonsData={buttonsData} />
           </div>
-          <ResizablePanel minSize={10} defaultSize={10} className="flex flex-col justify-center pl-44">
+          <ResizablePanel defaultSize={10} className="flex flex-col justify-center pl-44">
             <Legend />
           </ResizablePanel>
-          <ResizableHandle className="bg-transparent" />
+          <ResizableHandle className="z-[11] bg-transparent" />
 
           <ResizablePanel>
             {isReady && (
@@ -185,8 +185,8 @@ const ModelViewPage = () => {
               </div>
             )}
           </ResizablePanel>
-          <ResizableHandle className="bg-transparent" />
-          <ResizablePanel minSize={10} defaultSize={20} className="flex flex-col justify-center pr-8">
+          <ResizableHandle className="z-[11] bg-transparent" />
+          <ResizablePanel defaultSize={20} className="flex flex-col justify-center pr-8">
             <Toolbar
               displacementLoaded={displacementLoaded}
               displacementFileName={displacementFileName ?? ''}
