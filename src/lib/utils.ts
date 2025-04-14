@@ -1,7 +1,4 @@
-import { parseStress } from '@/lib/stressParser'
-import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
-import { setStress } from '@/redux/slices/modelSlice'
-import { store } from '@/redux/store'
+import { AxisComponent } from '@/redux/slices/modelSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
