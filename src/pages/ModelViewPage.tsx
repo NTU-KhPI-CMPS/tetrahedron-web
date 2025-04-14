@@ -164,7 +164,7 @@ const ModelViewPage = () => {
           <div className="flex items-center">
             <InstrumentsSidebar buttonsData={buttonsData} />
           </div>
-          <ResizablePanel defaultSize={10} className="flex flex-col justify-center pl-44">
+          <ResizablePanel defaultSize={10} className="flex min-w-60 flex-col justify-center pl-44">
             <Legend />
           </ResizablePanel>
           <ResizableHandle className="z-[11] bg-transparent" />
@@ -186,7 +186,7 @@ const ModelViewPage = () => {
             )}
           </ResizablePanel>
           <ResizableHandle className="z-[11] bg-transparent" />
-          <ResizablePanel defaultSize={20} className="flex flex-col justify-center pr-8">
+          <ResizablePanel defaultSize={20} className="flex min-w-56 flex-col justify-center pr-8">
             <Toolbar
               displacementLoaded={displacementLoaded}
               displacementFileName={displacementFileName ?? ''}
