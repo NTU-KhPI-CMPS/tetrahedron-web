@@ -162,7 +162,7 @@ const ModelViewPage = () => {
       dispatch(setStress({ stress, fileName: file.name }))
       dispatch(setDisplay('stress'))
     },
-    [dispatch, t, openModal, stress]
+    [dispatch, t, openModal, stressValues]
   )
 
   const loadDisplacement = useCallback(
