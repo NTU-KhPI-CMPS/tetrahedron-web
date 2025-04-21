@@ -8,16 +8,19 @@ import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
 import { parseOtherCharacteristics } from '@/lib/otherCharacteristicsParser'
-import { loadStress } from '@/lib/utils'
+import { parseStress } from '@/lib/stressParser'
+import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import {
   resetModel,
   setCharacteristic,
   setCoorinatesMatrix,
+  setDisplacement,
+  setDisplay,
   setIndicesMatrix,
-  setReady
+  setReady,
+  setStress
 } from '@/redux/slices/modelSlice'
-import { setDisplacement, setDisplay } from '@/redux/slices/modelSlice.ts'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
@@ -40,15 +43,17 @@ const ModelViewPage = () => {
     stress,
     stressFileName,
     otherCharacteristicFileName,
-    otherCharacteristic
+    otherCharacteristic,
+    stressValues
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const { openModal } = useModal()
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
   const [coorinatesMatrixError, setCoorinatesMatrixError] = useState<undefined | string>()
   const [indicesMatrixError, setIndicesMatrixError] = useState<undefined | string>()
+
+  const { openModal } = useModal()
 
   const onModelDelete = useCallback(() => {
     dispatch(resetModel())
@@ -89,6 +94,77 @@ const ModelViewPage = () => {
     setFilesUploaderOpen(false)
   }, [dispatch, indicesMatrix, coorinatesMatrix])
 
+  const loadCharacteristic = useCallback(
+    async (file: File) => {
+      const input = await file.text()
+      const { data: otherCharacteristic, error } = parseOtherCharacteristics(input)
+
+      if (error) {
+        openModal({
+          title: t('validation.error'),
+          message: t(error.message),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+        return
+      }
+
+      if (otherCharacteristic.values.length !== indicesMatrix.length) {
+        openModal({
+          title: t('validation.error'),
+          message: t('validation.otherCharacteristicIsNotTheSameAsElementsCount', {
+            valueCount: otherCharacteristic.values.length,
+            elementsCount: indicesMatrix.length
+          }),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+        return
+      }
+
+      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
+    },
+    [indicesMatrix, t, dispatch, openModal]
+  )
+
+  const loadStress = useCallback(
+    async (file: File) => {
+      const input = await file.text()
+      const { data: parsedStress, error } = parseStress(input)
+
+      if (error) {
+        openModal({
+          title: t('validation.error'),
+          message: t(error.message),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+        return
+      }
+      if (parsedStress.values.length !== stressValues.length) {
+        openModal({
+          title: t('validation.error'),
+          message: t('validation.stressIsNotTheSameAsNodesCount', {
+            stressCount: parsedStress.length,
+            elementsCount: stressValues.length
+          }),
+          confirmation: t('validation.checkDataAndTryAgain'),
+          buttons: 'ok'
+        })
+
+        return
+      }
+
+      const calculatedMises = calculateMisesStress(parsedStress)
+
+      const stress = buildMisesPhysicalQuantity(calculatedMises)
+
+      dispatch(setStress({ stress, fileName: file.name }))
+      dispatch(setDisplay('stress'))
+    },
+    [dispatch, t, openModal, stressValues]
+  )
+
   const loadDisplacement = useCallback(
     async (file: File) => {
       const input = await file.text()
@@ -121,39 +197,6 @@ const ModelViewPage = () => {
       dispatch(setDisplay('displacement'))
     },
     [coorinatesMatrix, t, dispatch, openModal]
-  )
-
-  const loadCharacteristic = useCallback(
-    async (file: File) => {
-      const input = await file.text()
-      const { data: otherCharacteristic, error } = parseOtherCharacteristics(input)
-
-      if (error) {
-        openModal({
-          title: t('validation.error'),
-          message: t(error.message),
-          confirmation: t('validation.checkDataAndTryAgain'),
-          buttons: 'ok'
-        })
-        return
-      }
-
-      if (otherCharacteristic.values.length !== indicesMatrix.length) {
-        openModal({
-          title: t('validation.error'),
-          message: t('validation.otherCharacteristicIsNotTheSameAsElementsCount', {
-            valueCount: otherCharacteristic.values.length,
-            elementsCount: indicesMatrix.length
-          }),
-          confirmation: t('validation.checkDataAndTryAgain'),
-          buttons: 'ok'
-        })
-        return
-      }
-
-      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
-    },
-    [indicesMatrix, t, dispatch, openModal]
   )
 
   return (
