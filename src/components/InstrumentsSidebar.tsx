@@ -21,7 +21,7 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
   }
 
   const circlePosition = {
-    transform: `translateY(${activeButtonIndex * 48 + activeButtonIndex * 12}px)`
+    transform: `translateY(${32 + activeButtonIndex * 50 - 14}px)`
   }
 
   const buttons = buttonsData.map((item, index) => (
@@ -45,10 +45,12 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
 
   return (
     <TooltipProvider>
-      <div className="absolute left-14 z-10 flex h-[372px] w-[72px] flex-col gap-3 rounded-3xl p-3 shadow-md backdrop-blur-sm">
-        <div className="absolute left-0 z-10 flex h-full w-full flex-col items-center gap-3">{buttons}</div>
-        <div className="absolute left-0 top-0 h-full w-full p-3">
-          <div style={circlePosition} className="size-10 translate-y-5 rounded-full bg-[#130452] duration-150" />
+      <div className="absolute left-[15px] z-10 flex h-[324px] w-[76px] flex-col rounded-xl px-6 py-8 shadow-md backdrop-blur-sm">
+        <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center">
+          <div className="left-0 top-0 flex h-full w-full justify-center">
+            <div style={circlePosition} className="size-10 rounded-full bg-[#130452] duration-150"></div>
+          </div>
+          <div className="absolute flex flex-col gap-[10px]">{buttons}</div>
         </div>
       </div>
     </TooltipProvider>

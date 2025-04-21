@@ -27,8 +27,8 @@ import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CiImageOn } from 'react-icons/ci'
 import { IoColorFillOutline } from 'react-icons/io5'
-import { MdDelete } from 'react-icons/md'
-import { PiArrowsDownUp, PiArrowsLeftRight, PiCursorFill } from 'react-icons/pi'
+import { MdDeleteOutline } from 'react-icons/md'
+import { PiArrowsDownUp, PiArrowsLeftRight, PiCursorLight } from 'react-icons/pi'
 import { shallowEqual } from 'react-redux'
 
 const ModelViewPage = () => {
@@ -63,12 +63,12 @@ const ModelViewPage = () => {
 
   const buttonsData = useMemo(
     () => [
-      { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorFill /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorLight /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.move'), icon: <PiArrowsLeftRight /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <PiArrowsDownUp /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <CiImageOn /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <IoColorFillOutline /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete />, action: () => onModelDelete() }
+      { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDeleteOutline />, action: () => onModelDelete() }
     ],
     [t, onModelDelete]
   )
