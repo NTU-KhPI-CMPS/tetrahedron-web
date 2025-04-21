@@ -21,7 +21,7 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
   }
 
   const circlePosition = {
-    transform: `translateY(${32 + activeButtonIndex * 50 - 14}px)`
+    transform: `translateY(${32 + activeButtonIndex * 50 - 15}px)`
   }
 
   const buttons = buttonsData.map((item, index) => (
