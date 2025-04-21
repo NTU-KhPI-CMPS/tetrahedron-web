@@ -22,10 +22,10 @@ import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GrPowerReset } from 'react-icons/gr'
-import { IoMove } from 'react-icons/io5'
+import { CiImageOn } from 'react-icons/ci'
+import { IoColorFillOutline } from 'react-icons/io5'
 import { MdDelete } from 'react-icons/md'
-import { PiCopySimpleLight, PiCursorFill, PiResize } from 'react-icons/pi'
+import { PiArrowsDownUp, PiArrowsLeftRight, PiCursorFill } from 'react-icons/pi'
 import { shallowEqual } from 'react-redux'
 
 const ModelViewPage = () => {
@@ -59,10 +59,10 @@ const ModelViewPage = () => {
   const buttonsData = useMemo(
     () => [
       { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorFill /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.move'), icon: <IoMove /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.rotate'), icon: <GrPowerReset /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.scale'), icon: <PiResize /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.copy'), icon: <PiCopySimpleLight /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.move'), icon: <PiArrowsLeftRight /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <PiArrowsDownUp /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <CiImageOn /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <IoColorFillOutline /> },
       { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete />, action: () => onModelDelete() }
     ],
     [t, onModelDelete]
