@@ -20,10 +20,6 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
     item.action?.()
   }
 
-  const circlePosition = {
-    transform: `translateY(${32 + activeButtonIndex * 50 - 15}px)`
-  }
-
   const buttons = buttonsData.map((item, index) => (
     <Tooltip key={item.tooltip}>
       <TooltipTrigger
@@ -31,7 +27,7 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
         className={cn(
           'flex size-10 items-center justify-center rounded-full text-2xl duration-150 hover:bg-[#1E0094] hover:text-white',
           {
-            'text-white hover:bg-transparent hover:text-white': index === activeButtonIndex
+            'bg-[#130452] text-white': index === activeButtonIndex
           }
         )}
       >
@@ -45,11 +41,10 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
 
   return (
     <TooltipProvider>
-      <div className="absolute left-[15px] z-10 flex h-[324px] w-[76px] flex-col rounded-xl px-6 py-8 shadow-md backdrop-blur-sm">
+      <div className="peer absolute left-[15px] z-10 flex min-h-[324px] w-[76px] flex-col overflow-visible rounded-xl px-6 py-8 shadow-md backdrop-blur-sm">
         <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center">
-          <div className="left-0 top-0 flex h-full w-full justify-center">
-            <div style={circlePosition} className="size-10 rounded-full bg-[#130452] duration-150"></div>
-          </div>
+          <div className="left-0 top-0 flex h-full w-full justify-center" />
+
           <div className="absolute flex flex-col gap-[10px]">{buttons}</div>
         </div>
       </div>
