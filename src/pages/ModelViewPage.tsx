@@ -6,8 +6,6 @@ import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import ColorFillIcon from '@/components/ui/ColorFillIcon'
 import DeleteIcon from '@/components/ui/DeleteIcon'
-import LeftRightIcon from '@/components/ui/LeftRightIcon'
-import UpDownIcon from '@/components/ui/UpDownIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
@@ -29,7 +27,6 @@ import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CiImageOn } from 'react-icons/ci'
 import { PiCursorLight } from 'react-icons/pi'
 import { shallowEqual } from 'react-redux'
 
@@ -66,10 +63,7 @@ const ModelViewPage = () => {
   const buttonsData = useMemo(
     () => [
       { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorLight /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.move'), icon: <LeftRightIcon /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <UpDownIcon /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <CiImageOn /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.'), icon: <ColorFillIcon /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.color'), icon: <ColorFillIcon /> },
       {
         tooltip: t('instrumentsSidebar.sidebarHints.delete'),
         icon: <DeleteIcon />,
