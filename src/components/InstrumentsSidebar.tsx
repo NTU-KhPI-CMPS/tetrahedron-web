@@ -25,13 +25,18 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
       <TooltipTrigger
         onClick={() => buttonClickHandler(item, index)}
         className={cn(
-          'flex size-10 items-center justify-center rounded-full text-2xl duration-150 hover:bg-[#1E0094] hover:text-white',
+          'group relative flex size-10 items-center justify-center text-2xl duration-150 hover:text-white',
           {
-            'bg-[#130452] text-white': index === activeButtonIndex
+            'text-white': index === activeButtonIndex
           }
         )}
       >
-        {item.icon}
+        <div className="z-[1]">{item.icon}</div>
+        <div
+          className={cn('absolute size-0 rounded-full duration-150 group-hover:size-10 group-hover:bg-app-blue', {
+            'size-10 bg-app-blue-dark': index === activeButtonIndex
+          })}
+        />
       </TooltipTrigger>
       <TooltipContent side="right" className="select-none capitalize">
         {item.tooltip}

@@ -15,6 +15,7 @@ export default {
       colors: {
         peach: '#E7EDF2',
         'app-blue': '#1E0094',
+        'app-blue-dark': '#130452',
         'app-blue-light': '#E5EEFF',
         soft: '#FAFAFA',
         'coal-black': '#0E0E0E',
