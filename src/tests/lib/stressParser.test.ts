@@ -57,7 +57,7 @@ describe('parseStress', () => {
 
   it('return error if found mismatch', () => {
     const input = '1234567890'
-    const expected = 'valitation.stressInvalidNumbersCount'
+    const expected = 'validation.stressInvalidNumbersCount'
     expect(parseStress(input).error?.message).toEqual(expected)
   })
 })

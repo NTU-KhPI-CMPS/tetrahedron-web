@@ -1,6 +1,5 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { StressPhysicalQuantityType } from '@/lib/stressUtils'
-import { ElementIndices, ModelPhysicalQuantity, VertexCoordinate } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -24,10 +23,10 @@ export interface ModelState {
   displacementLoaded: boolean
   displacementFileName: string | null
 
+  stressValues: Stress[]
   stress: ModelPhysicalQuantity | null
   stressFileName: string | null
   stressLoaded: boolean
-  stressComponent: StressPhysicalQuantityType | null
   componentDisplay: ComponentDisplayVariants
 
   otherCharacteristicFileName: string | null
@@ -52,10 +51,11 @@ export const initialState: ModelState = {
   displacementLoaded: false,
   displacementFileName: null,
 
+  stressValues: [],
   stress: null,
   stressFileName: null,
   stressLoaded: false,
-  stressComponent: null,
+
   componentDisplay: 'none',
 
   otherCharacteristicFileName: null,
@@ -79,15 +79,12 @@ export const modelSlice = createSlice({
       state.coorinatesMatrixFileName = fileName
       state.coorinatesMatrixLoaded = true
     },
-    setStress: (
-      state,
-      action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string; components: StressPhysicalQuantityType }>
-    ) => {
-      const { stress, fileName, components } = action.payload
+    setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
+      const { stress, fileName } = action.payload
       state.stress = stress
       state.stressFileName = fileName
       state.stressLoaded = true
-      state.stressComponent = components
+
       state.componentDisplay = 'Mises'
 
       state.colors = generateColorArray(stress.values, stress.min, stress.max)
@@ -105,20 +102,6 @@ export const modelSlice = createSlice({
       state.otherCharacteristicFileName = fileName
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
-    },
-    updateModelColor: (state, action: PayloadAction<ComponentDisplayVariants>) => {
-      state.componentDisplay = action.payload
-
-      if (action.payload === 'Mises' && state.stress) {
-        state.colors = generateColorArray(state.stress.values, state.stress.min, state.stress.max)
-      }
-
-      if (action.payload !== 'none' && state.stressComponent && action.payload !== 'Mises') {
-        const componentData = state.stressComponent[action.payload]
-        if (componentData) {
-          state.colors = generateColorArray(componentData.values, componentData.min, componentData.max)
-        }
-      }
     },
 
     setDisplacement: (
@@ -146,7 +129,7 @@ export const {
   resetModel,
   setReady,
   setStress,
-  updateModelColor,
+
   setCharacteristic,
   setDisplacement,
   setDisplay,
