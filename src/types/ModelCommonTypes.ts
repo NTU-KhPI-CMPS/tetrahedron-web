@@ -34,3 +34,13 @@ export type Stress = {
   tyz: number
   qz: number
 }
+
+export type StressType = {
+  mises: ModelPhysicalQuantity
+  qx: ModelPhysicalQuantity
+  qy: ModelPhysicalQuantity
+  qz: ModelPhysicalQuantity
+  txy: ModelPhysicalQuantity
+  tyz: ModelPhysicalQuantity
+  tzx: ModelPhysicalQuantity
+}

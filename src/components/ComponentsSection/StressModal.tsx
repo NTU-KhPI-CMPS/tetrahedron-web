@@ -3,7 +3,7 @@ import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { ComponentDisplayVariants, updateModelColor } from '@/redux/slices/modelSlice'
+import { ComponentDisplayVariants, setModelComponent } from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
@@ -13,13 +13,13 @@ const StressModal = () => {
   const dispatch = useAppDispatch()
 
   const onSwitchClick = () => {
-    dispatch(updateModelColor(display === 'Mises' ? 'none' : 'Mises'))
+    dispatch(setModelComponent(display === 'Mises' ? 'none' : 'Mises'))
   }
 
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
 
   const onSaveClick = () => {
-    if (selectedComponent !== 'none') dispatch(updateModelColor(selectedComponent))
+    // if (selectedComponent !== 'none') dispatch(updateModelColor(selectedComponent))
   }
 
   const { t } = useTranslation()

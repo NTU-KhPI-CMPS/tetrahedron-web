@@ -1,9 +1,9 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, Stress, StressType, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'none'
+type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'stress' | 'none'
 export type ComponentDisplayVariants = 'Mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
 
 export interface ModelState {
@@ -24,7 +24,7 @@ export interface ModelState {
   displacementFileName: string | null
 
   stressValues: Stress[]
-  stress: ModelPhysicalQuantity | null
+  stress: StressType | null
   stressFileName: string | null
   stressLoaded: boolean
   componentDisplay: ComponentDisplayVariants
@@ -79,7 +79,7 @@ export const modelSlice = createSlice({
       state.coorinatesMatrixFileName = fileName
       state.coorinatesMatrixLoaded = true
     },
-    setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
+    setStress: (state, action: PayloadAction<{ stress: StressType; fileName: string }>) => {
       const { stress, fileName } = action.payload
       state.stress = stress
       state.stressFileName = fileName
@@ -87,7 +87,10 @@ export const modelSlice = createSlice({
 
       state.componentDisplay = 'Mises'
 
-      state.colors = generateColorArray(stress.values, stress.min, stress.max)
+      state.colors = generateColorArray(stress.mises.values, stress.mises.min, stress.mises.max)
+    },
+    setModelComponent: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+      state.componentDisplay = action.payload
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -129,7 +132,7 @@ export const {
   resetModel,
   setReady,
   setStress,
-
+  setModelComponent,
   setCharacteristic,
   setDisplacement,
   setDisplay,

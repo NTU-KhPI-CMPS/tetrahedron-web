@@ -1,6 +1,6 @@
 import { generateLegend } from '@/lib/colorUtils'
 import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
-import { LegendType, ModelPhysicalQuantity } from '@/types/ModelCommonTypes'
+import { LegendType, ModelPhysicalQuantity, StressType } from '@/types/ModelCommonTypes'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface LegendState {
@@ -29,12 +29,12 @@ export const legendSlice = createSlice({
       (
         state,
         action: PayloadAction<{
-          stress: ModelPhysicalQuantity
+          stress: StressType
           fileName: string
         }>
       ) => {
-        state.max = action.payload.stress.max
-        state.min = action.payload.stress.min
+        state.max = action.payload.stress.mises.max
+        state.min = action.payload.stress.mises.min
         state.legend = generateLegend(state.min, state.max)
         state.isLoaded = true
       }
