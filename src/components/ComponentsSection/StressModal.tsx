@@ -3,7 +3,7 @@ import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { ComponentDisplayVariants, setModelComponent } from '@/redux/slices/modelSlice'
+import { ComponentDisplayVariants, displayDataOnModel, setStressComponentToDisplay } from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
@@ -11,15 +11,27 @@ import { BsThreeDots } from 'react-icons/bs'
 const StressModal = () => {
   const display = useAppSelector((store) => store.model.componentDisplay)
   const dispatch = useAppDispatch()
+  const stress = useAppSelector((store) => store.model.stress)
 
-  const onSwitchClick = () => {
-    dispatch(setModelComponent(display === 'Mises' ? 'none' : 'Mises'))
-  }
-
+  const [isMises, setMises] = useState<boolean>(display === 'Mises')
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
 
+  const onSwitchClick = () => {
+    setMises(!isMises)
+  }
+
   const onSaveClick = () => {
-    // if (selectedComponent !== 'none') dispatch(updateModelColor(selectedComponent))
+    if (isMises && stress !== null) {
+      dispatch(setStressComponentToDisplay('Mises'))
+      dispatch(displayDataOnModel(stress.mises))
+      return
+    }
+
+    if (selectedComponent !== 'none' && stress !== null) {
+      dispatch(setStressComponentToDisplay(selectedComponent))
+      // @ts-expect-error to get data from stress object
+      dispatch(displayDataOnModel(stress[selectedComponent.toString()]))
+    }
   }
 
   const { t } = useTranslation()
@@ -38,14 +50,14 @@ const StressModal = () => {
       >
         <p className="text-center">{t('stressOptions.elementStress')}</p>
         <SwitchWithTitle
-          checked={display === 'Mises'}
+          checked={isMises}
           label={t('stressOptions.elementMises')}
           id="general-stress"
           onClick={onSwitchClick}
         />
         <div className="flex items-center justify-between">
           <label>{t('stressOptions.stressComponent')}</label>
-          <StressComponentSelector value={selectedComponent} onChange={setSelectedComponent} />
+          <StressComponentSelector value={selectedComponent} onChange={setSelectedComponent} disabled={isMises} />
         </div>
         <div className="flex items-center justify-center">
           <Button onClick={onSaveClick} className="h-79 mx-auto w-24 rounded-full">

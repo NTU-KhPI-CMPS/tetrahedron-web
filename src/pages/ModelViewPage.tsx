@@ -12,6 +12,7 @@ import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import {
+  displayDataOnModel,
   resetModel,
   setCharacteristic,
   setCoorinatesMatrix,
@@ -168,6 +169,7 @@ const ModelViewPage = () => {
       }
 
       dispatch(setStress({ stress, fileName: file.name }))
+      dispatch(displayDataOnModel(stress.mises))
       dispatch(setDisplay('stress'))
     },
     [dispatch, t, openModal, stressValues]
