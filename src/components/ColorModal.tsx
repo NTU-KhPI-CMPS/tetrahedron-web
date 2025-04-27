@@ -1,5 +1,5 @@
+import ColorController from '@/components/ColorController'
 import { Button } from '@/components/ui/button'
-import ColorController from '@/components/ui/colorController'
 import ColorFillIcon from '@/components/ui/ColorFillIcon'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
@@ -20,7 +20,9 @@ const ColorModal = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <ColorFillIcon />
+        <div className="flex-center size-10 rounded-full">
+          <ColorFillIcon />
+        </div>
       </PopoverTrigger>
       <PopoverContent side="left" sideOffset={100}>
         <div className="z-10 flex max-h-[222px] w-[188px] flex-col items-center justify-center gap-[10px] rounded-xl px-4 py-5 shadow-md backdrop-blur-sm">
