@@ -15,7 +15,8 @@ const DisplacementModal = () => {
 
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const isTotalDisplacement = ['x', 'y', 'z'].every((component) =>
+  const allComponents = ['x', 'y', 'z']
+  const isTotalDisplacement = allComponents.every((component) =>
     displacementComponents.includes(component as AxisComponent)
   )
 
@@ -42,7 +43,7 @@ const DisplacementModal = () => {
 
   const onSwitchClick = () => {
     setTotalDisplacement(!totalDisplacement)
-    changeDisplacementComponents(['x', 'y', 'z'])
+    changeDisplacementComponents(allComponents as AxisComponent[])
   }
 
   const onComponentSelected = (items: SelectItem[]) => {
@@ -69,7 +70,7 @@ const DisplacementModal = () => {
       <PopoverContent
         side="left"
         sideOffset={185}
-        className="tetrahedron-text-sm w-80 space-y-3 rounded-xl bg-peach/50 p-3 font-semibold backdrop-blur-sm"
+        className="tetrahedron-text-sm w-80 space-y-[14px] rounded-xl bg-peach/50 p-3 font-semibold backdrop-blur-sm"
       >
         <p className="text-center">{t('displacementOptions.nodeDisplacement')}</p>
         <SwitchWithTitle
