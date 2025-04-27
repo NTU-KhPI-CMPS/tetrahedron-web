@@ -1,4 +1,5 @@
 import { ChangeEvent, FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface ColorControllerProps {
   state: string
@@ -6,6 +7,8 @@ interface ColorControllerProps {
 }
 
 const ColorController: FC<ColorControllerProps> = ({ state, action }) => {
+  const { t } = useTranslation()
+
   const handleColorChange = (e: ChangeEvent<HTMLInputElement>) => {
     action(e.target.value)
   }
@@ -16,7 +19,9 @@ const ColorController: FC<ColorControllerProps> = ({ state, action }) => {
 
   return (
     <div className="flex h-[17px] w-[156px] flex-row items-center justify-center gap-5">
-      <label className="flex h-4 w-[55px] items-center text-left font-semibold">Фон:</label>
+      <label className="text- flex h-4 w-[55px] items-center text-left text-[13px] font-semibold">
+        {t('colorselect.background')}
+      </label>
       <div className="flex h-[17px] w-[81px] flex-row items-center gap-1">
         <div className="relative">
           <input

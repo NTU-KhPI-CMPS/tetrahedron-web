@@ -204,7 +204,6 @@ const ModelViewPage = () => {
     <>
       <div className="relative flex items-center justify-between">
         <InstrumentsSidebar buttonsData={buttonsData} />
-        {/* <ColorModal /> */}
         <Legend />
         {isReady && (
           <div
