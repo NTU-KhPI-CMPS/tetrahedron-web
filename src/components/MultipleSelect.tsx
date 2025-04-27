@@ -40,7 +40,7 @@ const MultipleSelect = ({ title, defaultItems, disabled = false, onItemSelected 
     <DropdownMenu open={open}>
       <DropdownMenuTrigger disabled={disabled} asChild onClick={() => setOpen(!open)}>
         <Button
-          className="space-x-3 bg-soft p-2 text-coal-black hover:bg-gray-disabled disabled:bg-light-gray"
+          className="h-9 space-x-3 border-0 bg-soft p-2 text-coal-black hover:bg-gray-disabled disabled:bg-light-gray"
           variant="outline"
         >
           <p>{title}</p>
@@ -51,7 +51,7 @@ const MultipleSelect = ({ title, defaultItems, disabled = false, onItemSelected 
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40">
+      <DropdownMenuContent className="w-[148px]">
         <OutsideClickHandler callback={() => setOpen(!open)}>
           {items.map((item) => (
             <DropdownMenuCheckboxItem
