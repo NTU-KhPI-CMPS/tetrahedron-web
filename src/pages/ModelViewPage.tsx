@@ -4,6 +4,8 @@ import InstrumentsSidebar from '@/components/InstrumentsSidebar'
 import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
+import ColorFillIcon from '@/components/ui/ColorFillIcon'
+import DeleteIcon from '@/components/ui/DeleteIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
@@ -26,10 +28,7 @@ import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GrPowerReset } from 'react-icons/gr'
-import { IoMove } from 'react-icons/io5'
-import { MdDelete } from 'react-icons/md'
-import { PiCopySimpleLight, PiCursorFill, PiResize } from 'react-icons/pi'
+import { PiCursorLight } from 'react-icons/pi'
 import { shallowEqual } from 'react-redux'
 
 const ModelViewPage = () => {
@@ -64,12 +63,13 @@ const ModelViewPage = () => {
 
   const buttonsData = useMemo(
     () => [
-      { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorFill /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.move'), icon: <IoMove /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.rotate'), icon: <GrPowerReset /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.scale'), icon: <PiResize /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.copy'), icon: <PiCopySimpleLight /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete />, action: () => onModelDelete() }
+      { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorLight /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.color'), icon: <ColorFillIcon /> },
+      {
+        tooltip: t('instrumentsSidebar.sidebarHints.delete'),
+        icon: <DeleteIcon />,
+        action: () => onModelDelete()
+      }
     ],
     [t, onModelDelete]
   )
