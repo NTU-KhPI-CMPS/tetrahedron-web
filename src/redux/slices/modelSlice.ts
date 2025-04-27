@@ -73,7 +73,13 @@ export const modelSlice = createSlice({
       state.indicesMatrixFileName = fileName
       state.indicesMatrixLoaded = true
     },
-    setCoorinatesMatrix: (state, action: PayloadAction<{ coorinatesMatrix: VertexCoordinate[]; fileName: string }>) => {
+    setCoorinatesMatrix: (
+      state,
+      action: PayloadAction<{
+        coorinatesMatrix: VertexCoordinate[]
+        fileName: string
+      }>
+    ) => {
       const { coorinatesMatrix, fileName } = action.payload
       state.coorinatesMatrix = coorinatesMatrix
       state.coorinatesMatrixFileName = fileName
@@ -86,11 +92,13 @@ export const modelSlice = createSlice({
       state.stressLoaded = true
 
       state.componentDisplay = 'Mises'
-
-      state.colors = generateColorArray(stress.mises.values, stress.mises.min, stress.mises.max)
     },
-    setModelComponent: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+    setStressComponentToDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
       state.componentDisplay = action.payload
+    },
+    displayDataOnModel: (state, action: PayloadAction<ModelPhysicalQuantity>) => {
+      const dataToDisplay = action.payload
+      state.colors = generateColorArray(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -131,8 +139,11 @@ export const {
   setCoorinatesMatrix,
   resetModel,
   setReady,
+  displayDataOnModel,
+
   setStress,
-  setModelComponent,
+  setStressComponentToDisplay,
+
   setCharacteristic,
   setDisplacement,
   setDisplay,

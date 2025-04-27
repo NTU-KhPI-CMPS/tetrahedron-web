@@ -1,5 +1,4 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useAppSelector } from '@/hooks/use-redux'
 import { ComponentDisplayVariants } from '@/redux/slices/modelSlice'
 import { useTranslation } from 'react-i18next'
 
@@ -21,18 +20,17 @@ const componentItems = COMPONENTS.map(({ value, label }) => (
 export interface ComponentSelectorProps {
   value: ComponentDisplayVariants
   onChange: (value: ComponentDisplayVariants) => void
+  disabled: boolean
 }
 
-export function StressComponentSelector({ value, onChange }: ComponentSelectorProps) {
-  const display = useAppSelector((store) => store.model.componentDisplay)
-
+export function StressComponentSelector({ value, onChange, disabled }: ComponentSelectorProps) {
   const { t } = useTranslation()
 
   return (
     <Select onValueChange={onChange} value={value === 'none' ? undefined : value}>
       <SelectTrigger
         className="h-9 w-64 overflow-auto bg-white hover:border-input disabled:bg-light-grey"
-        disabled={display === 'Mises'}
+        disabled={disabled}
       >
         <SelectValue placeholder={t('stressOptions.selectComponent')} className="font-semibold" />
       </SelectTrigger>

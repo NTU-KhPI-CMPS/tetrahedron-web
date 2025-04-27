@@ -3,9 +3,41 @@ import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
 import { describe, expect, it } from 'vitest'
 
 const stressMock = {
-  values: [1, 2, 3, 4],
-  min: 1,
-  max: 4
+  mises: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  qx: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  qy: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  qz: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  txy: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  tzx: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  tyz: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  }
 }
 
 const otherCharacteristicMock = {
