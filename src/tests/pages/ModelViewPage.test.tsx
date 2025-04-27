@@ -1,5 +1,6 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
+import color from '@/redux/slices/colorSlice'
 import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
 import modelViewSettingReducer from '@/redux/slices/modelViewSettingSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
@@ -31,8 +32,12 @@ const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { typ
 describe('ModelViewPage', () => {
   it('renders Experience component when isReady is true', () => {
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer },
-      preloadedState: { model: { ...initialState, isReady: true } }
+      reducer: {
+        model,
+        modelViewSetting: modelViewSettingReducer,
+        color
+      },
+      preloadedState: { model: { ...initialState, isReady: true }, color: { background: '#ff0000' } }
     })
 
     render(
