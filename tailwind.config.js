@@ -67,5 +67,14 @@ export default {
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [
+    require('tailwindcss-animate'),
+    function ({ addComponents }) {
+      addComponents({
+        '.tetrahedron-text-sm': {
+          fontSize: '13px'
+        }
+      })
+    }
+  ]
 }
