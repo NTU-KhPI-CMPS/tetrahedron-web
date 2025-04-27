@@ -1,5 +1,6 @@
 import { generateColorArray } from '@/lib/colorUtils'
 import reducer, {
+  displayDataOnModel,
   initialState,
   resetModel,
   setCharacteristic,
@@ -121,7 +122,15 @@ describe('modelSlice', () => {
 
     expect(state.stress).toMatchObject(stressMock)
     expect(state.stressFileName).toEqual('stress.txt')
-    expect(generateColorArray).toHaveBeenCalledWith(stressMock.mises.values, stressMock.mises.min, stressMock.mises.max)
+  })
+
+  it('colors are set correctly with setColor', () => {
+    const dataToDisplay = stressMock.mises
+    const action = displayDataOnModel(dataToDisplay)
+    const state = reducer(initialState, action)
+
+    expect(generateColorArray).toHaveBeenCalledWith(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max)
+    expect(state.colors).toEqual(generateColorArray(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max))
   })
 
   it('should set otherCharacteristic & colors correctly with setCharacteristic', () => {

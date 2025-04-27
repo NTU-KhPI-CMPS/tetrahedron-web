@@ -1,12 +1,11 @@
 import Legend from '@/components/Legend'
-import legendReducer from '@/redux/slices/legendSlice'
+import legend from '@/redux/slices/legendSlice.ts'
+import { initialState, default as model, ModelDisplayVariants } from '@/redux/slices/modelSlice.ts'
 import { LegendType } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { describe, it } from 'vitest'
-
-vi.mock('@/hooks/use-redux')
+import { describe, expect, it } from 'vitest'
 
 describe('Legend', () => {
   const mockLegend: LegendType[] = [
@@ -19,14 +18,15 @@ describe('Legend', () => {
 
   it('should display items', () => {
     const store = configureStore({
-      reducer: { legend: legendReducer },
+      reducer: { legend, model },
       preloadedState: {
         legend: {
           legend: mockLegend,
           min: 1,
           max: 10,
           isLoaded: true
-        }
+        },
+        model: { ...initialState, display: 'otherCharacteristic' as ModelDisplayVariants }
       }
     })
 
@@ -35,5 +35,8 @@ describe('Legend', () => {
         <Legend />
       </Provider>
     )
+
+    expect(screen.queryByTestId('legend')).toBeInTheDocument()
+    expect(screen.queryByTestId('legendItem')).toBeInTheDocument()
   })
 })

@@ -1,5 +1,5 @@
 import reducer, { initialState } from '@/redux/slices/legendSlice'
-import { setCharacteristic, setStress } from '@/redux/slices/modelSlice'
+import { displayDataOnModel, setCharacteristic } from '@/redux/slices/modelSlice'
 import { describe, expect, it } from 'vitest'
 
 const stressMock = {
@@ -46,12 +46,11 @@ const otherCharacteristicMock = {
   max: 8
 }
 
-const stressFileMock = 'stress.txt'
 const otherCharacteristicFileMock = 'other.txt'
 
 describe('legendSlice', () => {
   it('should set isLoaded correctrly with setStress', () => {
-    const action = setStress({ stress: stressMock, fileName: stressFileMock })
+    const action = displayDataOnModel(stressMock.mises)
     const state = reducer(initialState, action)
 
     expect(state.isLoaded).toEqual(true)
