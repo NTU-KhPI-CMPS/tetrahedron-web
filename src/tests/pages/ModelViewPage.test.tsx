@@ -35,9 +35,9 @@ describe('ModelViewPage', () => {
       reducer: {
         model,
         modelViewSetting: modelViewSettingReducer,
-        color
+        colorSlice: color
       },
-      preloadedState: { model: { ...initialState, isReady: true }, color: { background: '#ff0000' } }
+      preloadedState: { model: { ...initialState, isReady: true }, colorSlice: { background: '#ff0000' } }
     })
 
     render(
@@ -53,8 +53,8 @@ describe('ModelViewPage', () => {
 
   it('does not render Experience component when isReady is false', () => {
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, color },
-      preloadedState: { model: { ...initialState, isReady: false }, color: { background: '#ff0000' } }
+      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      preloadedState: { model: { ...initialState, isReady: false }, colorSlice: { background: '#ff0000' } }
     })
 
     render(
@@ -75,8 +75,8 @@ describe('ModelViewPage', () => {
     })
 
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, color },
-      preloadedState: { model: { ...initialState, isReady: false }, color: { background: '#ff0000' } }
+      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      preloadedState: { model: { ...initialState, isReady: false }, colorSlice: { background: '#ff0000' } }
     })
     store.dispatch = vi.fn()
 
@@ -111,8 +111,8 @@ describe('ModelViewPage', () => {
     })
 
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, color },
-      preloadedState: { model: { ...initialState, isReady: false }, color: { background: '#ff0000' } }
+      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      preloadedState: { model: { ...initialState, isReady: false }, colorSlice: { background: '#ff0000' } }
     })
     store.dispatch = vi.fn()
 
@@ -144,8 +144,8 @@ describe('ModelViewPage', () => {
 
   it.skip('should dispatch setReady and close FileUploader when clicking on create model button', () => {
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, color },
-      preloadedState: { model: initialState, color: { background: '#ff0000' } }
+      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      preloadedState: { model: initialState, colorSlice: { background: '#ff0000' } }
     })
     store.dispatch = vi.fn()
     render(
