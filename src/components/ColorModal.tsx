@@ -28,7 +28,7 @@ const ColorModal = () => {
       <PopoverContent
         side="left"
         sideOffset={40}
-        className="z-10 flex max-h-[222px] w-[188px] flex-col items-center justify-center gap-[10px] rounded-xl bg-peach/50 px-4 py-5 shadow-md backdrop-blur-sm"
+        className="z-10 flex w-[188px] flex-col items-center justify-center gap-[10px] rounded-xl bg-peach/50 px-4 py-5 shadow-md backdrop-blur-sm"
       >
         <div className="flex flex-col">
           <ColorController state={background} action={setBackground} />
