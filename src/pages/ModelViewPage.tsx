@@ -1,10 +1,10 @@
+import ColorModal from '@/components/ColorModal'
 import ErrorModal from '@/components/ErrorModal'
 import FilesUploader from '@/components/FilesUploader'
 import InstrumentsSidebar from '@/components/InstrumentsSidebar'
 import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
-import ColorFillIcon from '@/components/ui/ColorFillIcon'
 import DeleteIcon from '@/components/ui/DeleteIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
@@ -47,6 +47,7 @@ const ModelViewPage = () => {
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const backgroundColor = useAppSelector((store) => store.colorSlice.background)
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
   const [coorinatesMatrixError, setCoorinatesMatrixError] = useState<undefined | string>()
@@ -63,7 +64,7 @@ const ModelViewPage = () => {
   const buttonsData = useMemo(
     () => [
       { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorLight /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.color'), icon: <ColorFillIcon /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.color'), icon: <ColorModal /> },
       {
         tooltip: t('instrumentsSidebar.sidebarHints.delete'),
         icon: <DeleteIcon />,
@@ -203,9 +204,16 @@ const ModelViewPage = () => {
     <>
       <div className="relative flex items-center justify-between">
         <InstrumentsSidebar buttonsData={buttonsData} />
+        {/* <ColorModal /> */}
         <Legend />
         {isReady && (
-          <div data-testid="experience" className="fixed left-0 top-0 z-0 h-dvh w-full overflow-hidden">
+          <div
+            data-testid="experience"
+            className="fixed left-0 top-0 z-0 h-dvh w-full overflow-hidden"
+            style={{
+              backgroundColor: backgroundColor
+            }}
+          >
             <Canvas
               camera={{
                 fov: 45,

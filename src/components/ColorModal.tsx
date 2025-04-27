@@ -1,0 +1,42 @@
+import { Button } from '@/components/ui/button'
+import ColorController from '@/components/ui/colorController'
+import ColorFillIcon from '@/components/ui/ColorFillIcon'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import { setBackgroundColor } from '@/redux/slices/colorSlice'
+import { useState } from 'react'
+
+const ColorModal = () => {
+  const dispatch = useAppDispatch()
+
+  const backgroundColor = useAppSelector((store) => store.colorSlice.background)
+
+  const [background, setBackground] = useState(backgroundColor)
+
+  const onSaveClick = () => {
+    dispatch(setBackgroundColor(background))
+  }
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <ColorFillIcon />
+      </PopoverTrigger>
+      <PopoverContent side="left" sideOffset={100}>
+        <div className="z-10 flex max-h-[222px] w-[188px] flex-col items-center justify-center gap-[10px] rounded-xl px-4 py-5 shadow-md backdrop-blur-sm">
+          <div className="flex flex-col">
+            <ColorController state={background} action={setBackground} />
+          </div>
+
+          <div className="flex items-center justify-center">
+            <Button className="h-8 w-[92px] rounded-[66px] px-4 py-2" onClick={onSaveClick}>
+              Зберегти
+            </Button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default ColorModal
