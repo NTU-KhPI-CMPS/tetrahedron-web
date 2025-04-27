@@ -3,7 +3,7 @@ import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-export type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
+type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
 
 export type AxisComponent = 'x' | 'y' | 'z'
 
