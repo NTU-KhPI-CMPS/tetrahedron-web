@@ -1,41 +1,62 @@
-import MultipleSelect from '@/components/MultipleSelect'
+import MultipleSelect, { SelectItem } from '@/components/MultipleSelect'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { AxisComponent, setDisplacementComponents, setDisplacementScale, setDisplay } from '@/redux/slices/modelSlice'
-import { useState } from 'react'
+import { AxisComponent, setDisplacementComponents, setDisplacementScale } from '@/redux/slices/modelSlice'
+import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
 import { shallowEqual } from 'react-redux'
 
 const DisplacementModal = () => {
   const [open, setOpen] = useState(false)
-  const { display, displacementComponents, displacementScale } = useAppSelector((store) => store.model, shallowEqual)
+  const { displacementComponents, displacementScale } = useAppSelector((store) => store.model, shallowEqual)
 
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const isTotalDisplacement = ['x', 'y', 'z'].every((component) =>
+    displacementComponents.includes(component as AxisComponent)
+  )
 
   const [scale, setScale] = useState(displacementScale)
+  const [totalDisplacement, setTotalDisplacement] = useState(isTotalDisplacement)
+  const [currentDisplacementComponents, setCurrentDisplacementComponents] = useState(displacementComponents)
 
   const scaleLimit = 100000
   const components = [
-    { value: 'x', selected: displacementComponents.includes('x') },
-    { value: 'y', selected: displacementComponents.includes('y') },
-    { value: 'z', selected: displacementComponents.includes('z') }
+    { value: 'x', selected: currentDisplacementComponents.includes('x') },
+    { value: 'y', selected: currentDisplacementComponents.includes('y') },
+    { value: 'z', selected: currentDisplacementComponents.includes('z') }
   ]
-
-  const onSwitchClick = () => {
-    dispatch(setDisplay(display === 'displacement' ? 'none' : 'displacement'))
-  }
 
   const onSaveClick = () => {
     dispatch(setDisplacementScale(scale))
+    dispatch(setDisplacementComponents(currentDisplacementComponents))
     setOpen(false)
   }
 
-  const changeComponent = (components: AxisComponent[]) => {
-    dispatch(setDisplacementComponents(components))
+  const changeDisplacementComponents = (components: AxisComponent[]) => {
+    setCurrentDisplacementComponents(components)
+  }
+
+  const onSwitchClick = () => {
+    setTotalDisplacement(!totalDisplacement)
+    changeDisplacementComponents(['x', 'y', 'z'])
+  }
+
+  const onComponentSelected = (items: SelectItem[]) => {
+    const componentsToUse = items.filter((item) => item.selected).map((i) => i.value as AxisComponent)
+    changeDisplacementComponents(componentsToUse)
+  }
+
+  const onScaleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newScale = Number(e.target.value)
+    if (newScale <= scaleLimit) setScale(newScale)
+  }
+
+  const onScaleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') onSaveClick()
   }
 
   return (
@@ -52,7 +73,7 @@ const DisplacementModal = () => {
       >
         <p className="text-center">{t('displacementOptions.nodeDisplacement')}</p>
         <SwitchWithTitle
-          checked={display === 'displacement'}
+          checked={totalDisplacement}
           label={t('displacementOptions.totalDisplacement')}
           onClick={onSwitchClick}
           id="general-displacement"
@@ -60,11 +81,9 @@ const DisplacementModal = () => {
         <div className="flex items-center justify-between">
           <p>{t('displacementOptions.displacementComponents')}</p>
           <MultipleSelect
+            disabled={totalDisplacement}
             defaultItems={components}
-            onItemSelected={(items) => {
-              const componentsToUse = items.filter((item) => item.selected).map((i) => i.value as AxisComponent)
-              changeComponent(componentsToUse)
-            }}
+            onItemSelected={onComponentSelected}
             title={t('displacementOptions.selectComponent')}
           />
         </div>
@@ -73,14 +92,9 @@ const DisplacementModal = () => {
           <input
             value={scale}
             type="number"
-            onChange={(e) => {
-              const newScale = Number(e.target.value)
-              if (newScale <= scaleLimit) setScale(newScale)
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') onSaveClick()
-            }}
-            placeholder={`${displacementScale}`}
+            onChange={onScaleChange}
+            onKeyDown={onScaleInputKeyDown}
+            placeholder={displacementScale.toString()}
             name="displacement-scale"
             id="displacement-scale"
             className="w-24 rounded-md bg-soft py-1 text-center text-coal-black outline-none hover:bg-gray-disabled"

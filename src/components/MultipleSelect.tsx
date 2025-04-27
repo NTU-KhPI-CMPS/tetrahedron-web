@@ -7,10 +7,10 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 
-type SelectItem = {
+export type SelectItem = {
   value: string
   selected: boolean
 }
@@ -18,10 +18,11 @@ type SelectItem = {
 interface MultipleSelectProps {
   title: string
   defaultItems: SelectItem[]
+  disabled?: boolean
   onItemSelected: (items: SelectItem[]) => void
 }
 
-const MultipleSelect = ({ title, defaultItems, onItemSelected }: MultipleSelectProps) => {
+const MultipleSelect = ({ title, defaultItems, disabled = false, onItemSelected }: MultipleSelectProps) => {
   const [open, setOpen] = useState(false)
   const [items, setItems] = useState<SelectItem[]>(defaultItems)
 
@@ -31,9 +32,13 @@ const MultipleSelect = ({ title, defaultItems, onItemSelected }: MultipleSelectP
     onItemSelected(newItems)
   }
 
+  useEffect(() => {
+    setItems(defaultItems)
+  }, [defaultItems])
+
   return (
     <DropdownMenu open={open}>
-      <DropdownMenuTrigger asChild onClick={() => setOpen(!open)}>
+      <DropdownMenuTrigger disabled={disabled} asChild onClick={() => setOpen(!open)}>
         <Button
           className="space-x-3 bg-soft p-2 text-coal-black hover:bg-gray-disabled disabled:bg-light-gray"
           variant="outline"
@@ -46,7 +51,7 @@ const MultipleSelect = ({ title, defaultItems, onItemSelected }: MultipleSelectP
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-40">
         <OutsideClickHandler callback={() => setOpen(!open)}>
           {items.map((item) => (
             <DropdownMenuCheckboxItem
