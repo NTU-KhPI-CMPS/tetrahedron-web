@@ -27,7 +27,9 @@ export function LanguageSelector() {
       <SelectTrigger className="w-16 border-transparent bg-background font-semibold uppercase hover:border-input">
         <SelectValue placeholder={currentLanguage} />
       </SelectTrigger>
-      <SelectContent className="min-w-20 bg-background font-semibold uppercase">{languageItems}</SelectContent>
+      <SelectContent position="popper" className="min-w-10 bg-background font-semibold uppercase">
+        {languageItems}
+      </SelectContent>
     </Select>
   )
 }
