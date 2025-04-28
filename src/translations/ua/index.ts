@@ -1,3 +1,4 @@
+import colorSelect from './color-select.json'
 import displacementOptions from './displacement-options.json'
 import errorModal from './error-modal.json'
 import filesUploader from './files-uploader.json'
@@ -18,7 +19,8 @@ const ua = {
     errorModal,
     validation,
     displacementOptions,
-    stressOptions
+    stressOptions,
+    colorSelect
   }
 }
 
