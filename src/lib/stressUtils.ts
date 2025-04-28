@@ -34,12 +34,3 @@ export function buildMisesPhysicalQuantity(averageValue: number[]): ModelPhysica
     max: maxValue
   }
 }
-
-export type StressPhysicalQuantityType = {
-  qx: ModelPhysicalQuantity
-  qy: ModelPhysicalQuantity
-  qz: ModelPhysicalQuantity
-  txy: ModelPhysicalQuantity
-  tyz: ModelPhysicalQuantity
-  tzx: ModelPhysicalQuantity
-}

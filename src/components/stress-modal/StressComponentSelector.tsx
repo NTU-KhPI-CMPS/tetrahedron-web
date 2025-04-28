@@ -29,12 +29,12 @@ export function StressComponentSelector({ value, onChange, disabled }: Component
   return (
     <Select onValueChange={onChange} value={value === 'none' ? undefined : value}>
       <SelectTrigger
-        className="h-9 w-64 overflow-auto bg-white hover:border-input disabled:bg-light-grey"
+        className="h-9 w-64 border-none bg-white font-normal hover:bg-grey disabled:bg-light-grey"
         disabled={disabled}
       >
-        <SelectValue placeholder={t('stressOptions.selectComponent')} className="font-semibold" />
+        <SelectValue placeholder={t('stressOptions.selectComponent')} />
       </SelectTrigger>
-      <SelectContent className="bg-white font-semibold">{componentItems}</SelectContent>
+      <SelectContent className="bg-white">{componentItems}</SelectContent>
     </Select>
   )
 }

@@ -1,4 +1,4 @@
-import { StressComponentSelector } from '@/components/ComponentsSection/StressComponentSelector'
+import { StressComponentSelector } from '@/components/stress-modal/StressComponentSelector'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
 
 const StressModal = () => {
+  const { t } = useTranslation()
   const display = useAppSelector((store) => store.model.componentDisplay)
   const dispatch = useAppDispatch()
   const stress = useAppSelector((store) => store.model.stress)
@@ -30,11 +31,9 @@ const StressModal = () => {
     if (selectedComponent !== 'none' && stress !== null) {
       dispatch(setStressComponentToDisplay(selectedComponent))
       // @ts-expect-error to get data from stress object
-      dispatch(displayDataOnModel(stress[selectedComponent.toString()]))
+      dispatch(displayDataOnModel(stress[selectedComponent]))
     }
   }
-
-  const { t } = useTranslation()
 
   return (
     <Popover>
@@ -46,9 +45,9 @@ const StressModal = () => {
       <PopoverContent
         side="left"
         sideOffset={190}
-        className="w-80 space-y-3 rounded-xl bg-peach/50 p-3 font-semibold backdrop-blur-sm"
+        className="w-80 space-y-3 rounded-xl bg-peach/50 p-3 text-sm backdrop-blur-sm"
       >
-        <p className="text-center">{t('stressOptions.elementStress')}</p>
+        <p className="text-center font-medium">{t('stressOptions.elementStress')}</p>
         <SwitchWithTitle
           checked={isMises}
           label={t('stressOptions.elementMises')}
@@ -60,7 +59,7 @@ const StressModal = () => {
           <StressComponentSelector value={selectedComponent} onChange={setSelectedComponent} disabled={isMises} />
         </div>
         <div className="flex items-center justify-center">
-          <Button onClick={onSaveClick} className="h-79 mx-auto w-24 rounded-full">
+          <Button onClick={onSaveClick} className="h-8 w-24 rounded-full font-normal">
             {t('stressOptions.save')}
           </Button>
         </div>

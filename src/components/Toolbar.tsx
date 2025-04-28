@@ -1,6 +1,6 @@
-import StressModal from '@/components/ComponentsSection/StressModal'
 import DisplacementModal from '@/components/DisplacementModal'
 import FileUploadButton from '@/components/FileUploadButton'
+import StressModal from '@/components/stress-modal/StressModal'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { setDisplayCoordinateAxes, setDisplayNodeIndices } from '@/redux/slices/modelViewSettingSlice'
@@ -62,7 +62,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         variant={stressLoaded ? 'ghost' : 'default'}
         title={t('toolbar.toolbarSections.buttonsSection.nodeStress')}
         modal={<StressModal />}
-        disableModal={!stressLoaded}
+        disableModal={stressLoaded}
         buttonText={stressLoaded ? stressFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
         onFileSelect={loadStress}
       />
