@@ -48,7 +48,7 @@ const FileUploadButton = ({
 
       {title && (
         <div className="flex items-center justify-between">
-          <p className="font-semibold">{title}</p>
+          <p>{title}</p>
           {!disableModal && modal}
         </div>
       )}

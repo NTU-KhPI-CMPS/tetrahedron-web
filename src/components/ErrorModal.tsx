@@ -11,9 +11,9 @@ const ErrorModal = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="w-full max-w-96 space-y-5 rounded-3xl border-2 border-red-400 bg-red-100 p-7">
-        {modalConfig.title && <p className="text-center font-bold">{modalConfig.title}</p>}
-        {modalConfig.message && <p className="text-center font-semibold">{modalConfig.message}</p>}
-        {modalConfig.confirmation && <p className="text-center font-semibold">{modalConfig.confirmation}</p>}
+        {modalConfig.title && <p className="text-center font-medium">{modalConfig.title}</p>}
+        {modalConfig.message && <p className="text-center font-light">{modalConfig.message}</p>}
+        {modalConfig.confirmation && <p className="text-center font-light">{modalConfig.confirmation}</p>}
         <div className="flex justify-center gap-5">
           {modalConfig.buttons === 'yes-no' && (
             <>

@@ -82,8 +82,8 @@ const DragAndDrop = ({
         onChange={onFilesLoadHandler}
         multiple
       />
-      <p className="text-center text-base font-semibold">{title}</p>
-      <div className="flex flex-col items-center justify-center gap-2 font-semibold">
+      <p className="text-center text-base text-md font-light">{title}</p>
+      <div className="flex flex-col items-center justify-center gap-2 text-md font-light">
         <IoCloudUploadOutline className="text-2xl" />
         <div className="flex flex-wrap justify-center gap-x-1">
           <p className="text-center">{hint}</p>
