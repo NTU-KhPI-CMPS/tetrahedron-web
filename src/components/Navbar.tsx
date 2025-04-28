@@ -25,7 +25,7 @@ const Navbar = () => {
   ))
 
   return (
-    <div className="relative z-10 mx-auto hidden w-full max-w-7xl flex-shrink-0 items-center justify-between pt-8 font-geologica md:flex">
+    <div className="relative z-10 mx-auto hidden w-full max-w-7xl flex-shrink-0 items-center justify-between pt-8 md:flex">
       <Link to={'/'} className="flex cursor-pointer flex-col items-center justify-center pl-3 text-app-blue">
         <Logo />
         <p className="uppercase">tetrahedron</p>

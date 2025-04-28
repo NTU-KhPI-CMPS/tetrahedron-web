@@ -62,7 +62,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         variant={stressLoaded ? 'ghost' : 'default'}
         title={t('toolbar.toolbarSections.buttonsSection.nodeStress')}
         modal={<StressModal />}
-        disableModal={stressLoaded}
+        disableModal={!stressLoaded}
         buttonText={stressLoaded ? stressFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')}
         onFileSelect={loadStress}
       />
