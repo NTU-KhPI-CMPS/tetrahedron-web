@@ -9,7 +9,7 @@ interface SwitchWithTitleProps extends React.ComponentPropsWithoutRef<typeof Swi
 
 const SwitchWithTitle = ({ label, labelStyles, disabled, ...props }: SwitchWithTitleProps) => {
   return (
-    <div className="flex w-[202px] items-center">
+    <div className="flex w-full items-center">
       <label
         htmlFor={props.id}
         className={cn('w-full flex-1 cursor-pointer text-sm leading-[16px]', labelStyles, {
