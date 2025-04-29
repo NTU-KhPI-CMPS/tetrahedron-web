@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { ChangeEvent, ReactNode, useRef } from 'react'
 
 interface FileUploadButtonProps {
   title?: string
+  subtitle?: string
   modal?: ReactNode
   disableModal?: boolean
   buttonText: string
@@ -12,6 +14,7 @@ interface FileUploadButtonProps {
 
 const FileUploadButton = ({
   title,
+  subtitle,
   modal,
   disableModal,
   buttonText,
@@ -37,7 +40,7 @@ const FileUploadButton = ({
   }
 
   return (
-    <div className="space-y-1">
+    <div className="flex flex-col gap-[6px]">
       <input
         className="hidden"
         data-testid={`file-input-${buttonText}`}
@@ -48,11 +51,15 @@ const FileUploadButton = ({
 
       {title && (
         <div className="flex items-center justify-between">
-          <p>{title}</p>
+          <div className={cn('flex max-w-full flex-col', (subtitle || modal) && 'gap-1 pb-[1px] pt-[2px]')}>
+            <p className="text-sm leading-[16px]">{title}</p>
+            {subtitle && <p className="text-xs leading-[11px] text-[#727272]">{subtitle}</p>}
+          </div>
+
           {!disableModal && modal}
         </div>
       )}
-      <Button variant={variant} onClick={onButtonClick} size="sm" className="w-full">
+      <Button variant={variant} onClick={onButtonClick} size="custom">
         {buttonText}
       </Button>
     </div>

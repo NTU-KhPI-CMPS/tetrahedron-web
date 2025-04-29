@@ -25,7 +25,7 @@ const DisplacementModal = () => {
 
   return (
     <Popover>
-      <div className="flex items-center justify-center rounded-full border border-app-blue bg-soft px-1.5 text-app-blue duration-150 hover:bg-app-blue hover:text-soft">
+      <div className="flex h-[14px] w-6 items-center justify-center rounded-lg border-[0.3px] border-app-blue bg-soft px-[7px] py-[6px] text-xs text-app-blue duration-150 hover:bg-app-blue hover:text-soft">
         <PopoverTrigger>
           <BsThreeDots />
         </PopoverTrigger>
