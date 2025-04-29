@@ -34,7 +34,7 @@ const ColorController: FC<ColorControllerProps> = ({ state, action }) => {
         </div>
         <input
           type="text"
-          className="h-[17px] w-[57px] rounded-[2px] px-2 py-[2px] text-[10px] font-semibold"
+          className="h-[17px] w-[57px] rounded-[2px] px-2 py-[2px] text-xs"
           value={state}
           onChange={handleTextChange}
         />

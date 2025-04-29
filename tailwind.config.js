@@ -8,7 +8,12 @@ export default {
         sans: ['Geologica', 'sans-serif']
       },
       fontSize: {
-        sm: '13px'
+        xs: '10px',
+        sm: '13px',
+        md: '17px',
+        lg: '22px',
+        xl: '28px',
+        '2xl': '36px'
       },
       borderRadius: {
         lg: 'var(--radius)',
