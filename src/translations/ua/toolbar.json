@@ -5,14 +5,16 @@
       "nodes": "Вузли",
       "nodeNumbers": "Номери вузлів",
       "legend": "Легенда",
-      "displacement": "Переміщення"
+      "displacement": "Переміщення",
+      "coordinateAxes": "Осі координат"
     },
     "buttonsSection": {
       "nodeStress": "Напруження в елементах",
-      "misesStress": "Mises stress",
+      "misesStress": "Напруження по Мізесу",
+      "stressSubtitle": "(по Мізесу)",
       "fileUpload": "Завантажити файл",
       "nodeDisplacement": "Переміщення у вузлах",
-      "totalDisplacement": "Загальні",
+      "totalDisplacement": "(Загальні)",
       "otherCharacteristic": "Довільна характеристика"
     }
   }

@@ -5,14 +5,16 @@
       "nodes": "Nodes",
       "nodeNumbers": "Node numbers",
       "legend": "Legend",
-      "displacement": "Displacement"
+      "displacement": "Displacement",
+      "coordinateAxes": "Coordinate axes"
     },
     "buttonsSection": {
       "nodeStress": "Elements stress",
-      "misesStress": "Напруження по Мізесу",
+      "misesStress": "Mises stress",
+      "stressSubtitle": "(Mises stress)",
       "fileUpload": "Upload file",
       "nodeDisplacement": "Nodes displacement",
-      "totalDisplacement": "Total",
+      "totalDisplacement": "(Total)",
       "otherCharacteristic": "Other characteristic"
     }
   }

@@ -1,5 +1,5 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { ElementIndices, ModelPhysicalQuantity, VertexCoordinate } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -22,7 +22,7 @@ export interface ModelState {
   displacementLoaded: boolean
   displacementFileName: string | null
 
-  displayNodeIndices: boolean
+  stressValues: Stress[]
   displayLight: boolean
 
   stress: ModelPhysicalQuantity | null
@@ -50,7 +50,7 @@ export const initialState: ModelState = {
   displacementLoaded: false,
   displacementFileName: null,
 
-  displayNodeIndices: false,
+  stressValues: [],
   displayLight: true,
 
   stress: null,
@@ -87,9 +87,6 @@ export const modelSlice = createSlice({
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
       state.isReady = action.payload
-    },
-    setDisplayNodeIndices: (state, action: PayloadAction<boolean>) => {
-      state.displayNodeIndices = action.payload
     },
     setDisplayLight: (state, action: PayloadAction<boolean>) => {
       state.displayLight = action.payload
@@ -128,7 +125,6 @@ export const {
   setCoorinatesMatrix,
   resetModel,
   setReady,
-  setDisplayNodeIndices,
   setDisplayLight,
   setStress,
   setCharacteristic,

@@ -1,17 +1,5 @@
 import { filterByLength, hasValidLineFormat, ParsedResult, parseLinesWithNumbers } from '@/lib/parserUtils'
-import { ModelPhysicalQuantity, Stress } from '@/types/ModelCommonTypes'
-
-export function parseDefaultPhysicalQuantity(input: string): ModelPhysicalQuantity {
-  const values = filterByLength(parseLinesWithNumbers(input), 1)
-    .map(([value]) => Number(value))
-    .sort((a, b) => a - b)
-
-  return {
-    values: values,
-    min: values[0],
-    max: values[values.length - 1]
-  }
-}
+import { Stress } from '@/types/ModelCommonTypes'
 
 export function parseDefaultStress(input: string): Stress[] {
   return filterByLength(parseLinesWithNumbers(input), 7).map(([index, qx, txy, tzx, qy, tyz, qz]) => ({
@@ -44,5 +32,5 @@ export function parseStress(input: string): ParsedResult<Stress[]> {
   if (isMisesStress) return { data: parseDefaultStress(input) }
   if (isStressWithoutIndices) return { data: parseStressWithNoIndex(input) }
 
-  return { error: { message: 'valitation.stressInvalidNumbersCount' } }
+  return { error: { message: 'validation.stressInvalidNumbersCount' } }
 }

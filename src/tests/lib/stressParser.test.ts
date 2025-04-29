@@ -1,4 +1,5 @@
-import { parseDefaultPhysicalQuantity, parseDefaultStress, parseStress } from '@/lib/stressParser'
+import { parseDefaultPhysicalQuantity } from '@/lib/otherCharacteristicsParser'
+import { parseDefaultStress, parseStress } from '@/lib/stressParser'
 import { describe, expect, it } from 'vitest'
 
 describe('parseDefaultStress', () => {
@@ -56,7 +57,7 @@ describe('parseStress', () => {
 
   it('return error if found mismatch', () => {
     const input = '1234567890'
-    const expected = 'valitation.stressInvalidNumbersCount'
+    const expected = 'validation.stressInvalidNumbersCount'
     expect(parseStress(input).error?.message).toEqual(expected)
   })
 })

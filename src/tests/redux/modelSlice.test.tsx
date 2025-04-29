@@ -6,7 +6,6 @@ import reducer, {
   setCoorinatesMatrix,
   setDisplacement,
   setDisplay,
-  setDisplayNodeIndices,
   setIndicesMatrix,
   setReady,
   setStress
@@ -82,13 +81,6 @@ describe('modelSlice', () => {
     const state = reducer(initialState, action)
 
     expect(state.isReady).toEqual(true)
-  })
-
-  it('should set displayNodeIndices correctly with setDisplayNodeIndices', () => {
-    const action = setDisplayNodeIndices(true)
-    const state = reducer(initialState, action)
-
-    expect(state.displayNodeIndices).toEqual(true)
   })
 
   it('should set stress & colors correctly with setStress', () => {

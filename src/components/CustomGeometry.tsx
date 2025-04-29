@@ -7,16 +7,10 @@ import { shallowEqual } from 'react-redux'
 import * as THREE from 'three'
 
 const CustomGeometry: FC = () => {
-  const {
-    coorinatesMatrix,
-    indicesMatrix,
-    colors,
-    displacement,
-    displayNodeIndices,
-    display,
-    displacementScale,
-    displayLight
-  } = useAppSelector((store) => store.model, shallowEqual)
+  const { coorinatesMatrix, indicesMatrix, colors, displacement, display, displacementScale, displayLight } =
+    useAppSelector((store) => store.model, shallowEqual)
+
+  const displayNodeIndices = useAppSelector((store) => store.modelViewSetting.displayNodeIndices)
 
   const meshRef = useRef<THREE.Mesh>(null)
 

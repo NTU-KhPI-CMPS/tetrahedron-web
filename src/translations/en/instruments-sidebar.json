@@ -5,6 +5,7 @@
     "rotate": "Rotate",
     "scale": "Scale",
     "copy": "Copy",
-    "delete": "Delete"
+    "delete": "Delete",
+    "color": "Color"
   }
 }
