@@ -88,9 +88,6 @@ export const modelSlice = createSlice({
     setReady: (state, action: PayloadAction<boolean>) => {
       state.isReady = action.payload
     },
-    setDisplayLight: (state, action: PayloadAction<boolean>) => {
-      state.displayLight = action.payload
-    },
     setCharacteristic: (
       state,
       action: PayloadAction<{ otherCharacteristic: ModelPhysicalQuantity; fileName: string }>
@@ -125,7 +122,6 @@ export const {
   setCoorinatesMatrix,
   resetModel,
   setReady,
-  setDisplayLight,
   setStress,
   setCharacteristic,
   setDisplacement,

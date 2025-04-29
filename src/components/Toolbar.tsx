@@ -2,34 +2,30 @@ import DisplacementModal from '@/components/DisplacementModal'
 import FileUploadButton from '@/components/FileUploadButton'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { setDisplayCoordinateAxes, setDisplayNodeIndices } from '@/redux/slices/modelViewSettingSlice'
+import { setDisplayCoordinateAxes, setDisplayLight, setDisplayNodeIndices } from '@/redux/slices/modelViewSettingSlice'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { shallowEqual } from 'react-redux'
 
 interface ToolbarProps {
-  displayLight: boolean
   displacementLoaded: boolean
   stressLoaded: boolean
   stressFileName: string
   otherCharacteristicLoaded: boolean
   otherCharacteristicFileName: string
   displacementFileName: string
-  onLightSwitchClick: () => void
   loadStress: (file: File) => void
   loadCharacteristic: (file: File) => void
   loadDisplacement: (file: File) => void
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
-  displayLight,
   displacementLoaded,
   stressLoaded,
   stressFileName,
   otherCharacteristicLoaded,
   otherCharacteristicFileName,
   displacementFileName,
-  onLightSwitchClick,
   loadStress,
   loadCharacteristic,
   loadDisplacement
@@ -37,7 +33,14 @@ const Toolbar: React.FC<ToolbarProps> = ({
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
 
-  const { displayNodeIndices, displayCoordinateAxes } = useAppSelector((store) => store.modelViewSetting, shallowEqual)
+  const { displayNodeIndices, displayCoordinateAxes, displayLight } = useAppSelector(
+    (store) => store.modelViewSetting,
+    shallowEqual
+  )
+
+  const onLightSwitchClick = useCallback(() => {
+    dispatch(setDisplayLight(!displayLight))
+  }, [dispatch, displayLight])
 
   const onNodeIndicesSwitchClick = useCallback(() => {
     dispatch(setDisplayNodeIndices(!displayNodeIndices))

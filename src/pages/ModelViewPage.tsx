@@ -19,7 +19,6 @@ import {
   setCoorinatesMatrix,
   setDisplacement,
   setDisplay,
-  setDisplayLight,
   setIndicesMatrix,
   setReady,
   setStress
@@ -38,7 +37,6 @@ const ModelViewPage = () => {
     coorinatesMatrixFileName,
     indicesMatrix,
     coorinatesMatrix,
-    displayLight,
     displacementLoaded,
     displacementFileName,
     stress,
@@ -202,10 +200,6 @@ const ModelViewPage = () => {
     [coorinatesMatrix, t, dispatch, openModal]
   )
 
-  const onLightSwitchClick = useCallback(() => {
-    dispatch(setDisplayLight(!displayLight))
-  }, [dispatch, displayLight])
-
   return (
     <>
       <div className="relative flex items-center justify-between">
@@ -232,14 +226,12 @@ const ModelViewPage = () => {
           </div>
         )}
         <Toolbar
-          displayLight={displayLight}
           displacementLoaded={displacementLoaded}
           displacementFileName={displacementFileName ?? ''}
           stressFileName={stressFileName ?? ''}
           stressLoaded={stress !== null}
           otherCharacteristicFileName={otherCharacteristicFileName ?? ''}
           otherCharacteristicLoaded={otherCharacteristic !== null}
-          onLightSwitchClick={onLightSwitchClick}
           loadStress={loadStress}
           loadCharacteristic={loadCharacteristic}
           loadDisplacement={loadDisplacement}
