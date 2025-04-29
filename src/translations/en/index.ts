@@ -1,3 +1,4 @@
+import colorselect from './color-select.json'
 import displacementOptions from './displacement-options.json'
 import errorModal from './error-modal.json'
 import filesUploader from './files-uploader.json'
@@ -16,7 +17,8 @@ const en = {
     instrumentsSidebar,
     errorModal,
     validation,
-    displacementOptions
+    displacementOptions,
+    colorselect
   }
 }
 

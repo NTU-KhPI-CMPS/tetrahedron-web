@@ -52,10 +52,11 @@ const FileUploadButton = ({
       {title && (
         <div className="flex items-center justify-between">
           <div className={cn('flex max-w-full flex-col', (subtitle || modal) && 'gap-1 pb-[1px] pt-[2px]')}>
-            <p className="tetrahedron-text-sm font-semibold leading-[16px]">{title}</p>
-            {subtitle && <p className="text-[10px] leading-[11px] text-[#727272]">{subtitle}</p>}
+            <p className="text-sm leading-[16px]">{title}</p>
+            {subtitle && <p className="text-xs leading-[11px] text-[#727272]">{subtitle}</p>}
           </div>
 
+          <p>{title}</p>
           {!disableModal && modal}
         </div>
       )}
