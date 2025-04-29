@@ -56,7 +56,6 @@ const FileUploadButton = ({
             {subtitle && <p className="text-xs leading-[11px] text-[#727272]">{subtitle}</p>}
           </div>
 
-          <p>{title}</p>
           {!disableModal && modal}
         </div>
       )}

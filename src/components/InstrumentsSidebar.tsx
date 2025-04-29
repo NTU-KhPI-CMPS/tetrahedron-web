@@ -24,12 +24,9 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
     <Tooltip key={item.tooltip}>
       <TooltipTrigger
         onClick={() => buttonClickHandler(item, index)}
-        className={cn(
-          'group relative flex size-10 items-center justify-center text-2xl duration-150 hover:text-white',
-          {
-            'text-white': index === activeButtonIndex
-          }
-        )}
+        className={cn('group relative flex size-10 items-center justify-center text-xl duration-150 hover:text-white', {
+          'text-white': index === activeButtonIndex
+        })}
       >
         <div className="z-[1]">{item.icon}</div>
         <div

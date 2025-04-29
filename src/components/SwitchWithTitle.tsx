@@ -12,7 +12,7 @@ const SwitchWithTitle = ({ label, labelStyles, disabled, ...props }: SwitchWithT
     <div className="flex w-[202px] items-center">
       <label
         htmlFor={props.id}
-        className={cn('tetrahedron-text-sm w-full flex-1 cursor-pointer font-semibold leading-[16px]', labelStyles, {
+        className={cn('w-full flex-1 cursor-pointer text-sm leading-[16px]', labelStyles, {
           'cursor-not-allowed': disabled
         })}
       >
