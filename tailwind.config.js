@@ -27,7 +27,6 @@ export default {
         'app-blue-light': '#E5EEFF',
         soft: '#FAFAFA',
         'coal-black': '#0E0E0E',
-        grey: '#E5E5E6',
         'light-grey': '#CACACA',
         'button-pressed': '#1D0070',
         'button-hover': '#5826EA',

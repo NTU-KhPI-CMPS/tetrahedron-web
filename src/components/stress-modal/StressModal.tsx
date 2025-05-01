@@ -14,7 +14,7 @@ const StressModal = () => {
   const dispatch = useAppDispatch()
   const stress = useAppSelector((store) => store.model.stress)
 
-  const [isMises, setMises] = useState<boolean>(display === 'Mises')
+  const [isMises, setMises] = useState(display === 'Mises')
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
 
   const onSwitchClick = () => {
