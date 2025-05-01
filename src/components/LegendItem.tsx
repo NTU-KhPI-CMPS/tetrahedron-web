@@ -1,12 +1,9 @@
-import { useAppSelector } from '@/hooks/use-redux'
 import useConvertColor from '@/hooks/useConvertColor'
 import { LegendType } from '@/types/ModelCommonTypes'
 import { FC } from 'react'
 
-const LegendItem: FC<LegendType> = ({ color, rangeStart, rangeEnd }) => {
+const LegendItem: FC<LegendType> = ({ color, rangeStart, rangeEnd, lastValue }) => {
   const rgbColor = useConvertColor(color)
-  const max = useAppSelector((store) => store.legend.max)
-  const lastValue = max === rangeEnd
 
   return (
     <div data-testid="legendItem" className="relative flex flex-col">

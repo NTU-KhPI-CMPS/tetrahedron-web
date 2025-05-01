@@ -17,6 +17,7 @@ export type LegendType = {
   rangeStart: number
   rangeEnd: number
   color: number[]
+  lastValue: boolean
 }
 
 export type ModelPhysicalQuantity = {

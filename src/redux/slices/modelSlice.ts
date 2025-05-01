@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 export type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'stress' | 'none'
-export type ComponentDisplayVariants = 'Mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
+export type ComponentDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
 
 export interface ModelState {
   indicesMatrix: ElementIndices[]
@@ -91,7 +91,7 @@ export const modelSlice = createSlice({
       state.stressFileName = fileName
       state.stressLoaded = true
 
-      state.componentDisplay = 'Mises'
+      state.componentDisplay = 'mises'
     },
     setStressComponentToDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
       state.componentDisplay = action.payload

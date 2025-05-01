@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { ComponentDisplayVariants, displayDataOnModel, setStressComponentToDisplay } from '@/redux/slices/modelSlice'
+import { StressType } from '@/types/ModelCommonTypes.ts'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
@@ -14,7 +15,7 @@ const StressModal = () => {
   const dispatch = useAppDispatch()
   const stress = useAppSelector((store) => store.model.stress)
 
-  const [isMises, setMises] = useState(display === 'Mises')
+  const [isMises, setMises] = useState(display === 'mises')
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
 
   const onSwitchClick = () => {
@@ -23,15 +24,14 @@ const StressModal = () => {
 
   const onSaveClick = () => {
     if (isMises && stress !== null) {
-      dispatch(setStressComponentToDisplay('Mises'))
+      dispatch(setStressComponentToDisplay('mises'))
       dispatch(displayDataOnModel(stress.mises))
       return
     }
 
     if (selectedComponent !== 'none' && stress !== null) {
       dispatch(setStressComponentToDisplay(selectedComponent))
-      // @ts-expect-error to get data from stress object
-      dispatch(displayDataOnModel(stress[selectedComponent]))
+      dispatch(displayDataOnModel(stress[selectedComponent as keyof StressType]))
     }
   }
 

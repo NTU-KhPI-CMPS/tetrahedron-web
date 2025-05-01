@@ -14,7 +14,13 @@ const Legend = () => {
   return (
     <div data-testid="legend" className="absolute z-10 ml-44 flex flex-col justify-center bg-red-500">
       {legendColors.map((item) => (
-        <LegendItem color={item.color} rangeStart={item.rangeStart} rangeEnd={item.rangeEnd} key={item.rangeStart} />
+        <LegendItem
+          color={item.color}
+          rangeStart={item.rangeStart}
+          rangeEnd={item.rangeEnd}
+          key={item.rangeStart}
+          lastValue={item.lastValue}
+        />
       ))}
     </div>
   )
