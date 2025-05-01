@@ -21,7 +21,7 @@ describe('LegendItem', () => {
   it('should accept values and render component', () => {
     render(
       <Provider store={store}>
-        <LegendItem color={mockColor} rangeStart={mockStart} rangeEnd={mockEnd} />
+        <LegendItem color={mockColor} rangeStart={mockStart} rangeEnd={mockEnd} lastValue={true} />
       </Provider>
     )
 

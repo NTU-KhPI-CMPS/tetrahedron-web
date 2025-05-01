@@ -12,7 +12,8 @@ describe('Legend', () => {
     {
       rangeStart: 1,
       rangeEnd: 10,
-      color: [0.1599, 0.5476, 0.8]
+      color: [0.1599, 0.5476, 0.8],
+      lastValue: true
     }
   ]
 

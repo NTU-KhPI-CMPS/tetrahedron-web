@@ -15,11 +15,11 @@ const StressModal = () => {
   const dispatch = useAppDispatch()
   const stress = useAppSelector((store) => store.model.stress)
 
-  const [isMises, setMises] = useState(display === 'mises')
+  const [isMises, setIsMises] = useState(display === 'mises')
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
 
   const onSwitchClick = () => {
-    setMises(!isMises)
+    setIsMises(!isMises)
   }
 
   const onSaveClick = () => {
