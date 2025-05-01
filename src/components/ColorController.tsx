@@ -19,9 +19,7 @@ const ColorController: FC<ColorControllerProps> = ({ state, action }) => {
 
   return (
     <div className="flex h-[17px] w-[156px] flex-row items-center justify-center gap-5">
-      <label className="flex h-4 w-[55px] items-center text-left text-sm font-semibold">
-        {t('colorSelect.background')}
-      </label>
+      <label className="flex h-4 w-[55px] items-center text-left text-sm">{t('colorSelect.background')}</label>
       <div className="flex h-[17px] w-[81px] flex-row items-center gap-1">
         <div className="relative">
           <input
