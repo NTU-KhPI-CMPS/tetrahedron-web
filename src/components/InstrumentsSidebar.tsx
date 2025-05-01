@@ -43,7 +43,7 @@ const InstrumentsSidebar = ({ buttonsData }: InstrumentsSidebarProps) => {
 
   return (
     <TooltipProvider>
-      <div className="peer absolute left-[15px] z-10 flex max-h-[324px] w-[76px] flex-col items-center justify-center overflow-visible rounded-xl px-6 py-8 shadow-md backdrop-blur-sm">
+      <div className="peer absolute left-3.5 z-10 flex max-h-[324px] w-[76px] flex-col items-center justify-center overflow-visible rounded-xl px-6 py-8 shadow-md backdrop-blur-sm">
         <div className="flex flex-col gap-[10px]">{buttons}</div>
       </div>
     </TooltipProvider>

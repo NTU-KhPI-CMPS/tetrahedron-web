@@ -14,6 +14,7 @@ import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import {
+  displayDataOnModel,
   resetModel,
   setCharacteristic,
   setCoorinatesMatrix,
@@ -158,9 +159,18 @@ const ModelViewPage = () => {
 
       const calculatedMises = calculateMisesStress(parsedStress)
 
-      const stress = buildMisesPhysicalQuantity(calculatedMises)
+      const stress = {
+        mises: buildMisesPhysicalQuantity(calculatedMises),
+        qx: buildMisesPhysicalQuantity(parsedStress.map((item) => item.qx)),
+        qy: buildMisesPhysicalQuantity(parsedStress.map((item) => item.qy)),
+        qz: buildMisesPhysicalQuantity(parsedStress.map((item) => item.qz)),
+        txy: buildMisesPhysicalQuantity(parsedStress.map((item) => item.txy)),
+        tyz: buildMisesPhysicalQuantity(parsedStress.map((item) => item.tyz)),
+        tzx: buildMisesPhysicalQuantity(parsedStress.map((item) => item.tzx))
+      }
 
       dispatch(setStress({ stress, fileName: file.name }))
+      dispatch(displayDataOnModel(stress.mises))
       dispatch(setDisplay('stress'))
     },
     [dispatch, t, openModal, stressValues]

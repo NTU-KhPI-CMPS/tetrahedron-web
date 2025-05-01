@@ -36,7 +36,7 @@ const ColorModal = () => {
 
         <div className="flex items-center justify-center">
           <Button className="h-8 w-[92px] rounded-[66px] px-4 py-2" onClick={onSaveClick}>
-            {t('colorselect.save')}
+            {t('colorSelect.save')}
           </Button>
         </div>
       </PopoverContent>

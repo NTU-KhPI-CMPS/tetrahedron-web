@@ -15,7 +15,8 @@ export function generateLegend(minValue: number, maxValue: number): LegendType[]
     legend[i] = {
       rangeStart,
       rangeEnd,
-      color: COLORS[i]
+      color: COLORS[i],
+      lastValue: i === COLOR_ARRAY_SIZE - 1
     }
   }
   return legend

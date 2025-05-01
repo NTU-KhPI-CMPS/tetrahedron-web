@@ -1,8 +1,8 @@
 import LegendItem from '@/components/LegendItem'
 import { configureStore } from '@reduxjs/toolkit'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { describe, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 describe('LegendItem', () => {
   const mockColor = [0.1599, 0.5476, 0.8]
@@ -21,8 +21,10 @@ describe('LegendItem', () => {
   it('should accept values and render component', () => {
     render(
       <Provider store={store}>
-        <LegendItem color={mockColor} rangeStart={mockStart} rangeEnd={mockEnd} />
+        <LegendItem color={mockColor} rangeStart={mockStart} rangeEnd={mockEnd} lastValue={true} />
       </Provider>
     )
+
+    expect(screen.queryByTestId('legendItem')).toBeInTheDocument()
   })
 })
