@@ -69,7 +69,7 @@ const DragAndDrop = ({
       onDragStart={onDragOverHandler}
       onDragLeave={onDragLeaveHandler}
       onDrop={onDropHandler}
-      className={cn('flex flex-col items-center justify-between rounded-3xl bg-app-blue-light pt-3', className, {
+      className={cn('flex h-64 flex-col items-center gap-10 rounded-[20px] bg-app-blue-light p-5', className, {
         'border-2 border-dashed border-app-blue': drag
       })}
     >
@@ -82,17 +82,17 @@ const DragAndDrop = ({
         onChange={onFilesLoadHandler}
         multiple
       />
-      <p className="text-center text-base text-md font-light">{title}</p>
+      <p className="pt-4 text-md font-light">{title}</p>
       <div className="flex flex-col items-center justify-center gap-2 text-md font-light">
-        <IoCloudUploadOutline className="text-2xl" />
-        <div className="flex flex-wrap justify-center gap-x-1">
+        <IoCloudUploadOutline className="text-lg font-bold" />
+        <div className="flex w-72 flex-col justify-center gap-x-1 md:w-80">
           <p className="text-center">{hint}</p>
           <p className="text-center">{fileName}</p>
         </div>
+        <Button onClick={onBrowseButtonClick} size={'icon'} className={buttonClassName} variant={'icon'}>
+          <FiPlus className="text-md" />
+        </Button>
       </div>
-      <Button onClick={onBrowseButtonClick} size={'icon'} className={buttonClassName}>
-        <FiPlus className="text-2xl" />
-      </Button>
     </form>
   )
 }
