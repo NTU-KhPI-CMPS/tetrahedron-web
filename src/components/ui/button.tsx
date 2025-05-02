@@ -10,20 +10,26 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'border border-transparent bg-app-blue text-soft hover:bg-transparent hover:border-app-blue hover:text-app-blue active:text-soft active:bg-button-pressed',
+          'border border-transparent bg-app-blue text-soft rounded-full ' +
+          'hover:bg-transparent hover:border-app-blue hover:text-app-blue ' +
+          'active:text-soft active:bg-button-pressed',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline: 'border border-input bg-button-default text-soft disabled:bg-button-disable hover:bg-button-hover',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'border border-coal-black bg-peach',
         link: 'text-primary underline-offset-4 hover:underline',
-        black: 'bg-coal-black text-soft rounded-full'
+        black: 'bg-coal-black text-soft rounded-full',
+        icon:
+          'border border-transparent bg-app-blue text-soft ' +
+          'hover:bg-transparent hover:border-app-blue hover:text-app-blue ' +
+          'active:text-soft active:bg-button-pressed'
       },
       size: {
         default: 'h-10 px-4 py-2',
         wide: 'h-10 px-6 py-2',
         sm: 'h-9 rounded-md px-3',
-        lg: 'h-11 rounded-md px-8',
-        icon: 'h-10 w-10 hover:bg-button-pressed hover:text-soft',
+        lg: 'pl-[24px] pr-[24px] pt-[12px] pb-[12px] font-medium text-sm',
+        icon: 'h-7 w-7',
         custom: 'w-full h-6 py-2 px-8 rounded-sm '
       }
     },
