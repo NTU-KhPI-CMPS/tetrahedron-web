@@ -44,7 +44,8 @@ const ModelViewPage = () => {
     stressFileName,
     otherCharacteristicFileName,
     otherCharacteristic,
-    stressValues
+    stressValues,
+    colorArraySize
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -124,9 +125,9 @@ const ModelViewPage = () => {
         return
       }
 
-      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
+      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name, colorArraySize }))
     },
-    [indicesMatrix, t, dispatch, openModal]
+    [indicesMatrix, t, dispatch, openModal, colorArraySize]
   )
 
   const loadStress = useCallback(
@@ -170,10 +171,10 @@ const ModelViewPage = () => {
       }
 
       dispatch(setStress({ stress, fileName: file.name }))
-      dispatch(displayDataOnModel(stress.mises))
+      dispatch(displayDataOnModel({ quantity: stress.mises, colorArraySize }))
       dispatch(setDisplay('stress'))
     },
-    [dispatch, t, openModal, stressValues]
+    [dispatch, t, openModal, stressValues, colorArraySize]
   )
 
   const loadDisplacement = useCallback(

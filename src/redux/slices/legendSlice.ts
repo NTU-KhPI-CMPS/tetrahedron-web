@@ -31,20 +31,24 @@ export const legendSlice = createSlice({
         action: PayloadAction<{
           otherCharacteristic: ModelPhysicalQuantity
           fileName: string
+          colorArraySize: number
         }>
       ) => {
         state.max = action.payload.otherCharacteristic.max
         state.min = action.payload.otherCharacteristic.min
-        state.legend = generateLegend(state.min, state.max)
+        state.legend = generateLegend(state.min, state.max, action.payload.colorArraySize)
         state.isLoaded = true
       }
     )
-    builder.addCase(displayDataOnModel, (state, action: PayloadAction<ModelPhysicalQuantity>) => {
-      state.max = action.payload.max
-      state.min = action.payload.min
-      state.legend = generateLegend(state.min, state.max)
-      state.isLoaded = true
-    })
+    builder.addCase(
+      displayDataOnModel,
+      (state, action: PayloadAction<{ quantity: ModelPhysicalQuantity; colorArraySize: number }>) => {
+        state.max = action.payload.quantity.max
+        state.min = action.payload.quantity.min
+        state.legend = generateLegend(state.min, state.max, action.payload.colorArraySize)
+        state.isLoaded = true
+      }
+    )
   }
 })
 

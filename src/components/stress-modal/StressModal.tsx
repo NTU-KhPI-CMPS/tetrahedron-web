@@ -3,8 +3,12 @@ import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import { ComponentDisplayVariants, displayDataOnModel, setStressComponentToDisplay } from '@/redux/slices/modelSlice'
-import { StressType } from '@/types/ModelCommonTypes.ts'
+import {
+  ComponentDisplayVariants,
+  displayDataOnModel,
+  setColorArraySizeData,
+  setStressComponentToDisplay
+} from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
@@ -17,6 +21,7 @@ const StressModal = () => {
 
   const [isMises, setIsMises] = useState(display === 'mises')
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
+  const [colorArraySize, setColorArraySize] = useState(7)
 
   const onSwitchClick = () => {
     setIsMises(!isMises)
@@ -25,13 +30,13 @@ const StressModal = () => {
   const onSaveClick = () => {
     if (isMises && stress !== null) {
       dispatch(setStressComponentToDisplay('mises'))
-      dispatch(displayDataOnModel(stress.mises))
+      dispatch(displayDataOnModel({ quantity: stress.mises, colorArraySize }))
       return
     }
 
     if (selectedComponent !== 'none' && stress !== null) {
       dispatch(setStressComponentToDisplay(selectedComponent))
-      dispatch(displayDataOnModel(stress[selectedComponent as keyof StressType]))
+      dispatch(displayDataOnModel({ quantity: stress[selectedComponent], colorArraySize }))
     }
   }
 
@@ -63,6 +68,19 @@ const StressModal = () => {
             {t('stressOptions.save')}
           </Button>
         </div>
+        <input
+          type="number"
+          name="colorArraySize"
+          id="colorArraySize"
+          placeholder="colorArraySize"
+          min={1}
+          max={20}
+          value={colorArraySize}
+          onChange={(e) => {
+            dispatch(setColorArraySizeData(+e.target.value))
+            setColorArraySize(+e.target.value)
+          }}
+        />
       </PopoverContent>
     </Popover>
   )

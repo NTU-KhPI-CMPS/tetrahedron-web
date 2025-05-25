@@ -58,7 +58,7 @@ describe('generateLegend', () => {
         lastValue: true
       }
     ]
-    expect(generateLegend(0, 7)).toEqual(expected)
+    expect(generateLegend(0, 7, 7)).toEqual(expected)
   })
 })
 
@@ -85,6 +85,6 @@ describe('generateColorArray', () => {
       0.8, 0.15999999999999998, 0.35382857142857144, 0.8, 0.15999999999999998, 0.35382857142857144, 0.8,
       0.15999999999999998
     ]
-    expect(generateColorArray([7, 0, 3], 0, 7)).toEqual(expected)
+    expect(generateColorArray([7, 0, 3], 0, 7, 7)).toEqual(expected)
   })
 })

@@ -50,7 +50,7 @@ const otherCharacteristicFileMock = 'other.txt'
 
 describe('legendSlice', () => {
   it('should set isLoaded correctrly with setStress', () => {
-    const action = displayDataOnModel(stressMock.mises)
+    const action = displayDataOnModel({ quantity: stressMock.mises, colorArraySize: 7 })
     const state = reducer(initialState, action)
 
     expect(state.isLoaded).toEqual(true)
@@ -59,7 +59,8 @@ describe('legendSlice', () => {
   it('should set isLoaded correctrly with setCharacteristic', () => {
     const action = setCharacteristic({
       otherCharacteristic: otherCharacteristicMock,
-      fileName: otherCharacteristicFileMock
+      fileName: otherCharacteristicFileMock,
+      colorArraySize: 7
     })
     const state = reducer(initialState, action)
 
