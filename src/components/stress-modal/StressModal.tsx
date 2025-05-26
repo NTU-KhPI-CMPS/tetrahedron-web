@@ -3,12 +3,7 @@ import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import {
-  ComponentDisplayVariants,
-  displayDataOnModel,
-  setColorArraySizeData,
-  setStressComponentToDisplay
-} from '@/redux/slices/modelSlice'
+import { ComponentDisplayVariants, displayDataOnModel, setStressComponentToDisplay } from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsThreeDots } from 'react-icons/bs'
@@ -18,10 +13,9 @@ const StressModal = () => {
   const display = useAppSelector((store) => store.model.componentDisplay)
   const dispatch = useAppDispatch()
   const stress = useAppSelector((store) => store.model.stress)
-
+  const colorArraySize = useAppSelector((store) => store.model.colorArraySize)
   const [isMises, setIsMises] = useState(display === 'mises')
   const [selectedComponent, setSelectedComponent] = useState<ComponentDisplayVariants>('none')
-  const [colorArraySize, setColorArraySize] = useState(7)
 
   const onSwitchClick = () => {
     setIsMises(!isMises)
@@ -68,19 +62,6 @@ const StressModal = () => {
             {t('stressOptions.save')}
           </Button>
         </div>
-        <input
-          type="number"
-          name="colorArraySize"
-          id="colorArraySize"
-          placeholder="colorArraySize"
-          min={1}
-          max={20}
-          value={colorArraySize}
-          onChange={(e) => {
-            dispatch(setColorArraySizeData(+e.target.value))
-            setColorArraySize(+e.target.value)
-          }}
-        />
       </PopoverContent>
     </Popover>
   )

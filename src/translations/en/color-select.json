@@ -1,4 +1,7 @@
 {
   "background": "Background:",
+  "colorCount": "Color count:",
+  "legend": "Legend",
+  "model": "Model",
   "save": "Save"
 }
