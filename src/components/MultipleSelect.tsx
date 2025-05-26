@@ -51,7 +51,7 @@ const MultipleSelect = ({ title, defaultItems, disabled = false, onItemSelected 
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[148px]">
+      <DropdownMenuContent className="-m-1 w-[157px]">
         <OutsideClickHandler callback={() => setOpen(!open)}>
           {items.map((item) => (
             <DropdownMenuCheckboxItem
