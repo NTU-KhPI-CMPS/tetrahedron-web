@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
+import LinkButton from '@/components/LinkButton'
 import { LanguageSelector } from './LanguageSelector'
 import Logo from './ui/Logo'
 
@@ -25,13 +26,16 @@ const Navbar = () => {
   ))
 
   return (
-    <div className="relative z-10 mx-auto hidden w-full max-w-7xl flex-shrink-0 items-center justify-between pt-8 font-geologica md:flex">
+    <div className="relative z-10 mx-auto hidden w-full max-w-7xl flex-shrink-0 items-center justify-between pt-8 md:flex">
       <Link to={'/'} className="flex cursor-pointer flex-col items-center justify-center pl-3 text-app-blue">
         <Logo />
         <p className="uppercase">tetrahedron</p>
       </Link>
       {displayMenuTitles && <div className="flex items-center justify-center gap-7">{menuItems}</div>}
-      <LanguageSelector />
+      <div className="flex-center gap-[10px]">
+        <LanguageSelector />
+        <LinkButton />
+      </div>
     </div>
   )
 }

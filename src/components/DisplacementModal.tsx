@@ -62,7 +62,7 @@ const DisplacementModal = () => {
 
   return (
     <Popover open={open}>
-      <div className="tetrahedron-text-sm flex items-center justify-center rounded-full border border-app-blue bg-soft px-1.5 text-app-blue duration-150 hover:bg-app-blue hover:text-soft">
+      <div className="flex h-[14px] w-6 items-center justify-center rounded-lg border-[0.3px] border-app-blue bg-soft px-[7px] py-[6px] text-xs text-app-blue duration-150 hover:bg-app-blue hover:text-soft">
         <PopoverTrigger onClick={() => setOpen(true)}>
           <BsThreeDots />
         </PopoverTrigger>
@@ -70,9 +70,9 @@ const DisplacementModal = () => {
       <PopoverContent
         side="left"
         sideOffset={185}
-        className="tetrahedron-text-sm w-80 space-y-[14px] rounded-xl bg-peach/50 p-3 font-semibold backdrop-blur-sm"
+        className="w-80 space-y-3 rounded-xl bg-peach/50 p-3 backdrop-blur-sm"
       >
-        <p className="text-center">{t('displacementOptions.nodeDisplacement')}</p>
+        <p className="text-center font-medium">{t('displacementOptions.nodeDisplacement')}</p>
         <SwitchWithTitle
           checked={totalDisplacement}
           label={t('displacementOptions.totalDisplacement')}

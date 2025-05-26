@@ -5,7 +5,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        geologica: ['Geologica', 'sans-serif']
+        sans: ['Geologica', 'sans-serif']
+      },
+      fontSize: {
+        xs: '10px',
+        sm: '13px',
+        md: '17px',
+        lg: '22px',
+        xl: '28px',
+        '2xl': '36px'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -15,6 +23,7 @@ export default {
       colors: {
         peach: '#E7EDF2',
         'app-blue': '#1E0094',
+        'app-blue-dark': '#130452',
         'app-blue-light': '#E5EEFF',
         soft: '#FAFAFA',
         'coal-black': '#0E0E0E',
@@ -71,8 +80,10 @@ export default {
     require('tailwindcss-animate'),
     function ({ addComponents }) {
       addComponents({
-        '.tetrahedron-text-sm': {
-          fontSize: '13px'
+        '.flex-center': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }
       })
     }

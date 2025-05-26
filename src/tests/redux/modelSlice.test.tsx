@@ -1,5 +1,6 @@
 import { generateColorArray } from '@/lib/colorUtils'
 import reducer, {
+  displayDataOnModel,
   initialState,
   resetModel,
   setCharacteristic,
@@ -33,9 +34,41 @@ const coorinatesMatrixMock = [
 ]
 
 const stressMock = {
-  values: [1, 2, 3, 4],
-  min: 1,
-  max: 4
+  mises: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  qx: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  qy: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  qz: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  txy: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  tzx: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  },
+  tyz: {
+    values: [1, 2, 3, 4],
+    min: 1,
+    max: 4
+  }
 }
 
 const otherCharacteristicMock = {
@@ -89,7 +122,15 @@ describe('modelSlice', () => {
 
     expect(state.stress).toMatchObject(stressMock)
     expect(state.stressFileName).toEqual('stress.txt')
-    expect(generateColorArray).toHaveBeenCalledWith(stressMock.values, stressMock.min, stressMock.max)
+  })
+
+  it('colors are set correctly with setColor', () => {
+    const dataToDisplay = stressMock.mises
+    const action = displayDataOnModel(dataToDisplay)
+    const state = reducer(initialState, action)
+
+    expect(generateColorArray).toHaveBeenCalledWith(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max)
+    expect(state.colors).toEqual(generateColorArray(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max))
   })
 
   it('should set otherCharacteristic & colors correctly with setCharacteristic', () => {

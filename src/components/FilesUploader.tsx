@@ -82,17 +82,17 @@ const FilesUploader = ({
   return (
     <div
       data-testid="wrapper"
-      className="absolute left-0 top-0 z-50 flex size-96 h-dvh w-dvw items-center justify-center bg-black/50 p-5 md:p-10"
+      className="absolute left-0 top-0 z-50 flex h-dvh w-dvw items-center justify-center bg-black/50 p-5 md:p-10"
     >
       <OutsideClickHandler callback={outsideClickHandler}>
-        <div className="grid aspect-video max-w-7xl grid-rows-[1fr,auto] gap-5 rounded-3xl bg-white p-5 md:gap-10 md:p-10">
-          <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:gap-10">
+        <div className="grid max-w-7xl grid-rows-[1fr,auto] gap-5 rounded-[40px] bg-white p-5 md:gap-10 md:p-8">
+          <div className="flex flex-col items-center justify-center gap-5 md:flex-row md:gap-8">
             <DragAndDrop
               hint={coorinatesMatrixError ? t(coorinatesMatrixError) : coorinatesMatrixHint}
               fileName={coorinatesMatrixFileName}
               onFilesLoad={onCoorinatesMatrixLoadHandler}
               title={t('filesUploader.coorinatesMatrixFile')}
-              className={cn('aspect-square w-64 border border-transparent p-5', {
+              className={cn('border border-transparent', {
                 'border-red-500 bg-red-200': coorinatesMatrixError
               })}
               buttonClassName={cn({ 'bg-black text-white': coorinatesMatrixError })}
@@ -102,14 +102,14 @@ const FilesUploader = ({
               fileName={indicesMatrixFileName}
               onFilesLoad={onIndicesMatrixLoadHandler}
               title={t('filesUploader.indicesMatrixFile')}
-              className={cn('aspect-square w-64 border border-transparent p-5', {
+              className={cn('border border-transparent', {
                 'border-red-500 bg-red-200': indicesMatrixError
               })}
               buttonClassName={cn({ 'bg-black text-white': indicesMatrixError })}
             />
           </div>
-          <div className="flex items-center justify-end">
-            <Button disabled={disableCreateModelButton} onClick={onCreateModelClick}>
+          <div className="flex items-center justify-center">
+            <Button disabled={disableCreateModelButton} onClick={onCreateModelClick} size={'lg'}>
               {t('filesUploader.createModelButton')}
             </Button>
           </div>

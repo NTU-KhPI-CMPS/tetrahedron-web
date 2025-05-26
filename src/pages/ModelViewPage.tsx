@@ -1,9 +1,11 @@
+import ColorModal from '@/components/ColorModal'
 import ErrorModal from '@/components/ErrorModal'
 import FilesUploader from '@/components/FilesUploader'
 import InstrumentsSidebar from '@/components/InstrumentsSidebar'
 import Legend from '@/components/Legend'
 import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
+import DeleteIcon from '@/components/ui/DeleteIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
@@ -12,6 +14,7 @@ import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import {
+  displayDataOnModel,
   resetModel,
   setCharacteristic,
   setCoorinatesMatrix,
@@ -25,10 +28,7 @@ import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GrPowerReset } from 'react-icons/gr'
-import { IoMove } from 'react-icons/io5'
-import { MdDelete } from 'react-icons/md'
-import { PiCopySimpleLight, PiCursorFill, PiResize } from 'react-icons/pi'
+import { PiCursorLight } from 'react-icons/pi'
 import { shallowEqual } from 'react-redux'
 
 const ModelViewPage = () => {
@@ -48,6 +48,7 @@ const ModelViewPage = () => {
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const backgroundColor = useAppSelector((store) => store.colorSlice.background)
 
   const [filesUploaderOpen, setFilesUploaderOpen] = useState(!isReady)
   const [coorinatesMatrixError, setCoorinatesMatrixError] = useState<undefined | string>()
@@ -63,12 +64,13 @@ const ModelViewPage = () => {
 
   const buttonsData = useMemo(
     () => [
-      { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorFill /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.move'), icon: <IoMove /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.rotate'), icon: <GrPowerReset /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.scale'), icon: <PiResize /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.copy'), icon: <PiCopySimpleLight /> },
-      { tooltip: t('instrumentsSidebar.sidebarHints.delete'), icon: <MdDelete />, action: () => onModelDelete() }
+      { tooltip: t('instrumentsSidebar.sidebarHints.select'), icon: <PiCursorLight /> },
+      { tooltip: t('instrumentsSidebar.sidebarHints.color'), icon: <ColorModal /> },
+      {
+        tooltip: t('instrumentsSidebar.sidebarHints.delete'),
+        icon: <DeleteIcon />,
+        action: () => onModelDelete()
+      }
     ],
     [t, onModelDelete]
   )
@@ -157,9 +159,18 @@ const ModelViewPage = () => {
 
       const calculatedMises = calculateMisesStress(parsedStress)
 
-      const stress = buildMisesPhysicalQuantity(calculatedMises)
+      const stress = {
+        mises: buildMisesPhysicalQuantity(calculatedMises),
+        qx: buildMisesPhysicalQuantity(parsedStress.map((item) => item.qx)),
+        qy: buildMisesPhysicalQuantity(parsedStress.map((item) => item.qy)),
+        qz: buildMisesPhysicalQuantity(parsedStress.map((item) => item.qz)),
+        txy: buildMisesPhysicalQuantity(parsedStress.map((item) => item.txy)),
+        tyz: buildMisesPhysicalQuantity(parsedStress.map((item) => item.tyz)),
+        tzx: buildMisesPhysicalQuantity(parsedStress.map((item) => item.tzx))
+      }
 
       dispatch(setStress({ stress, fileName: file.name }))
+      dispatch(displayDataOnModel(stress.mises))
       dispatch(setDisplay('stress'))
     },
     [dispatch, t, openModal, stressValues]
@@ -205,7 +216,13 @@ const ModelViewPage = () => {
         <InstrumentsSidebar buttonsData={buttonsData} />
         <Legend />
         {isReady && (
-          <div data-testid="experience" className="fixed left-0 top-0 z-0 h-dvh w-full overflow-hidden">
+          <div
+            data-testid="experience"
+            className="fixed left-0 top-0 z-0 h-dvh w-full overflow-hidden"
+            style={{
+              backgroundColor: backgroundColor
+            }}
+          >
             <Canvas
               camera={{
                 fov: 45,
