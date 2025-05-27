@@ -3,5 +3,6 @@
   "totalDisplacement": "Загальні переміщення",
   "displacementScale": "Масштаб відображення деформацій моделі",
   "displacementComponents": "Компоненти переміщення",
-  "save": "Зберегти"
+  "save": "Зберегти",
+  "selectComponent": "Вибрати компонент"
 }

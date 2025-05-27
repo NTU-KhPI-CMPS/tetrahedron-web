@@ -6,6 +6,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'stress' | 'none'
 export type ComponentDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
 
+export type AxisComponent = 'x' | 'y' | 'z'
+
 export interface ModelState {
   indicesMatrix: ElementIndices[]
   indicesMatrixLoaded: boolean
@@ -22,6 +24,7 @@ export interface ModelState {
   displacementScale: number
   displacementLoaded: boolean
   displacementFileName: string | null
+  displacementComponents: AxisComponent[]
 
   stressValues: Stress[]
   stress: StressType | null
@@ -50,6 +53,7 @@ export const initialState: ModelState = {
   displacementScale: 1,
   displacementLoaded: false,
   displacementFileName: null,
+  displacementComponents: ['x', 'y', 'z'],
 
   stressValues: [],
   stress: null,
@@ -130,6 +134,9 @@ export const modelSlice = createSlice({
     },
     setDisplacementScale: (state, action: PayloadAction<number>) => {
       state.displacementScale = action.payload
+    },
+    setDisplacementComponents: (state, action: PayloadAction<AxisComponent[]>) => {
+      state.displacementComponents = action.payload
     }
   }
 })
@@ -147,7 +154,8 @@ export const {
   setCharacteristic,
   setDisplacement,
   setDisplay,
-  setDisplacementScale
+  setDisplacementScale,
+  setDisplacementComponents
 } = modelSlice.actions
 
 export default modelSlice.reducer

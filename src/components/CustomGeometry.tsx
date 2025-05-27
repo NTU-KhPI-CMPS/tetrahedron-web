@@ -7,8 +7,16 @@ import { shallowEqual } from 'react-redux'
 import * as THREE from 'three'
 
 const CustomGeometry: FC = () => {
-  const { coorinatesMatrix, indicesMatrix, colors, displacement, display, displacementScale, componentDisplay } =
-    useAppSelector((store) => store.model, shallowEqual)
+  const {
+    coorinatesMatrix,
+    indicesMatrix,
+    colors,
+    displacement,
+    display,
+    displacementScale,
+    componentDisplay,
+    displacementComponents
+  } = useAppSelector((store) => store.model, shallowEqual)
 
   const displayNodeIndices = useAppSelector((store) => store.modelViewSetting.displayNodeIndices)
 
@@ -20,7 +28,7 @@ const CustomGeometry: FC = () => {
 
   const coorinatesMatrixToUse =
     display === 'displacement'
-      ? calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, displacementScale)
+      ? calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, displacementScale, displacementComponents)
       : coorinatesMatrix
   const position = generateCoorinatesMatrix(coorinatesMatrixToUse)
   const indexArray = generateIndicesMatrix(indicesMatrix)
