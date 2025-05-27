@@ -81,7 +81,7 @@ const DisplacementModal = () => {
           onClick={onSwitchClick}
           id="general-displacement"
         />
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between text-sm">
           <p>{t('displacementOptions.displacementComponents')}</p>
           <MultipleSelect
             disabled={totalDisplacement}
@@ -90,7 +90,7 @@ const DisplacementModal = () => {
             title={componentsSelectorTitle}
           />
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between text-sm">
           <label htmlFor="displacement-scale">{t('displacementOptions.displacementScale')}</label>
           <input
             value={scale}
