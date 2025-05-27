@@ -5,6 +5,15 @@ import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { describe, it } from 'vitest'
 
+vi.mock('@/hooks/use-redux', () => {
+  return {
+    useAppSelector: () => {
+      return { displacementComponents: ['x', 'y', 'z'] }
+    },
+    useAppDispatch: vi.fn()
+  }
+})
+
 describe('Toolbar', () => {
   it('should render component correctly', () => {
     const store = configureStore({
@@ -25,9 +34,7 @@ describe('Toolbar', () => {
           otherCharacteristicFileName={''}
           loadStress={mockLoadStress}
           loadCharacteristic={mockLoadCharacteristic}
-          loadDisplacement={() => {
-            return
-          }}
+          loadDisplacement={vi.fn()}
         />
       </Provider>
     )
