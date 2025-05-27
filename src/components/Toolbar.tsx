@@ -3,6 +3,7 @@ import FileUploadButton from '@/components/FileUploadButton'
 import StressModal from '@/components/stress-modal/StressModal'
 import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import { AxisComponent } from '@/redux/slices/modelSlice'
 import { setDisplayCoordinateAxes, setDisplayNodeIndices } from '@/redux/slices/modelViewSettingSlice'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,6 +36,13 @@ const Toolbar: React.FC<ToolbarProps> = ({
   const { t } = useTranslation()
 
   const { displayNodeIndices, displayCoordinateAxes } = useAppSelector((store) => store.modelViewSetting, shallowEqual)
+  const { displacementComponents } = useAppSelector((store) => store.model)
+
+  const allComponents = ['x', 'y', 'z']
+  const isTotalDisplacement = allComponents.every((component) =>
+    displacementComponents.includes(component as AxisComponent)
+  )
+  const usedComponents = displacementComponents.reduce((acc, current) => `${acc} ${current}`, '').trim()
 
   const onNodeIndicesSwitchClick = useCallback(() => {
     dispatch(setDisplayNodeIndices(!displayNodeIndices))
@@ -79,7 +87,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
             displacementLoaded ? displacementFileName : t('toolbar.toolbarSections.buttonsSection.fileUpload')
           }
           onFileSelect={loadDisplacement}
-          subtitle={t('toolbar.toolbarSections.buttonsSection.totalDisplacement')}
+          subtitle={
+            isTotalDisplacement ? t('toolbar.toolbarSections.buttonsSection.totalDisplacement') : usedComponents
+          }
         />
         <FileUploadButton
           title={t('toolbar.toolbarSections.buttonsSection.otherCharacteristic')}

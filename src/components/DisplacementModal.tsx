@@ -30,6 +30,8 @@ const DisplacementModal = () => {
     { value: 'y', selected: currentDisplacementComponents.includes('y') },
     { value: 'z', selected: currentDisplacementComponents.includes('z') }
   ]
+  const usedComponents = displacementComponents.reduce((acc, current) => `${acc} ${current}`, '').trim()
+  const componentsSelectorTitle = isTotalDisplacement ? t('displacementOptions.selectComponent') : usedComponents
 
   const onSaveClick = () => {
     dispatch(setDisplacementScale(scale))
@@ -85,7 +87,7 @@ const DisplacementModal = () => {
             disabled={totalDisplacement}
             defaultItems={components}
             onItemSelected={onComponentSelected}
-            title={t('displacementOptions.selectComponent')}
+            title={componentsSelectorTitle}
           />
         </div>
         <div className="flex items-center justify-between">

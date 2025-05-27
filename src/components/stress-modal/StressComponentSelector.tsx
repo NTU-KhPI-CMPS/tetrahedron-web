@@ -1,5 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ComponentDisplayVariants } from '@/redux/slices/modelSlice'
+import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const COMPONENTS = [
@@ -23,13 +24,13 @@ export interface ComponentSelectorProps {
   disabled: boolean
 }
 
-export function StressComponentSelector({ value, onChange, disabled }: ComponentSelectorProps) {
+export const StressComponentSelector: FC<ComponentSelectorProps> = ({ value, onChange, disabled }) => {
   const { t } = useTranslation()
 
   return (
     <Select onValueChange={onChange} value={value === 'none' ? undefined : value}>
       <SelectTrigger
-        className="h-9 w-64 border-none bg-white font-normal hover:bg-grey-disabled disabled:bg-light-grey"
+        className="hover:bg-grey-disabled disabled:bg-light-grey h-9 w-64 border-none bg-white font-normal"
         disabled={disabled}
       >
         <SelectValue placeholder={t('stressOptions.selectComponent')} />
