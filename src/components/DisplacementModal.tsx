@@ -30,7 +30,7 @@ const DisplacementModal = () => {
     { value: 'y', selected: currentDisplacementComponents.includes('y') },
     { value: 'z', selected: currentDisplacementComponents.includes('z') }
   ]
-  const usedComponents = displacementComponents.reduce((acc, current) => `${acc} ${current}`, '').trim()
+  const usedComponents = displacementComponents.reduce((acc, current) => `${acc}, ${current}`, '').replace(',', '')
   const componentsSelectorTitle = isTotalDisplacement ? t('displacementOptions.selectComponent') : usedComponents
 
   const onSaveClick = () => {

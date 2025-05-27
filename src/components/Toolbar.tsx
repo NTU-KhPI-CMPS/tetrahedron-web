@@ -42,7 +42,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   const isTotalDisplacement = allComponents.every((component) =>
     displacementComponents.includes(component as AxisComponent)
   )
-  const usedComponents = displacementComponents.reduce((acc, current) => `${acc} ${current}`, '').trim()
+  const usedComponents = displacementComponents.reduce((acc, current) => `${acc}, ${current}`, '').replace(',', '')
 
   const onNodeIndicesSwitchClick = useCallback(() => {
     dispatch(setDisplayNodeIndices(!displayNodeIndices))
