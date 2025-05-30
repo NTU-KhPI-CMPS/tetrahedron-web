@@ -159,7 +159,7 @@ describe('calculateCoorinatesMatrixDisplacement', () => {
 
     const scale = 2
 
-    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, scale)
+    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, scale, ['x', 'y', 'z'])
 
     expect(result).toEqual([
       { index: 0, x: 2, y: 1, z: 5 },
@@ -168,13 +168,20 @@ describe('calculateCoorinatesMatrixDisplacement', () => {
   })
 
   it('should return an empty array if input arrays are empty', () => {
-    expect(calculateCoorinatesMatrixDisplacement([], [], 1)).toEqual([])
+    expect(calculateCoorinatesMatrixDisplacement([], [], 1, [])).toEqual([])
   })
 
   it('should correctly work when scale = 0', () => {
     const coorinatesMatrix = [{ index: 0, x: 1, y: 1, z: 1 }]
     const displacement = [{ index: 0, x: 10, y: 10, z: 10 }]
-    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, 0)
+    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, 0, ['x', 'y', 'z'])
     expect(result).toEqual([{ index: 0, x: 1, y: 1, z: 1 }])
+  })
+
+  it('should add displacement for different components', () => {
+    const coorinatesMatrix = [{ index: 0, x: 1, y: 1, z: 1 }]
+    const displacement = [{ index: 0, x: 10, y: 10, z: 10 }]
+    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, 1, ['x'])
+    expect(result).toEqual([{ index: 0, x: 11, y: 1, z: 1 }])
   })
 })
