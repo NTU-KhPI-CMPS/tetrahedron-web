@@ -1,13 +1,12 @@
 import ColorController from '@/components/ColorController'
-import ColorCount from '@/components/ColorCount'
 import { Button } from '@/components/ui/button'
 import ColorFillIcon from '@/components/ui/ColorFillIcon'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import { setBackgroundColor } from '@/redux/slices/colorSlice'
-import { displayDataOnModel, setColorArraySizeData } from '@/redux/slices/modelSlice'
+import { displayDataOnModel, setCharacteristic, setColorArraySizeData } from '@/redux/slices/modelSlice'
 import { store } from '@/redux/store'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const ColorModal = () => {
@@ -22,10 +21,15 @@ const ColorModal = () => {
     dispatch(setBackgroundColor(background))
     dispatch(setColorArraySizeData(colorArraySize))
 
-    const stress = store.getState().model.stress
-    const selectedComponent = store.getState().model.componentDisplay
-    if (stress !== null && selectedComponent !== 'none') {
-      dispatch(displayDataOnModel({ quantity: stress[selectedComponent], colorArraySize }))
+    const { stress, componentDisplay, otherCharacteristic, otherCharacteristicFileName } = store.getState().model
+
+    if (otherCharacteristic !== null && otherCharacteristicFileName) {
+      dispatch(setCharacteristic({ otherCharacteristic, fileName: otherCharacteristicFileName, colorArraySize }))
+      dispatch(displayDataOnModel({ quantity: otherCharacteristic, colorArraySize }))
+    }
+
+    if (stress !== null && componentDisplay !== 'none') {
+      dispatch(displayDataOnModel({ quantity: stress[componentDisplay], colorArraySize }))
     }
   }
 
@@ -58,7 +62,18 @@ const ColorModal = () => {
         <div className="flex-center max-h-[103px] w-[197px] flex-col gap-[14px]">
           <label className="text-center text-sm">{t('colorSelect.legend')}</label>
           <div className="flex flex-col">
-            <ColorCount array_size={colorArraySize} action={handleArrayChange} />
+            <div className="flex-center h-8 w-[197px] flex-row gap-11">
+              <label className="flex h-8 w-[95px] items-center text-left text-sm">{t('colorSelect.colorCount')} </label>
+              <input
+                className="h-[18px] w-[58px] rounded-[2px] px-2 py-[2px] text-center text-xs"
+                type="number"
+                name="colorArraySize"
+                id="colorArraySize"
+                placeholder={`${colorArraySize}`}
+                value={colorArraySize}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleArrayChange(+e.target.value)}
+              />
+            </div>
           </div>
         </div>
 
