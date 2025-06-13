@@ -6,12 +6,14 @@ interface SectionProps {
 
 const Section = ({ sectionNumber, header, body }: SectionProps) => {
   return (
-    <div className="relative flex flex-1 flex-col items-center gap-5 rounded-2xl border-2 border-app-blue bg-white md:aspect-square">
-      <div className="absolute left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-app-blue text-white">
+    <div className="relative flex h-[300px] w-[399px] flex-1 justify-center rounded-[40px] border-[0.5px] border-app-blue bg-white md:aspect-square">
+      <div className="absolute left-1/2 flex size-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-app-blue text-white">
         {sectionNumber}
       </div>
-      <h3 className="px-10 pt-10 text-center font-bold">{header}</h3>
-      <p className="px-10 pb-10 text-center">{body}</p>
+      <div className="flex flex-col justify-center gap-5">
+        <h3 className="px-12 pt-11 text-center text-lg font-semibold">{header}</h3>
+        <p className="px-12 pb-11 text-center text-md font-light leading-[100%]">{body}</p>
+      </div>
     </div>
   )
 }
