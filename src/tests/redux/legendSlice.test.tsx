@@ -1,69 +1,27 @@
-import reducer, { initialState } from '@/redux/slices/legendSlice'
-import { displayDataOnModel, setCharacteristic } from '@/redux/slices/modelSlice'
+import reducer, { initialState, updateColorsCount, updateLegend } from '@/redux/slices/legendSlice'
 import { describe, expect, it } from 'vitest'
 
-const stressMock = {
-  mises: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  },
-  qx: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  },
-  qy: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  },
-  qz: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  },
-  txy: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  },
-  tzx: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  },
-  tyz: {
-    values: [1, 2, 3, 4],
-    min: 1,
-    max: 4
-  }
-}
-
-const otherCharacteristicMock = {
+const dataMock = {
   values: [2, 4, 6, 8],
   min: 2,
   max: 8
 }
 
-const otherCharacteristicFileMock = 'other.txt'
-
 describe('legendSlice', () => {
-  it('should set isLoaded correctrly with setStress', () => {
-    const action = displayDataOnModel({ quantity: stressMock.mises, colorArraySize: 7 })
+  it('generate legend with default colors count (7)', () => {
+    const action = updateLegend({ data: dataMock, colorsCount: 7 })
     const state = reducer(initialState, action)
 
+    expect(state.min).toEqual(dataMock.min)
+    expect(state.max).toEqual(dataMock.max)
     expect(state.isLoaded).toEqual(true)
+    expect(state.legend).length(7)
   })
 
-  it('should set isLoaded correctrly with setCharacteristic', () => {
-    const action = setCharacteristic({
-      otherCharacteristic: otherCharacteristicMock,
-      fileName: otherCharacteristicFileMock,
-      colorArraySize: 7
-    })
+  it('updates colors count in legend', () => {
+    const action = updateColorsCount(10)
     const state = reducer(initialState, action)
 
-    expect(state.isLoaded).toEqual(true)
+    expect(state.colorsCount).toEqual(10)
   })
 })

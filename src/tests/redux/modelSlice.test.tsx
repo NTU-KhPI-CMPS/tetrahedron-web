@@ -126,7 +126,7 @@ describe('modelSlice', () => {
 
   it('colors are set correctly with setColor', () => {
     const dataToDisplay = stressMock.mises
-    const action = displayDataOnModel({ quantity: dataToDisplay, colorArraySize: 7 })
+    const action = displayDataOnModel({ data: dataToDisplay, colorsCount: 7 })
     const state = reducer(initialState, action)
 
     expect(generateColorArray).toHaveBeenCalledWith(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max, 7)
@@ -136,19 +136,12 @@ describe('modelSlice', () => {
   it('should set otherCharacteristic & colors correctly with setCharacteristic', () => {
     const action = setCharacteristic({
       otherCharacteristic: otherCharacteristicMock,
-      fileName: otherCharacteristicFileMock,
-      colorArraySize: 7
+      fileName: otherCharacteristicFileMock
     })
     const state = reducer(initialState, action)
 
     expect(state.otherCharacteristic).toMatchObject(otherCharacteristicMock)
     expect(state.otherCharacteristicFileName).toEqual('other.txt')
-    expect(generateColorArray).toHaveBeenCalledWith(
-      otherCharacteristicMock.values,
-      otherCharacteristicMock.min,
-      otherCharacteristicMock.max,
-      7
-    )
   })
 
   it('should set displacement correctly with setDisplacement', () => {
