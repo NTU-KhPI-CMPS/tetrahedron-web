@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import ColorFillIcon from '@/components/ui/ColorFillIcon'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import useUpdateColorData from '@/hooks/useUpdateColorData.ts'
 import { setBackgroundColor } from '@/redux/slices/colorSlice'
 import { updateColorsCount } from '@/redux/slices/legendSlice.ts'
 import { ChangeEvent, useState } from 'react'
@@ -17,13 +16,9 @@ const ColorModal = () => {
   const [background, setBackground] = useState(backgroundColor)
   const [colorArraySize, setColorArraySize] = useState(7)
 
-  const { updateLegendColorsCount } = useUpdateColorData()
-
   const onSaveClick = () => {
     dispatch(setBackgroundColor(background))
     dispatch(updateColorsCount(colorArraySize))
-
-    updateLegendColorsCount(colorArraySize)
   }
 
   const handleArrayChange = (value: number) => {
