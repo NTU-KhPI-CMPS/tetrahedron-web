@@ -7,6 +7,7 @@ import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import DeleteIcon from '@/components/ui/DeleteIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import useColorData from '@/hooks/useColorData.ts'
 import { useModal } from '@/hooks/useModal'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
 import { parseOtherCharacteristics } from '@/lib/otherCharacteristicsParser'
@@ -14,7 +15,6 @@ import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
 import { resetLegend } from '@/redux/slices/legendSlice'
 import {
-  displayDataOnModel,
   resetModel,
   setCharacteristic,
   setCoorinatesMatrix,
@@ -44,8 +44,7 @@ const ModelViewPage = () => {
     stressFileName,
     otherCharacteristicFileName,
     otherCharacteristic,
-    stressValues,
-    colorArraySize
+    stressValues
   } = useAppSelector((store) => store.model, shallowEqual)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -56,6 +55,7 @@ const ModelViewPage = () => {
   const [indicesMatrixError, setIndicesMatrixError] = useState<undefined | string>()
 
   const { openModal } = useModal()
+  const { displayData } = useColorData()
 
   const onModelDelete = useCallback(() => {
     dispatch(resetModel())
@@ -125,9 +125,10 @@ const ModelViewPage = () => {
         return
       }
 
-      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name, colorArraySize }))
+      dispatch(setCharacteristic({ otherCharacteristic, fileName: file.name }))
+      displayData(otherCharacteristic)
     },
-    [indicesMatrix, t, dispatch, openModal, colorArraySize]
+    [indicesMatrix, t, dispatch, displayData, openModal]
   )
 
   const loadStress = useCallback(
@@ -171,10 +172,10 @@ const ModelViewPage = () => {
       }
 
       dispatch(setStress({ stress, fileName: file.name }))
-      dispatch(displayDataOnModel({ quantity: stress.mises, colorArraySize }))
       dispatch(setDisplay('stress'))
+      displayData(stress['mises'])
     },
-    [dispatch, t, openModal, stressValues, colorArraySize]
+    [dispatch, t, openModal, displayData, stressValues]
   )
 
   const loadDisplacement = useCallback(

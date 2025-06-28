@@ -1,57 +1,40 @@
 import { generateLegend } from '@/lib/colorUtils'
-import { displayDataOnModel, setCharacteristic } from '@/redux/slices/modelSlice'
-import { LegendType, ModelPhysicalQuantity } from '@/types/ModelCommonTypes'
+import { LegendItem, ModelPhysicalQuantity } from '@/types/ModelCommonTypes'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface LegendState {
-  legend: LegendType[]
+  legend: LegendItem[]
   min?: number | null
   max?: number | null
   isLoaded: boolean
+  colorsCount: number
 }
 
 export const initialState: LegendState = {
   legend: [],
   min: null,
   max: null,
-  isLoaded: false
+  isLoaded: false,
+  colorsCount: 7
 }
 
 export const legendSlice = createSlice({
   name: 'legend',
   initialState,
   reducers: {
+    updateLegend: (state, action: PayloadAction<{ data: ModelPhysicalQuantity; colorsCount: number }>) => {
+      state.max = action.payload.data.max
+      state.min = action.payload.data.min
+      state.legend = generateLegend(state.min, state.max, action.payload.colorsCount)
+      state.isLoaded = true
+    },
+    updateColorsCount: (state, action: PayloadAction<number>) => {
+      state.colorsCount = action.payload
+    },
     resetLegend: () => initialState
-  },
-  extraReducers: (builder) => {
-    builder.addCase(
-      setCharacteristic,
-      (
-        state,
-        action: PayloadAction<{
-          otherCharacteristic: ModelPhysicalQuantity
-          fileName: string
-          colorArraySize: number
-        }>
-      ) => {
-        state.max = action.payload.otherCharacteristic.max
-        state.min = action.payload.otherCharacteristic.min
-        state.legend = generateLegend(state.min, state.max, action.payload.colorArraySize)
-        state.isLoaded = true
-      }
-    )
-    builder.addCase(
-      displayDataOnModel,
-      (state, action: PayloadAction<{ quantity: ModelPhysicalQuantity; colorArraySize: number }>) => {
-        state.max = action.payload.quantity.max
-        state.min = action.payload.quantity.min
-        state.legend = generateLegend(state.min, state.max, action.payload.colorArraySize)
-        state.isLoaded = true
-      }
-    )
   }
 })
 
-export const { resetLegend } = legendSlice.actions
+export const { resetLegend, updateLegend, updateColorsCount } = legendSlice.actions
 
 export default legendSlice.reducer

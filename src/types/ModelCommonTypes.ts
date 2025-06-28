@@ -13,7 +13,7 @@ export type ElementIndices = {
   vertex4: number
 }
 
-export type LegendType = {
+export type LegendItem = {
   rangeStart: number
   rangeEnd: number
   color: number[]

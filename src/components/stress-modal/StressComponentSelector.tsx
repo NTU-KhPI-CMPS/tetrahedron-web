@@ -1,5 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { ComponentDisplayVariants } from '@/redux/slices/modelSlice'
+import { StressDisplayVariants } from '@/redux/slices/modelSlice'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -19,8 +19,8 @@ const componentItems = COMPONENTS.map(({ value, label }) => (
 ))
 
 export interface ComponentSelectorProps {
-  value: ComponentDisplayVariants
-  onChange: (value: ComponentDisplayVariants) => void
+  value: StressDisplayVariants
+  onChange: (value: StressDisplayVariants) => void
   disabled: boolean
 }
 

@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button'
 import ColorFillIcon from '@/components/ui/ColorFillIcon'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
+import useColorData from '@/hooks/useColorData.ts'
 import { setBackgroundColor } from '@/redux/slices/colorSlice'
-import { displayDataOnModel, setCharacteristic, setColorArraySizeData } from '@/redux/slices/modelSlice'
-import { store } from '@/redux/store'
+import { updateColorsCount } from '@/redux/slices/legendSlice.ts'
 import { ChangeEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -17,26 +17,18 @@ const ColorModal = () => {
   const [background, setBackground] = useState(backgroundColor)
   const [colorArraySize, setColorArraySize] = useState(7)
 
+  const { updateLegendColorsCount } = useColorData()
+
   const onSaveClick = () => {
     dispatch(setBackgroundColor(background))
-    dispatch(setColorArraySizeData(colorArraySize))
+    dispatch(updateColorsCount(colorArraySize))
 
-    const { stress, componentDisplay, otherCharacteristic, otherCharacteristicFileName } = store.getState().model
-
-    if (otherCharacteristic !== null && otherCharacteristicFileName) {
-      dispatch(setCharacteristic({ otherCharacteristic, fileName: otherCharacteristicFileName, colorArraySize }))
-      dispatch(displayDataOnModel({ quantity: otherCharacteristic, colorArraySize }))
-    }
-
-    if (stress !== null && componentDisplay !== 'none') {
-      dispatch(displayDataOnModel({ quantity: stress[componentDisplay], colorArraySize }))
-    }
+    updateLegendColorsCount(colorArraySize)
   }
 
   const handleArrayChange = (value: number) => {
     if (value !== 0) {
       setColorArraySize(value)
-      dispatch(setColorArraySizeData(value))
     }
   }
 

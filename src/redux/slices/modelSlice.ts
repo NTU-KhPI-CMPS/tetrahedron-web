@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 export type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'stress' | 'none'
-export type ComponentDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
+export type StressDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
 export type AxisComponent = 'x' | 'y' | 'z'
 
 export interface ModelState {
@@ -29,12 +29,11 @@ export interface ModelState {
   stress: StressType | null
   stressFileName: string | null
   stressLoaded: boolean
-  componentDisplay: ComponentDisplayVariants
+  componentDisplay: StressDisplayVariants
 
   otherCharacteristicFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
   colors: number[] | null
-  colorArraySize: number
 }
 
 export const initialState: ModelState = {
@@ -64,8 +63,7 @@ export const initialState: ModelState = {
 
   otherCharacteristicFileName: null,
   otherCharacteristic: null,
-  colors: [],
-  colorArraySize: 7
+  colors: []
 }
 
 export const modelSlice = createSlice({
@@ -95,16 +93,16 @@ export const modelSlice = createSlice({
       state.stress = stress
       state.stressFileName = fileName
       state.stressLoaded = true
-
+      state.display = 'stress'
       state.componentDisplay = 'mises'
     },
-    setStressComponentToDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+    setStressComponentToDisplay: (state, action: PayloadAction<StressDisplayVariants>) => {
       state.componentDisplay = action.payload
     },
-    displayDataOnModel: (state, action: PayloadAction<{ quantity: ModelPhysicalQuantity; colorArraySize: number }>) => {
-      const dataToDisplay = action.payload.quantity
-      const colorArraySize = action.payload.colorArraySize
-      state.colors = generateColorArray(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max, colorArraySize)
+    displayDataOnModel: (state, action: PayloadAction<{ data: ModelPhysicalQuantity; colorsCount: number }>) => {
+      const data = action.payload.data
+      const colorsCount = action.payload.colorsCount
+      state.colors = generateColorArray(data.values, data.min, data.max, colorsCount)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -112,17 +110,11 @@ export const modelSlice = createSlice({
     },
     setCharacteristic: (
       state,
-      action: PayloadAction<{ otherCharacteristic: ModelPhysicalQuantity; fileName: string; colorArraySize: number }>
+      action: PayloadAction<{ otherCharacteristic: ModelPhysicalQuantity; fileName: string }>
     ) => {
-      const { otherCharacteristic, fileName, colorArraySize } = action.payload
+      const { otherCharacteristic, fileName } = action.payload
       state.otherCharacteristic = otherCharacteristic
       state.otherCharacteristicFileName = fileName
-      state.colors = generateColorArray(
-        otherCharacteristic.values,
-        otherCharacteristic.min,
-        otherCharacteristic.max,
-        colorArraySize
-      )
       state.display = 'otherCharacteristic'
     },
 
@@ -141,9 +133,6 @@ export const modelSlice = createSlice({
     },
     setDisplacementScale: (state, action: PayloadAction<number>) => {
       state.displacementScale = action.payload
-    },
-    setColorArraySizeData: (state, action: PayloadAction<number>) => {
-      state.colorArraySize = action.payload
     },
     setDisplacementComponents: (state, action: PayloadAction<AxisComponent[]>) => {
       state.displacementComponents = action.payload
@@ -165,8 +154,7 @@ export const {
   setDisplacement,
   setDisplay,
   setDisplacementScale,
-  setDisplacementComponents,
-  setColorArraySizeData
+  setDisplacementComponents
 } = modelSlice.actions
 
 export default modelSlice.reducer

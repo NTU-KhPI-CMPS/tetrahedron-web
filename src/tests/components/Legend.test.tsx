@@ -1,14 +1,14 @@
 import Legend from '@/components/Legend'
 import legend from '@/redux/slices/legendSlice.ts'
 import { initialState, default as model, ModelDisplayVariants } from '@/redux/slices/modelSlice.ts'
-import { LegendType } from '@/types/ModelCommonTypes'
+import { LegendItem } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { describe, expect, it } from 'vitest'
 
 describe('Legend', () => {
-  const mockLegend: LegendType[] = [
+  const mockLegend: LegendItem[] = [
     {
       rangeStart: 1,
       rangeEnd: 10,
@@ -25,7 +25,8 @@ describe('Legend', () => {
           legend: mockLegend,
           min: 1,
           max: 10,
-          isLoaded: true
+          isLoaded: true,
+          colorsCount: 7
         },
         model: { ...initialState, display: 'otherCharacteristic' as ModelDisplayVariants }
       }
