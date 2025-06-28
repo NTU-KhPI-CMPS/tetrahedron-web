@@ -17,6 +17,7 @@ export type LegendType = {
   rangeStart: number
   rangeEnd: number
   color: number[]
+  lastValue: boolean
 }
 
 export type ModelPhysicalQuantity = {
@@ -33,4 +34,14 @@ export type Stress = {
   qy: number
   tyz: number
   qz: number
+}
+
+export type StressType = {
+  mises: ModelPhysicalQuantity
+  qx: ModelPhysicalQuantity
+  qy: ModelPhysicalQuantity
+  qz: ModelPhysicalQuantity
+  txy: ModelPhysicalQuantity
+  tyz: ModelPhysicalQuantity
+  tzx: ModelPhysicalQuantity
 }

@@ -5,7 +5,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        geologica: ['Geologica', 'sans-serif']
+        sans: ['Geologica', 'sans-serif']
+      },
+      fontSize: {
+        xs: '10px',
+        sm: '13px',
+        md: '17px',
+        lg: '22px',
+        xl: '28px',
+        '2xl': '36px'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -19,11 +27,11 @@ export default {
         'app-blue-light': '#E5EEFF',
         soft: '#FAFAFA',
         'coal-black': '#0E0E0E',
-        'light-grey': '#CACACA',
+        'light-gray': '#CACACA',
         'button-pressed': '#1D0070',
         'button-hover': '#5826EA',
         'button-disabled': '#909090',
-        'grey-disabled': '#E5E5E6',
+        'gray-disabled': '#E5E5E6',
         select: '#EFEBFE',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -68,5 +76,16 @@ export default {
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [
+    require('tailwindcss-animate'),
+    function ({ addComponents }) {
+      addComponents({
+        '.flex-center': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }
+      })
+    }
+  ]
 }

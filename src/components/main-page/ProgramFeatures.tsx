@@ -16,10 +16,12 @@ export default function ProgramFeatures() {
   return (
     <>
       <div className="max-w-[50rem] space-y-4 pt-20">
-        <h1 className="text-center text-4xl font-semibold">{t('mainPage.programFeaturesHeader')}</h1>
-        <h3 className="mx-auto w-[85%] text-center text-lg">{t('mainPage.programFeaturesSubHeader')}</h3>
+        <h1 className="text-center text-2xl leading-[100%]">{t('mainPage.programFeaturesHeader')}</h1>
+        <h3 className="mx-auto w-[85%] text-center text-md font-light leading-[100%]">
+          {t('mainPage.programFeaturesSubHeader')}
+        </h3>
       </div>
-      <div className="flex w-full flex-col justify-between gap-10 p-10 pt-20 md:flex-row">{sections}</div>
+      <div className="flex w-full flex-col items-center justify-between gap-10 p-10 pt-20 md:flex-row">{sections}</div>
     </>
   )
 }

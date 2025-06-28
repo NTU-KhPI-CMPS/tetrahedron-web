@@ -3,5 +3,6 @@
   "totalDisplacement": "Total displacement",
   "displacementScale": "Scale of model deformations display",
   "displacementComponents": "Displacement components",
-  "save": "Save"
+  "save": "Save",
+  "selectComponent": "Select component"
 }

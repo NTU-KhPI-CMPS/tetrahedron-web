@@ -1,9 +1,12 @@
 import { generateColorArray } from '@/lib/colorUtils'
-import { ElementIndices, ModelPhysicalQuantity, Stress, VertexCoordinate } from '@/types/ModelCommonTypes'
+import { ElementIndices, ModelPhysicalQuantity, Stress, StressType, VertexCoordinate } from '@/types/ModelCommonTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
-type ModelDisplayVariants = 'stress' | 'displacement' | 'otherCharacteristic' | 'none'
+export type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'stress' | 'none'
+export type ComponentDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
+
+export type AxisComponent = 'x' | 'y' | 'z'
 
 export interface ModelState {
   indicesMatrix: ElementIndices[]
@@ -21,10 +24,13 @@ export interface ModelState {
   displacementScale: number
   displacementLoaded: boolean
   displacementFileName: string | null
+  displacementComponents: AxisComponent[]
 
   stressValues: Stress[]
-  stress: ModelPhysicalQuantity | null
+  stress: StressType | null
   stressFileName: string | null
+  stressLoaded: boolean
+  componentDisplay: ComponentDisplayVariants
 
   otherCharacteristicFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
@@ -47,10 +53,14 @@ export const initialState: ModelState = {
   displacementScale: 1,
   displacementLoaded: false,
   displacementFileName: null,
+  displacementComponents: ['x', 'y', 'z'],
 
   stressValues: [],
   stress: null,
   stressFileName: null,
+  stressLoaded: false,
+
+  componentDisplay: 'none',
 
   otherCharacteristicFileName: null,
   otherCharacteristic: null,
@@ -67,18 +77,32 @@ export const modelSlice = createSlice({
       state.indicesMatrixFileName = fileName
       state.indicesMatrixLoaded = true
     },
-    setCoorinatesMatrix: (state, action: PayloadAction<{ coorinatesMatrix: VertexCoordinate[]; fileName: string }>) => {
+    setCoorinatesMatrix: (
+      state,
+      action: PayloadAction<{
+        coorinatesMatrix: VertexCoordinate[]
+        fileName: string
+      }>
+    ) => {
       const { coorinatesMatrix, fileName } = action.payload
       state.coorinatesMatrix = coorinatesMatrix
       state.coorinatesMatrixFileName = fileName
       state.coorinatesMatrixLoaded = true
     },
-    setStress: (state, action: PayloadAction<{ stress: ModelPhysicalQuantity; fileName: string }>) => {
+    setStress: (state, action: PayloadAction<{ stress: StressType; fileName: string }>) => {
       const { stress, fileName } = action.payload
       state.stress = stress
       state.stressFileName = fileName
-      state.colors = generateColorArray(stress.values, stress.min, stress.max)
-      state.display = 'stress'
+      state.stressLoaded = true
+
+      state.componentDisplay = 'mises'
+    },
+    setStressComponentToDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+      state.componentDisplay = action.payload
+    },
+    displayDataOnModel: (state, action: PayloadAction<ModelPhysicalQuantity>) => {
+      const dataToDisplay = action.payload
+      state.colors = generateColorArray(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -94,6 +118,7 @@ export const modelSlice = createSlice({
       state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
     },
+
     setDisplacement: (
       state,
       action: PayloadAction<{ displacement: VertexCoordinate[]; displacementFileName: string }>
@@ -109,6 +134,9 @@ export const modelSlice = createSlice({
     },
     setDisplacementScale: (state, action: PayloadAction<number>) => {
       state.displacementScale = action.payload
+    },
+    setDisplacementComponents: (state, action: PayloadAction<AxisComponent[]>) => {
+      state.displacementComponents = action.payload
     }
   }
 })
@@ -118,11 +146,16 @@ export const {
   setCoorinatesMatrix,
   resetModel,
   setReady,
+  displayDataOnModel,
+
   setStress,
+  setStressComponentToDisplay,
+
   setCharacteristic,
   setDisplacement,
   setDisplay,
-  setDisplacementScale
+  setDisplacementScale,
+  setDisplacementComponents
 } = modelSlice.actions
 
 export default modelSlice.reducer

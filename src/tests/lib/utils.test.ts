@@ -103,9 +103,41 @@ describe('loadStress', () => {
 
   it('should dispatch setStress with correct data', async () => {
     const stress = {
-      values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
-      min: 13.07669683062202,
-      max: 16.462077633154326
+      mises: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      },
+      qx: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      },
+      qy: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      },
+      qz: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      },
+      txy: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      },
+      tzx: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      },
+      tyz: {
+        values: [14.212670403551893, 13.07669683062202, 16.462077633154326],
+        min: 13.07669683062202,
+        max: 16.462077633154326
+      }
     }
     const fileName = 'test.txt'
 
@@ -127,7 +159,7 @@ describe('calculateCoorinatesMatrixDisplacement', () => {
 
     const scale = 2
 
-    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, scale)
+    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, scale, ['x', 'y', 'z'])
 
     expect(result).toEqual([
       { index: 0, x: 2, y: 1, z: 5 },
@@ -136,13 +168,20 @@ describe('calculateCoorinatesMatrixDisplacement', () => {
   })
 
   it('should return an empty array if input arrays are empty', () => {
-    expect(calculateCoorinatesMatrixDisplacement([], [], 1)).toEqual([])
+    expect(calculateCoorinatesMatrixDisplacement([], [], 1, [])).toEqual([])
   })
 
   it('should correctly work when scale = 0', () => {
     const coorinatesMatrix = [{ index: 0, x: 1, y: 1, z: 1 }]
     const displacement = [{ index: 0, x: 10, y: 10, z: 10 }]
-    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, 0)
+    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, 0, ['x', 'y', 'z'])
     expect(result).toEqual([{ index: 0, x: 1, y: 1, z: 1 }])
+  })
+
+  it('should add displacement for different components', () => {
+    const coorinatesMatrix = [{ index: 0, x: 1, y: 1, z: 1 }]
+    const displacement = [{ index: 0, x: 10, y: 10, z: 10 }]
+    const result = calculateCoorinatesMatrixDisplacement(coorinatesMatrix, displacement, 1, ['x'])
+    expect(result).toEqual([{ index: 0, x: 11, y: 1, z: 1 }])
   })
 })
