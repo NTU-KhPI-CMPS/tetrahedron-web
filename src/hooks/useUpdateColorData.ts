@@ -8,7 +8,7 @@ import { ModelPhysicalQuantity, StressType } from '@/types/ModelCommonTypes.ts'
  * Defines what data should be displayed on a model (provided in method params or in model store) and display them.
  * Generate new legend based on colors count in method params or legend store.
  */
-export default function useColorData() {
+export default function useUpdateColorData() {
   const dispatch = useAppDispatch()
 
   const display = useAppSelector((store) => store.model.display)

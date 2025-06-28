@@ -7,8 +7,8 @@ import Scene from '@/components/Scene'
 import Toolbar from '@/components/Toolbar'
 import DeleteIcon from '@/components/ui/DeleteIcon'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import useColorData from '@/hooks/useColorData.ts'
 import { useModal } from '@/hooks/useModal'
+import useUpdateColorData from '@/hooks/useUpdateColorData.ts'
 import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
 import { parseOtherCharacteristics } from '@/lib/otherCharacteristicsParser'
 import { parseStress } from '@/lib/stressParser'
@@ -55,7 +55,7 @@ const ModelViewPage = () => {
   const [indicesMatrixError, setIndicesMatrixError] = useState<undefined | string>()
 
   const { openModal } = useModal()
-  const { displayData } = useColorData()
+  const { displayData } = useUpdateColorData()
 
   const onModelDelete = useCallback(() => {
     dispatch(resetModel())

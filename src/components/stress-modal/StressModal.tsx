@@ -3,7 +3,7 @@ import SwitchWithTitle from '@/components/SwitchWithTitle'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
-import useColorData from '@/hooks/useColorData.ts'
+import useUpdateColorData from '@/hooks/useUpdateColorData.ts'
 import { setDisplay, setStressComponentToDisplay, StressDisplayVariants } from '@/redux/slices/modelSlice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +17,7 @@ const StressModal = () => {
   const [isMises, setIsMises] = useState(display === 'mises')
   const [selectedComponent, setSelectedComponent] = useState<StressDisplayVariants>('none')
 
-  const { displayData } = useColorData()
+  const { displayData } = useUpdateColorData()
 
   const onSwitchClick = () => {
     setIsMises(!isMises)
