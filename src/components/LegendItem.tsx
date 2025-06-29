@@ -1,8 +1,8 @@
 import useConvertColor from '@/hooks/useConvertColor'
-import { LegendType } from '@/types/ModelCommonTypes'
+import { LegendItem as LegendItemType } from '@/types/ModelCommonTypes'
 import { FC } from 'react'
 
-const LegendItem: FC<LegendType> = ({ color, rangeStart, rangeEnd, lastValue }) => {
+const LegendItem: FC<LegendItemType> = ({ color, rangeStart, rangeEnd, lastValue }) => {
   const rgbColor = useConvertColor(color)
 
   return (

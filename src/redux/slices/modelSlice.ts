@@ -4,8 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 
 export type ModelDisplayVariants = 'displacement' | 'otherCharacteristic' | 'stress' | 'none'
-export type ComponentDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
-
+export type StressDisplayVariants = 'mises' | 'qx' | 'qy' | 'qz' | 'txy' | 'tyz' | 'tzx' | 'none'
 export type AxisComponent = 'x' | 'y' | 'z'
 
 export interface ModelState {
@@ -30,7 +29,7 @@ export interface ModelState {
   stress: StressType | null
   stressFileName: string | null
   stressLoaded: boolean
-  componentDisplay: ComponentDisplayVariants
+  componentDisplay: StressDisplayVariants
 
   otherCharacteristicFileName: string | null
   otherCharacteristic: ModelPhysicalQuantity | null
@@ -94,15 +93,16 @@ export const modelSlice = createSlice({
       state.stress = stress
       state.stressFileName = fileName
       state.stressLoaded = true
-
+      state.display = 'stress'
       state.componentDisplay = 'mises'
     },
-    setStressComponentToDisplay: (state, action: PayloadAction<ComponentDisplayVariants>) => {
+    setStressComponentToDisplay: (state, action: PayloadAction<StressDisplayVariants>) => {
       state.componentDisplay = action.payload
     },
-    displayDataOnModel: (state, action: PayloadAction<ModelPhysicalQuantity>) => {
-      const dataToDisplay = action.payload
-      state.colors = generateColorArray(dataToDisplay.values, dataToDisplay.min, dataToDisplay.max)
+    displayDataOnModel: (state, action: PayloadAction<{ data: ModelPhysicalQuantity; colorsCount: number }>) => {
+      const data = action.payload.data
+      const colorsCount = action.payload.colorsCount
+      state.colors = generateColorArray(data.values, data.min, data.max, colorsCount)
     },
     resetModel: () => initialState,
     setReady: (state, action: PayloadAction<boolean>) => {
@@ -115,7 +115,6 @@ export const modelSlice = createSlice({
       const { otherCharacteristic, fileName } = action.payload
       state.otherCharacteristic = otherCharacteristic
       state.otherCharacteristicFileName = fileName
-      state.colors = generateColorArray(otherCharacteristic.values, otherCharacteristic.min, otherCharacteristic.max)
       state.display = 'otherCharacteristic'
     },
 

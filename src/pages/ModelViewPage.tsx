@@ -12,7 +12,7 @@ import { parseCoorinatesMatrix } from '@/lib/coorinatesMatrixParser'
 import { parseOtherCharacteristics } from '@/lib/otherCharacteristicsParser'
 import { parseStress } from '@/lib/stressParser'
 import { buildMisesPhysicalQuantity, calculateMisesStress } from '@/lib/stressUtils'
-import { resetLegend } from '@/redux/slices/legendSlice'
+import { resetLegend, updateLegend } from '@/redux/slices/legendSlice'
 import {
   displayDataOnModel,
   resetModel,
@@ -22,11 +22,12 @@ import {
   setDisplay,
   setIndicesMatrix,
   setReady,
-  setStress
+  setStress,
+  StressDisplayVariants
 } from '@/redux/slices/modelSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { Canvas } from '@react-three/fiber'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PiCursorLight } from 'react-icons/pi'
 import { shallowEqual } from 'react-redux'
@@ -55,6 +56,34 @@ const ModelViewPage = () => {
   const [indicesMatrixError, setIndicesMatrixError] = useState<undefined | string>()
 
   const { openModal } = useModal()
+
+  const display = useAppSelector((store) => store.model.display)
+  const stressComponent = useAppSelector<StressDisplayVariants>((store) => store.model.componentDisplay)
+  const colorsCount = useAppSelector((store) => store.legend.colorsCount)
+
+  useEffect(() => {
+    let dataToDisplay
+
+    switch (display) {
+      case 'otherCharacteristic':
+        if (!otherCharacteristic) {
+          return
+        }
+        dataToDisplay = otherCharacteristic
+        break
+      case 'stress':
+        if (!stress || stressComponent === 'none') {
+          return
+        }
+        dataToDisplay = stress[stressComponent]
+        break
+      default:
+        return
+    }
+
+    dispatch(updateLegend({ data: dataToDisplay, colorsCount }))
+    dispatch(displayDataOnModel({ data: dataToDisplay, colorsCount }))
+  }, [dispatch, otherCharacteristic, stress, stressComponent, display, colorsCount])
 
   const onModelDelete = useCallback(() => {
     dispatch(resetModel())
@@ -170,7 +199,6 @@ const ModelViewPage = () => {
       }
 
       dispatch(setStress({ stress, fileName: file.name }))
-      dispatch(displayDataOnModel(stress.mises))
       dispatch(setDisplay('stress'))
     },
     [dispatch, t, openModal, stressValues]
