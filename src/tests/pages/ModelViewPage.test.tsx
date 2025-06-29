@@ -1,8 +1,9 @@
 import ModelViewPage from '@/pages/ModelViewPage'
 import { ModalProvider } from '@/providers/ModalProvider'
-import color from '@/redux/slices/colorSlice'
+import colorSlice from '@/redux/slices/colorSlice'
+import legend from '@/redux/slices/legendSlice'
 import { initialState, default as model, setCoorinatesMatrix, setIndicesMatrix } from '@/redux/slices/modelSlice'
-import modelViewSettingReducer from '@/redux/slices/modelViewSettingSlice'
+import modelViewSetting from '@/redux/slices/modelViewSettingSlice'
 import { ElementIndices, VertexCoordinate } from '@/types/ModelCommonTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -29,14 +30,17 @@ const coorinatesMatrixFileName = 'coorinatesMatrix.txt'
 const indicesMatrixFile = new File(['1 12 14 10 15'], 'indicesMatrix.txt', { type: 'text/plain' })
 const coorinatesMatrixFile = new File(['1 0 1 0'], 'coorinatesMatrix.txt', { type: 'text/plain' })
 
+const storeReducer = {
+  model,
+  modelViewSetting,
+  colorSlice,
+  legend
+}
+
 describe('ModelViewPage', () => {
   it('renders Experience component when isReady is true', () => {
     const store = configureStore({
-      reducer: {
-        model,
-        modelViewSetting: modelViewSettingReducer,
-        colorSlice: color
-      },
+      reducer: storeReducer,
       preloadedState: { model: { ...initialState, isReady: true }, colorSlice: { background: '#ff0000' } }
     })
 
@@ -53,7 +57,7 @@ describe('ModelViewPage', () => {
 
   it('does not render Experience component when isReady is false', () => {
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      reducer: storeReducer,
       preloadedState: { model: { ...initialState, isReady: false }, colorSlice: { background: '#ff0000' } }
     })
 
@@ -75,7 +79,7 @@ describe('ModelViewPage', () => {
     })
 
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      reducer: storeReducer,
       preloadedState: { model: { ...initialState, isReady: false }, colorSlice: { background: '#ff0000' } }
     })
     store.dispatch = vi.fn()
@@ -111,7 +115,7 @@ describe('ModelViewPage', () => {
     })
 
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      reducer: storeReducer,
       preloadedState: { model: { ...initialState, isReady: false }, colorSlice: { background: '#ff0000' } }
     })
     store.dispatch = vi.fn()
@@ -144,7 +148,7 @@ describe('ModelViewPage', () => {
 
   it.skip('should dispatch setReady and close FileUploader when clicking on create model button', () => {
     const store = configureStore({
-      reducer: { model, modelViewSetting: modelViewSettingReducer, colorSlice: color },
+      reducer: storeReducer,
       preloadedState: { model: initialState, colorSlice: { background: '#ff0000' } }
     })
     store.dispatch = vi.fn()

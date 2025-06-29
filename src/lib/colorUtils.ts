@@ -1,29 +1,32 @@
-import { LegendType } from '@/types/ModelCommonTypes'
+import { LegendItem } from '@/types/ModelCommonTypes'
 
-export const COLOR_ARRAY_SIZE = 7
-export const COLORS: number[][] = buildColorsForLegend(COLOR_ARRAY_SIZE)
-
-export function generateLegend(minValue: number, maxValue: number): LegendType[] {
-  const legend: LegendType[] = []
+export function generateLegend(minValue: number, maxValue: number, legendColorsCount: number): LegendItem[] {
+  const legend: LegendItem[] = []
 
   const diapason: number = maxValue - minValue
-  const chunkSize: number = diapason / COLOR_ARRAY_SIZE
+  const chunkSize: number = diapason / legendColorsCount
+  const colors = buildColorsForLegend(legendColorsCount)
 
-  for (let i = 0; i < COLOR_ARRAY_SIZE; i++) {
+  for (let i = 0; i < legendColorsCount; i++) {
     const rangeStart = minValue + chunkSize * i
     const rangeEnd = minValue + chunkSize * (i + 1)
     legend[i] = {
       rangeStart,
       rangeEnd,
-      color: COLORS[i],
-      lastValue: i === COLOR_ARRAY_SIZE - 1
+      color: colors[i],
+      lastValue: i === legendColorsCount - 1
     }
   }
   return legend
 }
 
-export function generateColorArray(values: number[], minValue: number, maxValue: number): number[] {
-  const legend: LegendType[] = generateLegend(minValue, maxValue)
+export function generateColorArray(
+  values: number[],
+  minValue: number,
+  maxValue: number,
+  colorArraySize: number
+): number[] {
+  const legend: LegendItem[] = generateLegend(minValue, maxValue, colorArraySize)
   const colors: number[] = []
 
   for (const value of values) {
@@ -37,7 +40,7 @@ export function generateColorArray(values: number[], minValue: number, maxValue:
   return colors
 }
 
-function getColorFromLegend(value: number, legend: LegendType[]): number[] {
+function getColorFromLegend(value: number, legend: LegendItem[]): number[] {
   for (let i = legend.length - 1; i >= 0; i--) {
     const legendItem = legend[i]
     if (value >= legendItem.rangeStart) {
